@@ -4,7 +4,7 @@
 
     <groupId>com.bitdecay</groupId>
     <artifactId>LudumDare34</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>Ludum Dare 34</name>
     <version>0.1-SNAPSHOT</version>
@@ -14,7 +14,13 @@
         <gdxVersion>1.6.5</gdxVersion>
         <jacksonVersion>2.6.1</jacksonVersion>
         <commonsVersion>2.4</commonsVersion>
+        <jumpVersion>0.1-SNAPSHOT</jumpVersion>
     </properties>
+
+    <modules>
+        <module>../animagic</module>
+        <module>../Jump</module>
+    </modules>
 
     <build>
         <pluginManagement>
@@ -41,28 +47,23 @@
     <dependencies>
         <dependency>
             <groupId>com.bitdecay</groupId>
-            <artifactId>jump</artifactId>
-            <version>0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.bitdecay</groupId>
             <artifactId>jump-common</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${jumpVersion}</version>
         </dependency>
         <dependency>
             <groupId>com.bitdecay</groupId>
             <artifactId>jump-core</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${jumpVersion}</version>
         </dependency>
         <dependency>
             <groupId>com.bitdecay</groupId>
             <artifactId>jump-gdx</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${jumpVersion}</version>
         </dependency>
         <dependency>
             <groupId>com.bitdecay</groupId>
             <artifactId>jump-leveleditor</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${jumpVersion}</version>
         </dependency>
         <dependency>
             <groupId>com.bytebreakstudios</groupId>
