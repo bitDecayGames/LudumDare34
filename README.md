@@ -24,3 +24,20 @@ In IntelliJ, you will need to add the dependencies as modules in your project.
 
 Run by right-clicking src/main/java/ludum/dare/Launcher.java and selecting "Run Launcher.main()"
 
+## Reading material
+
+Entity Component
+
+http://gameprogrammingpatterns.com/component.html
+
+Entity Component with Audio
+
+http://gamedev.stackexchange.com/questions/71530/where-does-event-based-audio-fit-in-a-component-based-entity-system
+
+State Machines
+
+http://gameprogrammingpatterns.com/state.html
+
+General Game Programming Strategies
+
+http://gameprogrammingpatterns.com/contents.html
