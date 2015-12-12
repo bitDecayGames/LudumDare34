@@ -5,9 +5,13 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlasLoader;
+import ludum.dare.actors.GameObject;
 import ludum.dare.screens.SetupScreen;
 import ludum.dare.screens.SplashScreen;
 import ludum.dare.screens.UpgradeScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Admin on 12/12/2015.
@@ -25,6 +29,11 @@ public class RacerGame extends Game {
         queueAssetsForLoad();
         assetManager.finishLoading();
 
-        setScreen(new UpgradeScreen());
+        // TODO JJCT pass real players to this.
+        List<GameObject> players = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            players.add(new GameObject());
+        }
+        setScreen(new SetupScreen(players));
     }
 }

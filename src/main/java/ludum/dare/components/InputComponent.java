@@ -3,6 +3,7 @@ package ludum.dare.components;
 import com.bitdecay.jump.control.ControlMap;
 import com.bitdecay.jump.control.PlayerAction;
 import com.bitdecay.jump.gdx.input.GDXControls;
+import ludum.dare.control.AIControlMapAdapter;
 import ludum.dare.control.ControlType;
 import ludum.dare.control.GamepadControlMapAdapter;
 import ludum.dare.interfaces.IComponent;
@@ -22,8 +23,7 @@ public class InputComponent implements IComponent, ControlMap {
             this.type = ControlType.XBOX_360;
         } else if (this.controller instanceof GDXControls) {
             this.type = ControlType.KEYBOARD;
-        } else if (this.controller instanceof Object) {
-            // TODO Mike put your AI controller here.
+        } else if (this.controller instanceof AIControlMapAdapter) {
             this.type = ControlType.AI;
         } else {
             throw new Error("Controller type not supported, please add support in InputComponent.");
