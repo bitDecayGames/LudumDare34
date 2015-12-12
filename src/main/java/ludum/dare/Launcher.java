@@ -11,11 +11,6 @@ public class Launcher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 800;
         config.height = 600;
-        new LwjglApplication(new Game() {
-            @Override
-            public void create() {
-                this.setScreen(new RaceScreen());
-            }
-        }, config);
+        new LwjglApplication(new RacerGame(), config);
     }
 }
