@@ -33,3 +33,4 @@ public enum Xbox360Pad {
 		this.val = val;
 	}
 }
+
