@@ -2,6 +2,7 @@ package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.actors.GameObject;
@@ -53,7 +54,8 @@ public class UpgradeScreen implements Screen {
         for (UpgradeGroup group : groups) {
             group.update(delta);
         }
-
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         for (int i = 0; i < groups.size(); i++) {
             UpgradeGroup group = groups.get(i);
