@@ -1,0 +1,11 @@
+{
+  "collides" : true,
+  "crushable" : true,
+  "acceleration" : 600,
+  "airAcceleration" : 600,
+  "deceleration" : 1000,
+  "airDeceleration" : 300,
+  "maxVoluntarySpeed" : 150,
+  "gravitational" : true,
+  "gravityModifier" : 1.0
+}
