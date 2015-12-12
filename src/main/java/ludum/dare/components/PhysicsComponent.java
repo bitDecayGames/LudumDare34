@@ -15,8 +15,8 @@ public class PhysicsComponent implements IComponent, IUpdate {
         this.body = body;
     }
 
-    public BitBodyProperties getBody(){
-        return body.props;
+    public BitBody getBody(){
+        return body;
     }
 
     @Override
