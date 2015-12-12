@@ -1,6 +1,8 @@
 package ludum.dare.components;
 
-public class HealthComponent {
+import ludum.dare.interfaces.IComponent;
+
+public class HealthComponent implements IComponent {
     public float health = 0;
     public float max = 0;
 

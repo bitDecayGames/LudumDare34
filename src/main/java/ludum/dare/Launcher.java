@@ -3,7 +3,7 @@ package ludum.dare;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import ludum.dare.screens.SetupScreen;
+import ludum.dare.screens.RaceScreen;
 
 public class Launcher {
 
@@ -11,11 +11,6 @@ public class Launcher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 800;
         config.height = 600;
-        new LwjglApplication(new Game() {
-            @Override
-            public void create() {
-                this.setScreen(new SetupScreen(null));
-            }
-        }, config);
+        new LwjglApplication(new RacerGame(), config);
     }
 }
