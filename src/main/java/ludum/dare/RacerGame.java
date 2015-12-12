@@ -25,6 +25,7 @@ public class RacerGame extends Game {
         queueAssetsForLoad();
         assetManager.finishLoading();
 
-        setScreen(new UpgradeScreen());
+        // TODO JJCT pass real players to this.
+        setScreen(new SetupScreen(null));
     }
 }

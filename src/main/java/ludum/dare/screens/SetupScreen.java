@@ -1,19 +1,16 @@
 package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
-import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
-import com.bytebreakstudios.animagic.texture.data.AnimagicTextureData;
 import ludum.dare.actors.GameObject;
 import ludum.dare.components.PositionComponent;
-import ludum.dare.components.SizeComponent;
-import ludum.dare.components.TextureRegionComponent;
+import ludum.dare.control.ControllerScreenObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,7 @@ public class SetupScreen implements Screen {
     OrthographicCamera camera;
     AnimagicSpriteBatch batch;
 
-    List<GameObject> inputObjects;
+    List<ControllerScreenObject> inputObjects;
 
     List<GameObject> players;
 
@@ -36,12 +33,13 @@ public class SetupScreen implements Screen {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.lookAt(0, 0, 0);
         batch = new AnimagicSpriteBatch(camera);
+        batch.isShaderOn(false);
         inputObjects = new ArrayList<>();
 
         PositionComponent p = new PositionComponent(0, 0);
-        SizeComponent s = new SizeComponent(400, 400);
 
-        inputObjects.add(new GameObject(p, s, new TextureRegionComponent(new AnimagicTextureRegion(new Texture("bum.png"), new Texture("bum_n.png"), new AnimagicTextureData(200, 200)), p, s)));
+        ControllerScreenObject obj = new ControllerScreenObject(Input.Keys.Q, Input.Keys.A, 0, p);
+        inputObjects.add(obj);
 
         // Press a key or button to join
     }

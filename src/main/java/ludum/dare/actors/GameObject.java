@@ -5,13 +5,16 @@ import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IUpdate;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GameObject implements IUpdate, IDraw {
     protected final Set<IComponent> components = new HashSet<>();
     protected final Set<IUpdate> updateableComponents = new HashSet<>();
     protected final Set<IDraw> drawableComponents = new HashSet<>();
+    // If you add another set list, make sure to update the append/remove methods or JAKE WILL BEAT YOU!
 
     public GameObject(){}
     public GameObject(IComponent... componenets){
@@ -25,6 +28,24 @@ public class GameObject implements IUpdate, IDraw {
         components.add(component);
         if (component instanceof IUpdate) updateableComponents.add((IUpdate) component);
         if (component instanceof IDraw) drawableComponents.add((IDraw) component);
+        return this;
+    }
+
+    public GameObject remove(Class<? extends IComponent> clazz) {
+        if (clazz == null) throw new RuntimeException("Cannot remove a null component type");
+        List<IComponent> removeList = new ArrayList<>();
+        components.forEach(comp -> {
+            if (comp.getClass().equals(clazz)) {
+                removeList.add(comp);
+            } else if (clazz.isInterface() && comp.getClass().isAssignableFrom(clazz)) {
+                removeList.add(comp);
+            }
+
+        });
+        components.removeAll(removeList);
+        updateableComponents.removeAll(removeList);
+        drawableComponents.removeAll(removeList);
+
         return this;
     }
 
