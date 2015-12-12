@@ -3,15 +3,21 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
+import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
 import ludum.dare.control.ControllerScreenObject;
+import ludum.dare.control.InputUtil;
+import ludum.dare.control.Xbox360Pad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +26,8 @@ public class SetupScreen implements Screen {
 
     OrthographicCamera camera;
     AnimagicSpriteBatch batch;
+
+    RacerGame game;
 
     List<ControllerScreenObject> inputObjects;
     List<GameObject> players;
@@ -44,8 +52,8 @@ public class SetupScreen implements Screen {
     }
 
     // Onscreen positions
-    final static float X = 200;
-    final static float Y = 150;
+    final static float X = 300;
+    final static float Y = 250;
     final static List<PositionComponent> playerControllerPositions = new ArrayList<>();
     static {
         playerControllerPositions.add(new PositionComponent(-X, Y));
@@ -54,7 +62,13 @@ public class SetupScreen implements Screen {
         playerControllerPositions.add(new PositionComponent(X, -Y));
     }
 
-    public SetupScreen() {
+    public SetupScreen(RacerGame game) {
+        if (game == null) {
+            throw new Error("game cannot be null");
+        }
+
+        this.game = game;
+
         players = new ArrayList<>();
         for (int i = 0; i < NUM_PLAYERS; i++) {
             players.add(new GameObject());
@@ -71,7 +85,7 @@ public class SetupScreen implements Screen {
     }
 
     private void setupPlayers() {
-        SizeComponent size = new SizeComponent(200, 200);
+        SizeComponent size = new SizeComponent(250, 250);
         for (int i = 0; i < players.size(); i++) {
             ControllerScreenObject obj = new ControllerScreenObject(keyboardSelectKeys.get(i), keyboardDeselectKeys.get(i), i, playerControllerPositions.get(i), size);
             inputObjects.add(obj);
@@ -93,6 +107,11 @@ public class SetupScreen implements Screen {
     @Override
     public void render(float v) {
         inputObjects.forEach(obj -> obj.update(v));
+
+        if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
+            // Start race.
+            game.setScreen(new RaceScreen(getResults()));
+        }
 
         camera.update();
         Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));

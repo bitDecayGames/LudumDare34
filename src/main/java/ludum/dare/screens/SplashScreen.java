@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import ludum.dare.RacerGame;
+import ludum.dare.control.InputUtil;
+import ludum.dare.control.Xbox360Pad;
 
 /**
  * Created by mwingfield on 8/6/15.
@@ -54,7 +56,7 @@ public class SplashScreen implements Screen {
                                                         new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                game.setScreen(new SetupScreen());
+                                                                nextScreen();
                                                             }
                                                         }
                                                 )));
@@ -71,8 +73,8 @@ public class SplashScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            game.setScreen(new SetupScreen());
+        if (InputUtil.checkInputs(Input.Keys.S, Xbox360Pad.START)) {
+            nextScreen();
         }
 
         stage.act();
@@ -102,5 +104,9 @@ public class SplashScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    private void nextScreen() {
+        game.setScreen(new SetupScreen(game));
     }
 }
