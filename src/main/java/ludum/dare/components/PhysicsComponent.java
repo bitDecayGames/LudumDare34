@@ -11,24 +11,24 @@ public class PhysicsComponent implements IComponent, IUpdate {
 
     private PositionComponent pos;
     private SizeComponent size;
-    private JumperBody jBody;
+    private BitBody Body;
 
-    public PhysicsComponent(JumperBody jBody, PositionComponent pos, SizeComponent size){
-        this.jBody = jBody;
+    public PhysicsComponent(BitBody Body, PositionComponent pos, SizeComponent size){
+        this.Body = Body;
         this.pos = pos;
         this.size = size;
     }
 
-    public JumperBody getjBody(){
-        return jBody;
+    public BitBody getBody(){
+        return Body;
     }
 
     @Override
     public void update(float delta) {
-        pos.x = jBody.aabb.xy.x;
-        pos.y = jBody.aabb.xy.y;
-        size.h = jBody.aabb.height;
-        size.w = jBody.aabb.width;
+        pos.x = Body.aabb.xy.x;
+        pos.y = Body.aabb.xy.y;
+        size.h = Body.aabb.height;
+        size.w = Body.aabb.width;
 
     }
 }
