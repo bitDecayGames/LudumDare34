@@ -7,7 +7,8 @@ public class Player extends StateMachine {
     public Player() {
         PositionComponent pos = new PositionComponent(0, 0);
         SizeComponent size = new SizeComponent(1, 2);
-        PhysicsComponent phys = new PhysicsComponent(pos, size);
+        // TODO Jake add jumper body to physics component.
+        PhysicsComponent phys = new PhysicsComponent(pos, size, null);
         HealthComponent health = new HealthComponent(10, 10);
         AnimationComponent anim = new AnimationComponent("player", pos, size);
         // TODO JJCT de-nullify this;
