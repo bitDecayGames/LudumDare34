@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import com.bytebreakstudios.animagic.texture.data.AnimagicTextureData;
@@ -28,12 +29,11 @@ public class ControllerScreenObject extends GameObject {
 
     InputComponent input;
 
-    public ControllerScreenObject(int keyboardSelect, int keyboardDeselect, int xbox360ControllerIndex, PositionComponent position) {
+    public ControllerScreenObject(int keyboardSelect, int keyboardDeselect, int xbox360ControllerIndex, PositionComponent position, SizeComponent size) {
         this.keyboardSelect = keyboardSelect;
         this.keyboardDeselect = keyboardDeselect;
         this.xbox360ControllerIndex = xbox360ControllerIndex;
 
-        SizeComponent size = new SizeComponent(100, 100);
         aiTexture = getTextureCompnent("bum.png", "bum_n.png", position, size);
         keyboardTexture = getTextureCompnent("bum_n.png", null, position, size);
         xbox360Texture = getTextureCompnent("title.png", null, position, size);
@@ -53,20 +53,34 @@ public class ControllerScreenObject extends GameObject {
     private void updateControllerSelection() {
         InputComponent newInput = null;
 
-        Controller xboxController = Controllers.getControllers().get(xbox360ControllerIndex);
+        Controller xboxController = safeGetXboxController(xbox360ControllerIndex);
         // Reset to AI
-        if (Gdx.input.isKeyPressed(keyboardDeselect) || xboxController.getButton(xbox360Deselect.val)) {
+        if (Gdx.input.isKeyPressed(keyboardDeselect) || safeGetXboxButton(xboxController, xbox360Deselect)) {
             newInput = new InputComponent(new AIControlMapAdapter());
         // Select Keyboard
         } else if (Gdx.input.isKeyPressed(keyboardSelect)) {
             newInput = new InputComponent(new GDXControls());
         // Select Xbox
-        } else if (xboxController.getButton(xbox360Select.val)) {
+        } else if (safeGetXboxButton(xboxController, xbox360Select)) {
             newInput = new InputComponent(new GamepadControlMapAdapter(xbox360ControllerIndex));
         }
 
         swapInput(newInput);
     }
+
+    private Boolean safeGetXboxButton(Controller xboxController, Xbox360Pad button) {
+        return xboxController != null ? xboxController.getButton(button.val) : false;
+    }
+
+    private Controller safeGetXboxController(int index) {
+        Array<Controller> controllerList =  Controllers.getControllers();
+        if (index < controllerList.size) {
+            return controllerList.get(index);
+        }
+
+        return null;
+    }
+
     private void swapInput(InputComponent input) {
         if (input == null) {
             return;
