@@ -114,6 +114,20 @@ public class ControllerScreenObject extends GameObject {
         super.update(delta);
 
         updateControllerSelection();
+
+        debugWindowsController();
+    }
+
+    private void debugWindowsController() {
+        for (Xbox360Pad value : Xbox360Pad.values()) {
+            try {
+                if (safeGetXboxButton(safeGetXboxController(xbox360ControllerIndex), value)) {
+                    System.out.println(value.val + " hit");
+                }
+            } catch (Error e) {
+                // No-op
+            }
+        }
     }
 
     public IComponent getInputComponent() {
