@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
 /**
@@ -7,7 +8,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class MetalComponent implements IComponent {
 
-    public MetalComponent(){
-
+    public MetalComponent(PhysicsComponent phys){
+// TODO: add metal stuffs
     }
 }

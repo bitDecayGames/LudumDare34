@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
 /**
@@ -7,7 +8,8 @@ import ludum.dare.interfaces.IComponent;
  */
 public class WallJumpComponent implements IComponent {
 
-    public WallJumpComponent(){
+    public WallJumpComponent(PhysicsComponent phys){
 
+//        TODO : do the wall jump stuffs
     }
 }

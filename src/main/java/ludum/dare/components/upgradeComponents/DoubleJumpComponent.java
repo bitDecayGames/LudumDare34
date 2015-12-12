@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
 /**
@@ -7,7 +8,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class DoubleJumpComponent implements IComponent {
 
-    public DoubleJumpComponent(){
-
+    public DoubleJumpComponent(PhysicsComponent phys){
+//        TODO: do the double jump
     }
 }

@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
 /**
@@ -7,7 +8,8 @@ import ludum.dare.interfaces.IComponent;
  */
 public class SpeedComponent implements IComponent {
 
-    public SpeedComponent(){
+    public SpeedComponent(PhysicsComponent phys){
 
+//        TODO: do the speed stuffs
     }
 }

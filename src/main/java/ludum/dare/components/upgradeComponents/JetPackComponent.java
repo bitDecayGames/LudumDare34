@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
 /**
@@ -7,7 +8,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class JetPackComponent implements IComponent {
 
-    public JetPackComponent(){
-
+    public JetPackComponent(PhysicsComponent phys){
+//  TODO: do the jetpack stuffs
     }
 }

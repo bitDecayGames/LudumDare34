@@ -1,4 +1,4 @@
-package ludum.dare.components.upgradeComponents;
+package ludum.dare.components;
 
 import ludum.dare.interfaces.IComponent;
 
