@@ -1,0 +1,112 @@
+package ludum.dare.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
+import ludum.dare.RacerGame;
+
+/**
+ * Created by mwingfield on 8/6/15.
+ */
+public class SplashScreen implements Screen {
+
+    private Image ldWallpaper;
+    private Image bdWallpaper;
+    private Stage stage;
+    private RacerGame game;
+
+    public SplashScreen(RacerGame game){
+        this.game = game;
+        stage = new Stage();
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/menu.atlas", AnimagicTextureAtlas.class);
+        ldWallpaper = new Image(atlas.findRegion("splash"));
+        ldWallpaper.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        bdWallpaper = new Image(atlas.findRegion("bitDecay"));
+        bdWallpaper.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.addActor(ldWallpaper);
+        stage.addActor(bdWallpaper);
+    }
+
+    @Override
+    public void show() {
+//        AtlasManager.instance.loadAtlasAsynch("packed/game.atlas");
+//        AtlasManager.instance.loadAtlasAsynch("packed/game_n.atlas");
+        bdWallpaper.addAction(Actions.alpha(0));
+        ldWallpaper.addAction(
+                Actions.sequence(
+                        Actions.alpha(0),
+                        Actions.delay(0.25f),
+                        Actions.fadeIn(0.5f),
+                        Actions.delay(1.5f),
+                        Actions.fadeOut(0.5f),
+                        Actions.run(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        bdWallpaper.addAction(Actions.sequence(
+                                                Actions.fadeIn(0.5f),
+                                                Actions.delay(1.5f),
+                                                Actions.fadeOut(0.5f),
+                                                Actions.run(
+                                                        new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                game.setScreen(new UpgradeScreen());
+                                                            }
+                                                        }
+                                                )));
+                                    }
+                                }
+                        )
+                )
+        );
+    }
+
+    float delay = 5f;
+    @Override
+    public void render(float delta) {
+//        delay -= delta;
+//        if (delay <= 0) {
+//            game.setScreen(new UpgradeScreen());
+//        }
+//        AtlasManager.instance.update();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+//        if (CKeyboard.instance.isKeyJustPressed(KeyboardKey.S)) {
+//            game.setScreen(new MainMenuScreen(game));
+//        }
+
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+}

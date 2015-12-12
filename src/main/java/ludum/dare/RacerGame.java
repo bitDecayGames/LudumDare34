@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlasLoader;
-import ludum.dare.screens.UpgradeScreen;
+import ludum.dare.screens.SplashScreen;
 
 /**
  * Created by Admin on 12/12/2015.
@@ -17,8 +17,9 @@ public class RacerGame extends Game {
         assetManager.setLoader(AnimagicTextureAtlas.class, new AnimagicTextureAtlasLoader(new InternalFileHandleResolver()));
 
         assetManager.load("packed/test.atlas", AnimagicTextureAtlas.class);
+        assetManager.load("packed/menu.atlas", AnimagicTextureAtlas.class);
         assetManager.finishLoading();
 
-        setScreen(new UpgradeScreen());
+        setScreen(new SplashScreen(this));
     }
 }
