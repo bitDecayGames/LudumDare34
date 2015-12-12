@@ -114,20 +114,6 @@ public class ControllerScreenObject extends GameObject {
         super.update(delta);
 
         updateControllerSelection();
-
-        debugWindowsController();
-    }
-
-    private void debugWindowsController() {
-        for (Xbox360Pad value : Xbox360Pad.values()) {
-            try {
-                if (safeGetXboxButton(safeGetXboxController(xbox360ControllerIndex), value)) {
-                    System.out.println(value.val + " hit");
-                }
-            } catch (Error e) {
-                // No-op
-            }
-        }
     }
 
     public IComponent getInputComponent() {
@@ -137,5 +123,23 @@ public class ControllerScreenObject extends GameObject {
         }
 
         return inputComponents.get(0);
+    }
+
+    private void debugController() {
+        for (Xbox360Pad value : Xbox360Pad.values()) {
+            try {
+                if (safeGetXboxButton(safeGetXboxController(xbox360ControllerIndex), value)) {
+                    System.out.println(value.val + " hit");
+                } else {
+                    Controller c = safeGetXboxController(xbox360ControllerIndex);
+                    float axisVal = c != null ? c.getAxis(value.val) : 0;
+                    if (axisVal > 0.2f || axisVal < -0.2f) {
+                        System.out.println(value.val + " stick");
+                    }
+                }
+            } catch (Error e) {
+                // No-op
+            }
+        }
     }
 }
