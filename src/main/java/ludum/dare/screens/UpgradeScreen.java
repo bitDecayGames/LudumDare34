@@ -29,6 +29,7 @@ public class UpgradeScreen implements Screen {
         camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
         camera.update();
         batch = new AnimagicSpriteBatch(camera);
+        batch.isShaderOn(false);
 
         // need a way to get the players in the game.
         List<GameObject> players = new ArrayList<>();
