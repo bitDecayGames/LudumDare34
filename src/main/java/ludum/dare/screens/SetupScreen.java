@@ -1,15 +1,20 @@
 package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.Array;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.actors.GameObject;
 import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
+import ludum.dare.control.ControllerScreenObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,25 +24,37 @@ public class SetupScreen implements Screen {
     OrthographicCamera camera;
     AnimagicSpriteBatch batch;
 
-    List<GameObject> gameObjects;
+    List<ControllerScreenObject> inputObjects;
+
+    List<GameObject> players;
+
+    public SetupScreen(List<GameObject> players) {
+        this.players = players;
+    }
+
+    public List<ControllerScreenObject> getScreenObjects() {
+         return inputObjects;
+    }
 
     @Override
     public void show() {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new AnimagicSpriteBatch(camera);
-        gameObjects = new ArrayList<>();
+        inputObjects = new ArrayList<>();
 
         PositionComponent position = new PositionComponent(0, 0);
-        SizeComponent size = new SizeComponent(100, 100);
-        AnimationComponent animation = new AnimationComponent("badlogic.jpg", position, size);
-        GameObject test = new GameObject(position, size, animation);
+        ControllerScreenObject controller = new ControllerScreenObject(Input.Keys.Q, Input.Keys.A, 0, position);
 
-        gameObjects.add(test);
+        inputObjects.add(controller);
+
+        // Press a key or button to join
     }
 
     @Override
     public void render(float v) {
-        gameObjects.forEach(obj -> obj.update(v));
+        Array<Controller> activeControllers = Controllers.getControllers();
+
+        getScreenObjects().forEach(obj -> obj.update(v));
 
         camera.update();
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -46,7 +63,7 @@ public class SetupScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.setLight(0, 0 ,0, 0, 0.5f, Color.BLUE);
-        gameObjects.forEach(obj -> obj.draw(batch));
+        getScreenObjects().forEach(obj -> obj.draw(batch));
         batch.end();
     }
 
@@ -77,7 +94,7 @@ public class SetupScreen implements Screen {
         batch.dispose();
         batch = null;
 
-        gameObjects.clear();
-        gameObjects = null;
+        inputObjects.clear();
+        inputObjects = null;
     }
 }

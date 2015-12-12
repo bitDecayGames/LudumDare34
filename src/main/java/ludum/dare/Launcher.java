@@ -14,7 +14,7 @@ public class Launcher {
         new LwjglApplication(new Game() {
             @Override
             public void create() {
-                this.setScreen(new SetupScreen());
+                this.setScreen(new SetupScreen(null));
             }
         }, config);
     }
