@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Created by Admin on 12/12/2015.
  */
-public class LevelWithMeta {
+public class LevelWithAggData {
 
     public Level level;
     public TileObject leftMostTile;
     public TileObject rightMostTile;
 
-    public LevelWithMeta(Level level){
+    public LevelWithAggData(Level level){
         this.level = level;
 
         leftMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, 0);
