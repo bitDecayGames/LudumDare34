@@ -8,9 +8,9 @@ public class Player extends StateMachine {
 
 
     public Player() {
-        PhysicsComponent phys = new PhysicsComponent(new JumperBody());
-        SizeComponent size = new SizeComponent(phys.getBody().aabb.width, phys.getBody().aabb.height);
-        PositionComponent pos = new PositionComponent(phys.getBody().aabb.xy.x, phys.getBody().aabb.xy.y);
+        SizeComponent size = new SizeComponent();
+        PositionComponent pos = new PositionComponent();
+        PhysicsComponent phys = new PhysicsComponent(new JumperBody(), pos, size);
         HealthComponent health = new HealthComponent(10, 10);
         AnimationComponent anim = new AnimationComponent("player", pos, size);
         InputComponent input = new InputComponent(null);
