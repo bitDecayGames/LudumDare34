@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 
 /**
@@ -55,7 +54,7 @@ public class SplashScreen implements Screen {
                                                         new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                game.setScreen(new UpgradeScreen());
+                                                                game.setScreen(new SetupScreen());
                                                             }
                                                         }
                                                 )));
@@ -73,7 +72,7 @@ public class SplashScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            game.setScreen(new UpgradeScreen());
+            game.setScreen(new SetupScreen());
         }
 
         stage.act();

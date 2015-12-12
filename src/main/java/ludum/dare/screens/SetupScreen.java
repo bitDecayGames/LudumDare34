@@ -24,6 +24,8 @@ public class SetupScreen implements Screen {
     List<ControllerScreenObject> inputObjects;
     List<GameObject> players;
 
+    final static int NUM_PLAYERS = 4;
+
     // Keyboard keys for selections.
     final static List<Integer> keyboardSelectKeys = new ArrayList<>();
     static {
@@ -52,12 +54,11 @@ public class SetupScreen implements Screen {
         playerControllerPositions.add(new PositionComponent(X, -Y));
     }
 
-    public SetupScreen(List<GameObject> players) {
-        if (players == null) {
-            throw new Error("null players not accepted as input.");
+    public SetupScreen() {
+        players = new ArrayList<>();
+        for (int i = 0; i < NUM_PLAYERS; i++) {
+            players.add(new GameObject());
         }
-
-        this.players = players;
     }
 
     public List<GameObject> getResults() {
