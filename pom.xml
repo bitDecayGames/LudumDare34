@@ -92,11 +92,13 @@
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-controllers</artifactId>
             <version>${gdxVersion}</version>
+            <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-controllers-desktop</artifactId>
             <version>${gdxVersion}</version>
+            <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -107,6 +109,7 @@
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-controllers-platform</artifactId>
             <version>${gdxVersion}</version>
+            <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
