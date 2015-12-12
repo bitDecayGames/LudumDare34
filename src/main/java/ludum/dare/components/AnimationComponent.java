@@ -1,7 +1,7 @@
 package ludum.dare.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.bytebreak.animagic.Animator;
+import com.bytebreakstudios.animagic.animation.Animator;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IUpdate;
@@ -25,6 +25,6 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        animator.draw(spriteBatch);
+        //animator.draw(spriteBatch);
     }
 }
