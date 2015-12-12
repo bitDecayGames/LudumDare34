@@ -1,5 +1,6 @@
 package ludum.dare.components;
 
+import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.properties.BitBodyProperties;
 import com.bitdecay.jump.properties.JumperProperties;
@@ -8,22 +9,14 @@ import ludum.dare.interfaces.IUpdate;
 
 public class PhysicsComponent implements IComponent, IUpdate {
 
-    private final PositionComponent position;
-    private final SizeComponent size;
-    private JumperBody body;
+    private BitBody body;
 
-    public PhysicsComponent(PositionComponent position, SizeComponent size, JumperBody body){
-        this.position = position;
-        this.size = size;
+    public PhysicsComponent(BitBody body){
         this.body = body;
     }
 
-    public BitBodyProperties getBodyProperties(){
+    public BitBodyProperties getBody(){
         return body.props;
-    }
-
-    public JumperProperties getJumpProperties(){
-        return body.jumperProps;
     }
 
     @Override

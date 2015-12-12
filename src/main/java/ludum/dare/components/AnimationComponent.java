@@ -8,14 +8,12 @@ import ludum.dare.interfaces.IUpdate;
 
 public class AnimationComponent implements IComponent, IUpdate, IDraw {
 
-    private final PositionComponent position;
-    private final SizeComponent size;
     public final Animator animator;
+    public final PhysicsComponent phys;
 
-    public AnimationComponent(String name, PositionComponent position, SizeComponent size){
-        this.position = position;
-        this.size = size;
+    public AnimationComponent(String name, PhysicsComponent phys){
         animator = new Animator(name);
+        this.phys = phys;
     }
 
     @Override
