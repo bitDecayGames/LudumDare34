@@ -7,7 +7,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class DoubleJumpComponent implements IComponent {
 
-    DoubleJumpComponent(){
+    public DoubleJumpComponent(){
 
     }
 }

@@ -7,7 +7,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class AttackComponent implements IComponent {
 
-    AttackComponent(){
+    public AttackComponent(){
 
     }
 }

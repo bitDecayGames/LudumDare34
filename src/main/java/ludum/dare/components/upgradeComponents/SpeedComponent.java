@@ -7,7 +7,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class SpeedComponent implements IComponent {
 
-    SpeedComponent(){
+    public SpeedComponent(){
 
     }
 }

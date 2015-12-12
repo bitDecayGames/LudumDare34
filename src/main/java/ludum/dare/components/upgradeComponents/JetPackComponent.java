@@ -7,7 +7,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class JetPackComponent implements IComponent {
 
-    JetPackComponent(){
+    public JetPackComponent(){
 
     }
 }

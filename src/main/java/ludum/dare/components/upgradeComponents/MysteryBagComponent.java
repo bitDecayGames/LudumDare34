@@ -5,9 +5,9 @@ import ludum.dare.interfaces.IComponent;
 /**
  * Created by jake on 12/12/2015.
  */
-public class MetalComponent implements IComponent {
+public class MysteryBagComponent implements IComponent{
 
-    public MetalComponent(){
+    public MysteryBagComponent(){
 
     }
 }

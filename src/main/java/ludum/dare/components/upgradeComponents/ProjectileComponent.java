@@ -7,7 +7,7 @@ import com.bitdecay.jump.geom.Projectable;
  */
 public class ProjectileComponent {
 
-    ProjectileComponent(){
+    public ProjectileComponent(){
 
     }
 

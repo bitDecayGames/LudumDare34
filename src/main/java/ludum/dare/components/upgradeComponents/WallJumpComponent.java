@@ -7,7 +7,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class WallJumpComponent implements IComponent {
 
-    WallJumpComponent(){
+    public WallJumpComponent(){
 
     }
 }
