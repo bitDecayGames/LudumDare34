@@ -12,14 +12,14 @@ import ludum.dare.screens.SplashScreen;
  */
 public class RacerGame extends Game {
     public static AssetManager assetManager = new AssetManager();
+    public static void queueAssetsForLoad() {
+        assetManager.setLoader(AnimagicTextureAtlas.class, new AnimagicTextureAtlasLoader(new InternalFileHandleResolver()));
+        RacerGame.assetManager.load("packed/test.atlas", AnimagicTextureAtlas.class);
+        RacerGame.assetManager.load("packed/menu.atlas", AnimagicTextureAtlas.class);
+    }
+
     @Override
     public void create() {
-        assetManager.setLoader(AnimagicTextureAtlas.class, new AnimagicTextureAtlasLoader(new InternalFileHandleResolver()));
-
-        assetManager.load("packed/test.atlas", AnimagicTextureAtlas.class);
-        assetManager.load("packed/menu.atlas", AnimagicTextureAtlas.class);
-        assetManager.finishLoading();
-
         setScreen(new SplashScreen(this));
     }
 }
