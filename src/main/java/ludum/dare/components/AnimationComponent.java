@@ -23,6 +23,6 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        //animator.draw(spriteBatch);
+        spriteBatch.draw(animator.getFrame(), position.x, position.y, size.w, size.h);
     }
 }

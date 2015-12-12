@@ -16,7 +16,7 @@ public class GameObject implements IUpdate, IDraw {
     public GameObject(){}
     public GameObject(IComponent... componenets){
         for(IComponent c : componenets){
-            this.components.add(c);
+            this.append(c);
         }
     }
 
