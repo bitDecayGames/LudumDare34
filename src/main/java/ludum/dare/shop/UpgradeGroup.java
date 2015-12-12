@@ -2,6 +2,7 @@ package ludum.dare.shop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
@@ -22,6 +23,8 @@ public class UpgradeGroup {
 
     AnimagicTextureRegion selectionTexture;
 
+    boolean active = true;
+
     //TODO: we will need to replace this argument with a player object once we have one.
 
     /**
@@ -39,28 +42,33 @@ public class UpgradeGroup {
     }
 
     public void update(float delta) {
-        // update the upgrades (animation, etc)
-        for (UpgradeOption option : choices) {
-            option.update(delta);
-        }
+        if (active) {
+            // update the upgrades (animation, etc)
+            for (UpgradeOption option : choices) {
+                option.update(delta);
+            }
 
-        // check player controls and update our selection if one was made
+            // check player controls and update our selection if one was made
 
-        // TODO: these need to be pulled from the control component once we have one
-        boolean playerLeft = false, playerRight = false, playerSelect = false;
-        if (playerLeft) {
-            left();
-        } else if (playerRight) {
-            right();
-        } else if (playerSelect) {
-            select();
-        }
+            // TODO: these need to be pulled from the control component once we have one
+            boolean playerLeft = false, playerRight = false, playerSelect = false;
+            if (playerLeft) {
+                left();
+            } else if (playerRight) {
+                right();
+            } else if (playerSelect) {
+                select();
+            }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            left();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            right();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+                left();
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+                right();
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                select();
+            }
         }
     }
 
@@ -79,7 +87,8 @@ public class UpgradeGroup {
     }
 
     private void select() {
-
+        System.out.println(selectedIndex + " " + choices.get(selectedIndex));
+        active = false;
     }
 
     public void render(AnimagicSpriteBatch batch, int yTop, int yBottom) {
@@ -93,6 +102,11 @@ public class UpgradeGroup {
         int edgeSpace = (int) ((batch.getCamera().viewportWidth - neededTotalWidth) / 2);
 
         int renderX = edgeSpace;
+        if (active) {
+            batch.setColor(Color.WHITE);
+        } else {
+            batch.setColor(Color.GRAY);
+        }
         for (int i = 0; i < choices.size(); i ++) {
             // do shit plox.
             batch.draw(choices.get(i).animation.getFrame(), renderX, middle - renderSize / 2, renderSize, renderSize);
