@@ -22,7 +22,6 @@ public class SetupScreen implements Screen {
     AnimagicSpriteBatch batch;
 
     List<ControllerScreenObject> inputObjects;
-
     List<GameObject> players;
 
     // Keyboard keys for selections.
@@ -61,7 +60,12 @@ public class SetupScreen implements Screen {
         this.players = players;
     }
 
-    public List<GameObject> getPlayers() {
+    public List<GameObject> getResults() {
+        // Copy inputs into players.
+        for (int i = 0; i < inputObjects.size(); i++) {
+            players.get(i).append(inputObjects.get(i).getInputComponent());
+        }
+
         return players;
     }
 

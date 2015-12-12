@@ -33,15 +33,9 @@ public class GameObject implements IUpdate, IDraw {
 
     public GameObject remove(Class<? extends IComponent> clazz) {
         if (clazz == null) throw new RuntimeException("Cannot remove a null component type");
-        List<IComponent> removeList = new ArrayList<>();
-        components.forEach(comp -> {
-            if (comp.getClass().equals(clazz)) {
-                removeList.add(comp);
-            } else if (clazz.isInterface() && comp.getClass().isAssignableFrom(clazz)) {
-                removeList.add(comp);
-            }
 
-        });
+        List<IComponent> removeList = getComponents(clazz);
+
         components.removeAll(removeList);
         updateableComponents.removeAll(removeList);
         drawableComponents.removeAll(removeList);
@@ -49,6 +43,17 @@ public class GameObject implements IUpdate, IDraw {
         return this;
     }
 
+    protected List<IComponent> getComponents(Class<? extends IComponent> clazz) {
+        List<IComponent> returnList = new ArrayList<>();
+        components.forEach(comp -> {
+            if (comp.getClass().equals(clazz)) {
+                returnList.add(comp);
+            } else if (clazz.isInterface() && comp.getClass().isAssignableFrom(clazz)) {
+                returnList.add(comp);
+            }
+        });
+        return returnList;
+    }
 
     @Override
     public void update(float delta) {

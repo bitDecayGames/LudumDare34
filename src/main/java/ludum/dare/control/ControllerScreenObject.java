@@ -13,6 +13,9 @@ import ludum.dare.components.InputComponent;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
 import ludum.dare.components.TextureRegionComponent;
+import ludum.dare.interfaces.IComponent;
+
+import java.util.List;
 
 public class ControllerScreenObject extends GameObject {
     // Contoller inputs to select controller.
@@ -27,8 +30,6 @@ public class ControllerScreenObject extends GameObject {
     TextureRegionComponent keyboardTexture;
     TextureRegionComponent xbox360Texture;
 
-    InputComponent input;
-
     public ControllerScreenObject(int keyboardSelect, int keyboardDeselect, int xbox360ControllerIndex, PositionComponent position, SizeComponent size) {
         this.keyboardSelect = keyboardSelect;
         this.keyboardDeselect = keyboardDeselect;
@@ -38,12 +39,11 @@ public class ControllerScreenObject extends GameObject {
         keyboardTexture = getTextureCompnent("bum_n.png", null, position, size);
         xbox360Texture = getTextureCompnent("title.png", null, position, size);
 
-        input = new InputComponent(new AIControlMapAdapter());
-
-        // Default to AI selection.
-        append(aiTexture);
         append(position);
         append(size);
+
+        // Default to AI selection.
+        swapInput(new InputComponent(new AIControlMapAdapter()));
     }
 
     private TextureRegionComponent getTextureCompnent(String name, String normalName, PositionComponent p, SizeComponent s) {
@@ -114,5 +114,14 @@ public class ControllerScreenObject extends GameObject {
         super.update(delta);
 
         updateControllerSelection();
+    }
+
+    public IComponent getInputComponent() {
+        List<IComponent> inputComponents = getComponents(InputComponent.class);
+        if (inputComponents.size() != 1) {
+            throw new Error("Only adding one InputComponent is allowed");
+        }
+
+        return inputComponents.get(0);
     }
 }
