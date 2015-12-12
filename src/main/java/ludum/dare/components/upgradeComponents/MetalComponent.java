@@ -9,6 +9,5 @@ import ludum.dare.interfaces.IComponent;
 public class MetalComponent implements IComponent {
 
     public MetalComponent(PhysicsComponent phys){
-// TODO: add metal stuffs
     }
 }

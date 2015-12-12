@@ -9,6 +9,6 @@ import ludum.dare.interfaces.IComponent;
 public class DoubleJumpComponent implements IComponent {
 
     public DoubleJumpComponent(PhysicsComponent phys){
-//        TODO: do the double jump
+        phys.getjBody().jumpsRemaining = 2;
     }
 }
