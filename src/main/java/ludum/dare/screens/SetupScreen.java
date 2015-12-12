@@ -40,8 +40,6 @@ public class SetupScreen implements Screen {
 
         ControllerScreenObject obj = new ControllerScreenObject(Input.Keys.Q, Input.Keys.A, 0, p);
         inputObjects.add(obj);
-
-        // Press a key or button to join
     }
 
     @Override
