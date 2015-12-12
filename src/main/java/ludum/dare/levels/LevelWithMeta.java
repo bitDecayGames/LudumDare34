@@ -4,6 +4,8 @@ import com.bitdecay.jump.geom.BitRectangle;
 import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.TileObject;
 
+import java.util.List;
+
 /**
  * Created by Admin on 12/12/2015.
  */
@@ -19,17 +21,34 @@ public class LevelWithMeta {
         leftMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, 0);
         leftMostTile.rect.xy.x = 999999;
         rightMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, 0);
-        rightMostTile.rect.xy.x = 0;
+        rightMostTile.rect.xy.x = -999999;
 
+        calculateLeftAndRightTilesPerSegment();
+
+    }
+
+    private void calculateLeftAndRightTilesPerSegment(){
+        for (TileObject[] ta : level.gridObjects) {
+            for (TileObject t : ta) {
+                if (t != null) {
+
+                    if (t.rect.xy.x < getLeftMostTileX()) {
+                        setLeftMostTile(t);
+                    }
+
+                    if (t.rect.xy.x > getRightMostTileX()) {
+                        setRightMostTile(t);
+                    }
+                }
+            }
+        }
     }
 
     public float getLeftMostTileX(){
         return leftMostTile.rect.xy.x;
     }
 
-    public float getLeftMostTileY(){
-        return leftMostTile.rect.xy.y;
-    }
+    public float getLeftMostTileY(){ return leftMostTile.rect.xy.y; }
 
     public float getRightMostTileX(){
         return rightMostTile.rect.xy.x;

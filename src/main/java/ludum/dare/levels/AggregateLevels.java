@@ -21,36 +21,12 @@ public class AggregateLevels {
 
     public AggregateLevels(List<Level> levelsRaw){
 
-        ArrayList<LevelWithMeta> levels = new ArrayList<>();
+        List<LevelWithMeta> levels = new ArrayList<>();
 
-        for(Level level : levelsRaw){
-            levels.add(new LevelWithMeta(level));
-        }
+        levelsRaw.forEach(l -> levels.add(new LevelWithMeta(l)));
 
-        calculateLeftAndRightTilesPerSegment(levels);
         adjustRectsInEachLevelSegment(levels);
         buildAggregatedLevels(levels);
-    }
-
-    private void calculateLeftAndRightTilesPerSegment(List<LevelWithMeta> levels){
-
-        for(LevelWithMeta levelWithMeta : levels) {
-
-            for (TileObject[] ta : levelWithMeta.level.gridObjects) {
-                for (TileObject t : ta) {
-                    if (t != null) {
-
-                        if (t.rect.xy.x < levelWithMeta.getLeftMostTileX()) {
-                            levelWithMeta.setLeftMostTile(t);
-                        }
-
-                        if (t.rect.xy.x > levelWithMeta.getRightMostTileX()) {
-                            levelWithMeta.setRightMostTile(t);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private void adjustRectsInEachLevelSegment(List<LevelWithMeta> levels) {
@@ -136,12 +112,11 @@ public class AggregateLevels {
             for (TileObject[] toa : level.level.gridObjects) {
                 for (TileObject to : toa) {
                     if (to != null) {
-                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) to.rect.xy.x + TILE_SIZE, (int) to.rect.xy.y + TILE_SIZE), false, to.material);
+                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) to.rect.xy.x + TILE_SIZE, (int) to.rect.xy.y + TILE_SIZE), to.oneway, to.material);
                     }
                 }
             }
         }
-
         LevelUtilities.saveLevel(levelBuilder, false);
     }
 
@@ -149,10 +124,10 @@ public class AggregateLevels {
 
         List<Level> levelsRaw = new ArrayList<Level>();
 
-        String level1Path = "C:\\\\Users\\Admin\\Desktop\\LD34\\LudumDare34\\src\\main\\resources\\levels\\level_1";
-        String level2Path = "C:\\\\Users\\Admin\\Desktop\\LD34\\LudumDare34\\src\\main\\resources\\levels\\level_2";
-        String level3Path = "C:\\\\Users\\Admin\\Desktop\\LD34\\LudumDare34\\src\\main\\resources\\levels\\level_3";
-        String level4Path = "C:\\\\Users\\Admin\\Desktop\\LD34\\LudumDare34\\src\\main\\resources\\levels\\level_4";
+        String level1Path = "src\\main\\resources\\levels\\level_1";
+        String level2Path = "src\\main\\resources\\levels\\level_2";
+        String level3Path = "src\\main\\resources\\levels\\level_3";
+        String level4Path = "src\\main\\resources\\levels\\level_4";
 
         levelsRaw.add(LevelUtilities.loadLevel(level1Path));
         levelsRaw.add(LevelUtilities.loadLevel(level2Path));
