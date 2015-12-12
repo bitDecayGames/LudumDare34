@@ -18,6 +18,12 @@ public class RaceScreen implements Screen {
     AnimagicSpriteBatch batch;
 
     List<GameObject> gameObjects = new ArrayList<>();
+    List<GameObject> players = new ArrayList<>();
+
+
+    public RaceScreen(List<GameObject> players) {
+        this.players = players;
+    }
 
     @Override
     public void show() {
