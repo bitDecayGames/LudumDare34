@@ -10,12 +10,12 @@ import ludum.dare.interfaces.IComponent;
 /**
  * Adapter component around
  */
-public abstract class InputComponent implements IComponent, ControlMap {
+public class InputComponent implements IComponent, ControlMap {
 
     ControlType type;
     ControlMap controller;
 
-    public InputComponent(ControlType type, ControlMap controller) {
+    public InputComponent(ControlMap controller) {
         this.controller = controller;
 
         if (this.controller instanceof GamepadControlMapAdapter) {

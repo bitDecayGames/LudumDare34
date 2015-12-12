@@ -10,7 +10,8 @@ public class Player extends StateMachine {
         PhysicsComponent phys = new PhysicsComponent(pos, size);
         HealthComponent health = new HealthComponent(10, 10);
         AnimationComponent anim = new AnimationComponent("player", pos, size);
-        InputComponent input = new InputComponent();
+        // TODO JJCT de-nullify this;
+        InputComponent input = new InputComponent(null);
 
         this.append(pos).append(size).append(phys).append(health).append(anim).append(input);
 
