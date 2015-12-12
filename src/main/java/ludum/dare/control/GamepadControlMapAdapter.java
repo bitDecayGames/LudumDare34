@@ -8,7 +8,10 @@ import com.bitdecay.jump.control.PlayerAction;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GamepadController implements ControlMap {
+/**
+ * Adapter for interfacing Xbox 360 controllers with Jump.
+ */
+public class GamepadControlMapAdapter implements ControlMap {
 
     Controller controller;
 
@@ -20,11 +23,11 @@ public class GamepadController implements ControlMap {
         actionsToXboxButtons.put(PlayerAction.JUMP, Xbox360Pad.A.val);
     }
 
-    public GamepadController(int index) {
+    public GamepadControlMapAdapter(int index) {
         try {
             controller = Controllers.getControllers().get(index);
         } catch (IndexOutOfBoundsException e) {
-            throw new Error("Xbox controller not found, are you sure it's connected?");
+            throw new Error("Xbox controller at " + index + " not found, are you sure it's connected?");
         }
     }
 

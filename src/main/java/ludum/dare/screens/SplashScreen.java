@@ -35,7 +35,6 @@ public class SplashScreen implements Screen {
 
     @Override
     public void show() {
-        RacerGame.queueAssetsForLoad();
         bdWallpaper.addAction(Actions.alpha(0));
         ldWallpaper.addAction(
                 Actions.sequence(
