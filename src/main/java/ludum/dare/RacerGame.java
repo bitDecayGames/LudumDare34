@@ -22,7 +22,9 @@ public class RacerGame extends Game {
 
     @Override
     public void create() {
+        queueAssetsForLoad();
+        assetManager.finishLoading();
 
-        setScreen(new SetupScreen(null));
+        setScreen(new UpgradeScreen());
     }
 }
