@@ -8,9 +8,9 @@ import ludum.dare.interfaces.IUpdate;
 
 public class AnimationComponent implements IComponent, IUpdate, IDraw {
 
+    public final Animator animator;
     private final PositionComponent position;
     private final SizeComponent size;
-    public final Animator animator;
 
     public AnimationComponent(String name, PositionComponent position, SizeComponent size){
         this.position = position;
@@ -22,9 +22,9 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
     public void update(float delta) {
         animator.update(delta);
     }
-
     @Override
     public void draw(SpriteBatch spriteBatch) {
         spriteBatch.draw(animator.getFrame(), position.x, position.y, size.w, size.h);
     }
+
 }

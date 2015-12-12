@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import com.bitdecay.jump.JumperBody;
 import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
@@ -9,6 +10,8 @@ import ludum.dare.interfaces.IComponent;
 public class DoubleJumpComponent implements IComponent {
 
     public DoubleJumpComponent(PhysicsComponent phys){
-//        TODO: do the double jump
+        if(phys.getBody() instanceof JumperBody) {
+            ((JumperBody) phys.getBody()).jumpsRemaining = 2;
+        }
     }
 }
