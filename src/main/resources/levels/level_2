@@ -459,6 +459,20 @@
     },
     "uuid" : "a9cef586-e450-4658-aaab-d6c052fca48e",
     "material" : 0,
+    "renderNValue" : 10,
+    "collideNValue" : 10,
+    "oneway" : false
+  } ], [ null, null, null, null, null, null, {
+    "rect" : {
+      "xy" : {
+        "x" : 320.0,
+        "y" : 48.0
+      },
+      "width" : 16.0,
+      "height" : 16.0
+    },
+    "uuid" : "e71f67ee-7bbd-4187-b902-b385ddad3e10",
+    "material" : 0,
     "renderNValue" : 8,
     "collideNValue" : 8,
     "oneway" : false
