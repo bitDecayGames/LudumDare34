@@ -2,7 +2,9 @@ package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BitBody;
@@ -20,11 +22,6 @@ import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
-import com.bitdecay.jump.leveleditor.example.game.ShellObject;
-import com.bitdecay.jump.leveleditor.example.level.GravityLvlObject;
-import com.bitdecay.jump.leveleditor.example.level.SecretThing;
-import com.bitdecay.jump.leveleditor.example.level.ShellLevelObject;
-import com.bitdecay.jump.leveleditor.render.LevelEditor;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
@@ -147,9 +144,9 @@ public class RaceScreen implements Screen, EditorHook {
         for (int i = 0; i < cameras.length; i++) {
             Gdx.gl.glViewport(0, Gdx.graphics.getHeight() / cameras.length * i, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
             OrthographicCamera cam = cameras[i];
-            batch.setProjectionMatrix(cam.combined);
+            batch.setCamera(cam);
             batch.begin();
-//            LightUtil.addBasicLight(batch);
+            LightUtil.addBasicLight(batch);
             drawLevelEdit();
             gameObjects.forEach(obj -> obj.draw(batch));
             batch.end();
