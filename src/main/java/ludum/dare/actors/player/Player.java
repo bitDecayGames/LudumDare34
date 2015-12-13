@@ -3,7 +3,6 @@ package ludum.dare.actors.player;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.collision.BitWorld;
-import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bitdecay.jump.geom.BitRectangle;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.Animator;
@@ -26,7 +25,7 @@ public class Player extends StateMachine {
         pos = new PositionComponent(0, 0);
         JumperBody body = new JumperBody();
         body.bodyType = BodyType.DYNAMIC;
-        body.aabb.set(new BitRectangle(0, 0, 16, 32));
+        body.aabb.set(new BitRectangle(0, 0, size.w, size.h));
         phys = new PhysicsComponent(body, pos, size);
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, size);
