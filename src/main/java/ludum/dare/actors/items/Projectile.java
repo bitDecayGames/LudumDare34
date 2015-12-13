@@ -5,8 +5,8 @@ import ludum.dare.actors.player.Player;
 import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
-import ludum.dare.components.upgradeComponents.IRemoveable;
-import ludum.dare.components.upgradeComponents.TimedComponent;
+import ludum.dare.components.TimedComponent;
+import ludum.dare.interfaces.IRemoveable;
 
 public class Projectile extends GameObject implements IRemoveable {
 

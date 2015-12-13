@@ -6,10 +6,10 @@ import ludum.dare.interfaces.IComponent;
 /**
  * Created by jake on 12/12/2015.
  */
-public class JetPackComponent implements IComponent {
+public class FloatUpgradeComponent implements IComponent {
     public int cost = 0;
 
-    public JetPackComponent(PhysicsComponent phys){
-//  TODO: do the jetpack stuffs
+    public FloatUpgradeComponent(PhysicsComponent phys){
+//  TODO: do the floaty stuffs
     }
 }

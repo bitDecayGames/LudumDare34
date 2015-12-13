@@ -1,19 +1,24 @@
 package ludum.dare.components.PowerDownComponents;
 
-import ludum.dare.interfaces.IComponent;
-import ludum.dare.interfaces.IUpdate;
+import ludum.dare.components.TimedComponent;
 
 /**
  * Created by jake on 12/12/2015.
  */
-public class SlowComponent implements IComponent, IUpdate{
+public class SlowComponent extends TimedComponent{
 
     public SlowComponent(){
+        super(5);
 
     }
 
     @Override
     public void update(float delta) {
+
+    }
+
+    @Override
+    public void remove(){
 
     }
 }
