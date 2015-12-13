@@ -2,6 +2,7 @@ package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,11 +13,15 @@ import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.shop.UpgradeGroup;
 import ludum.dare.shop.UpgradeOption;
 import ludum.dare.util.Players;
+import ludum.dare.util.SoundLibrary;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeScreen implements Screen {
+
+    Music music;
+
     private static ArrayList<UpgradeOption> MASTER_LIST = new ArrayList<>();
 
     OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -41,6 +46,10 @@ public class UpgradeScreen implements Screen {
 
     @Override
     public void show() {
+
+        music = SoundLibrary.GetMusic("a_journey_awaits");
+        music.play();
+
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
         batch = new AnimagicSpriteBatch(camera);
@@ -87,6 +96,7 @@ outer:  while (tries > 0) {
             }
         }
         if (allReady) {
+            music.stop();
             game.setScreen(new FightScreen(game));
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);

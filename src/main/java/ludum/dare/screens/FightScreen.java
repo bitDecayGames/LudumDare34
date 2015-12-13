@@ -3,6 +3,7 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -35,12 +36,15 @@ import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 import ludum.dare.util.LightUtil;
 import ludum.dare.util.Players;
+import ludum.dare.util.SoundLibrary;
 
 import java.util.*;
 
 public class FightScreen implements Screen, EditorHook {
 
     RacerGame game;
+
+    Music music;
 
     OrthographicCamera camera;
     AnimagicSpriteBatch batch;
@@ -74,6 +78,10 @@ public class FightScreen implements Screen, EditorHook {
 
     @Override
     public void show() {
+
+        music = SoundLibrary.GetMusic("ouroboros");
+        music.play();
+
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.zoom = 0.7f;
 
