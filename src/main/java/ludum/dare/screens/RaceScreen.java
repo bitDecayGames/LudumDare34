@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
@@ -98,8 +99,13 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     private void updateCameras(float delta) {
-        // TODO follow player
-        for (Camera cam : cameras) cam.update();
+        for (int i = 0; i < cameras.length; i++) {
+            Camera cam = cameras[i];
+            // Follow player
+            Vector3 playerPos = players.get(i).getPosition();
+            cam.position.set(playerPos);
+            cam.update();
+        }
     }
 
     @Override
@@ -186,6 +192,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        }
 
         for (Player player : players) {
+            player.activateControls();
             player.addToWorld(world);
             gameObjects.add(player);
         }
@@ -196,7 +203,7 @@ public class RaceScreen implements Screen, EditorHook {
             playerBody.jumperProps = level.debugSpawn.jumpProps;
 
             playerBody.bodyType = BodyType.DYNAMIC;
-            playerBody.aabb = new BitRectangle(level.debugSpawn.rect.xy.x,level.debugSpawn.rect.xy.y,16,32);
+            playerBody.aabb = new BitRectangle(level.debugSpawn.rect.xy.x,level.debugSpawn.rect.xy.y, 16, 32);
             playerBody.renderStateWatcher = new JumperRenderStateWatcher();
             playerBody.controller = new PlayerInputController(GDXControls.defaultMapping);
 

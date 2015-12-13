@@ -64,7 +64,7 @@ public class ControllerScreenObject extends GameObject {
             newInput = new InputComponent(new AIControlMapAdapter());
         // Select Keyboard
         } else if (Gdx.input.isKeyPressed(keyboardSelect)) {
-            newInput = new InputComponent(new GDXControls());
+            newInput = new InputComponent(GDXControls.defaultMapping);
         // Select Xbox
         } else if (safeGetXboxButton(xboxController, xbox360Select)) {
             newInput = new InputComponent(new GamepadControlMapAdapter(xbox360ControllerIndex));
