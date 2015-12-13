@@ -48,7 +48,7 @@ public class UpgradeScreen implements Screen {
     public void show() {
 
         music = SoundLibrary.GetMusic("a_journey_awaits");
-        music.play();
+//        music.play();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();

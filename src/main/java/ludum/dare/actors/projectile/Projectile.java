@@ -22,11 +22,11 @@ public class Projectile extends StateMachine {
     private final AnimationComponent anim;
     private final AttackComponent attack;
 
-    public Projectile() {
+    public Projectile(PositionComponent source) {
         super();
 
         size = new SizeComponent(100, 100);
-        pos = new PositionComponent(0, 0);
+        pos = new PositionComponent(source.x, source.y);
         anim = new AnimationComponent("projectiles", pos, 1f, new Vector2(8, 0));
         setupAnimation(anim.animator);
 
@@ -41,10 +41,11 @@ public class Projectile extends StateMachine {
         body.jumperProps = new JumperProperties();
 //        body.renderStateWatcher = new JumperRenderStateWatcher(); TODO do we need this?
         body.bodyType = BodyType.DYNAMIC;
-        body.aabb.set(new BitRectangle(0, 0, 16, 32));
+        body.aabb.set(new BitRectangle(pos.x, pos.y, 16, 32));
 
-        body.velocity.set(100, 0);
+        body.velocity.set(500, 0);
         body.userObject = this;
+        body.props.gravitational = false;
 
         setupAnimation(anim.animator);
         return new PhysicsComponent(body, pos, size);
@@ -53,7 +54,7 @@ public class Projectile extends StateMachine {
     private void setupAnimation(Animator a) {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
 
-        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("fire").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
 
         a.switchToAnimation("fire");
     }
@@ -63,16 +64,7 @@ public class Projectile extends StateMachine {
         super.update(delta);
     }
 
-    public void setPosition(float x, float y) {
-        phys.getBody().velocity.set(0, 0);
-        phys.getBody().aabb.xy.set(x, y);
-    }
-
-    public void addToWorld(BitWorld world) {
-        world.addBody(phys.getBody());
-    }
-
-    public void removeFromWorld(BitWorld world) {
-        world.removeBody(phys.getBody());
+    public PhysicsComponent getPhysics() {
+        return phys;
     }
 }

@@ -33,6 +33,7 @@ import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.collection.GameObjects;
+import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.SpawnGameObject;
@@ -89,7 +90,7 @@ public class RaceScreen implements Screen, EditorHook {
     public void show() {
 
         music = SoundLibrary.GetMusic("fight");
-        music.play();
+//        music.play();
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
@@ -214,10 +215,9 @@ public class RaceScreen implements Screen, EditorHook {
 
         for (Player player : Players.list()) {
             player.activateControls();
-            player.addToWorld(world);
+            player.addToScreen(new LevelInteractionComponent(world, gameObjects));
             // TODO handle spawn points.
             player.setPosition(0, 0);
-            gameObjects.add(player);
         }
 
         if (level.debugSpawn != null) {

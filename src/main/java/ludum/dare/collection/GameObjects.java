@@ -9,15 +9,21 @@ import java.util.List;
 public class GameObjects {
     List<GameObject> gameObjects;
 
+    List<GameObject> pendingAdds;
+
     public GameObjects() {
         gameObjects = new ArrayList<>();
+        pendingAdds = new ArrayList<>();
     }
 
+    // Will be added at start of next update loop.
     public void add(GameObject obj) {
-        gameObjects.add(obj);
+        pendingAdds.add(obj);
     }
 
     public void update(float delta) {
+        gameObjects.addAll(pendingAdds);
+
         gameObjects.forEach(obj -> obj.update(delta));
     }
 
