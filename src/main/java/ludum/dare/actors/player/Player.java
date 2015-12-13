@@ -17,10 +17,13 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
+import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
 import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
+import ludum.dare.interfaces.IState;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -71,12 +74,25 @@ public class Player extends StateMachine {
 
     @Override
     public void update(float delta) {
-        super.update(delta);
-
         // Reset for now
         // TODO do this somewhere else?
         if (pos.y < -1000) {
             setPosition(0, 0);
+        }
+
+        checkForStateSwitch();
+
+        super.update(delta);
+    }
+
+    private void checkForStateSwitch() {
+        IState newState = null;
+        PunchState punch = new PunchState(components);
+        if (punch.shouldRun(activeState)) {
+            newState = punch;
+        }
+        if (newState != null) {
+            setActiveState(newState);
         }
     }
 
@@ -107,7 +123,7 @@ public class Player extends StateMachine {
         try {
             ControlMap controls = (ControlMap) getFirstComponent(InputComponent.class);
             phys.getBody().controller = new PlayerInputController(controls);
-            activeState = new StandState(components);
+            setActiveState(new StandState(components));
         } catch (Error e) {
             throw new Error("Could not activate player controls");
         }

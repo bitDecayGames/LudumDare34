@@ -128,7 +128,7 @@ public class SetupScreen implements Screen {
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
 
             // Set players globally with associated inputs.
-            Players.intialize(getResults());
+            Players.initialize(getResults());
             // Start race.
 
             SplashScreen.INTRO_MUSIC.stop();

@@ -10,9 +10,11 @@ public class Players {
 
     static List<Player> players;
 
-    public static void intialize(List<Player> startingPlayers) {
+    public static void initialize(List<Player> startingPlayers) {
         if (initialized) {
-            throw new Error("Players have already been initialized");
+            throw new RuntimeException("Players have already been initialized");
+        } else if (startingPlayers == null || startingPlayers.size() < 1) {
+            throw new RuntimeException("No players were initialized");
         }
 
         players = startingPlayers;
@@ -20,6 +22,10 @@ public class Players {
     }
 
     public static List<Player> list() {
+        if (!initialized) {
+            throw new RuntimeException("Initialize was not called. Did you run the SetupScreen?");
+        }
+
         return shallowCopy();
     }
 
