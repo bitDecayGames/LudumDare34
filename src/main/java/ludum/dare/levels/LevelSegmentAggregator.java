@@ -114,7 +114,7 @@ public class LevelSegmentAggregator {
                 }
             }
         }
-//        LevelUtilities.saveLevel(levelBuilder, false);
+        LevelUtilities.saveLevel(levelBuilder, false);
         return levelBuilder.optimizeLevel();
     }
 
