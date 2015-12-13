@@ -6,6 +6,7 @@ import com.bitdecay.jump.geom.Projectable;
  * Created by jake on 12/12/2015.
  */
 public class ProjectileComponent {
+    public int cost = 0;
 
     public ProjectileComponent(){
 

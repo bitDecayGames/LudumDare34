@@ -7,9 +7,9 @@ import ludum.dare.interfaces.IComponent;
  * Created by jake on 12/12/2015.
  */
 public class SpeedComponent implements IComponent {
+    public int cost = 0;
 
     public SpeedComponent(PhysicsComponent phys){
-
-//        TODO: do the speed stuffs
+        phys.getBody().props.acceleration = (int) (phys.getBody().props.acceleration * 1.25f);
     }
 }
