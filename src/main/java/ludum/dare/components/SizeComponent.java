@@ -11,4 +11,9 @@ public class SizeComponent implements IComponent {
         this.w = width;
         this.h = height;
     }
+
+    public void set(float width, float height) {
+        w = width;
+        h = height;
+    }
 }

@@ -1,8 +1,10 @@
 package ludum.dare.actors.player;
 
+import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.collision.BitWorld;
 import com.bitdecay.jump.gdx.input.GDXControls;
+import com.bitdecay.jump.geom.BitRectangle;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.Animator;
 import com.bytebreakstudios.animagic.animation.FrameRate;
@@ -22,14 +24,17 @@ public class Player extends StateMachine {
     public Player() {
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(0, 0);
-        phys = new PhysicsComponent(new JumperBody(), pos, size);
+        JumperBody body = new JumperBody();
+        body.bodyType = BodyType.DYNAMIC;
+        body.aabb.set(new BitRectangle(0, 0, 16, 32));
+        phys = new PhysicsComponent(body, pos, size);
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, size);
         setupAnimation(anim.animator);
 
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
-        anim.animator.addAnimation(new Animation("standing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.1f), atlas.findRegions("stand").toArray(AnimagicTextureRegion.class)));
-        anim.animator.switchToAnimation("standing");
+//        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
+//        anim.animator.addAnimation(new Animation("standing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.1f), atlas.findRegions("stand").toArray(AnimagicTextureRegion.class)));
+//        anim.animator.switchToAnimation("standing");
 
 //        TextureRegionComponent textComp = new TextureRegionComponent(atlas.findRegion("standing/1"), pos, size);
 

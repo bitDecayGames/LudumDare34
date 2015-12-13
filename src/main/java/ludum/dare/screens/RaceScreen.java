@@ -58,7 +58,7 @@ public class RaceScreen implements Screen, EditorHook {
 
 
     public RaceScreen(RacerGame game, List<Player> players) {
-
+        world.setGravity(0, -700);
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
         tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
 
@@ -134,7 +134,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void draw(){
-//        drawLevelEdit();
+        drawLevelEdit();
         gameObjects.forEach(obj -> obj.draw(batch));
     }
 
