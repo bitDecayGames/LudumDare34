@@ -3,21 +3,20 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
+import ludum.dare.components.TextComponent;
 import ludum.dare.control.ControllerScreenObject;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
+import ludum.dare.text.TextScreenObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ public class SetupScreen implements Screen {
 
     RacerGame game;
 
+    List<GameObject> otherObjects;
     List<ControllerScreenObject> inputObjects;
     List<GameObject> players;
 
@@ -52,14 +52,15 @@ public class SetupScreen implements Screen {
     }
 
     // Onscreen positions
-    final static float X = 300;
-    final static float Y = 250;
+    final static float BOX_SIDE = 250;
+    final static float X = 200;
+    final static float Y = 325;
     final static List<PositionComponent> playerControllerPositions = new ArrayList<>();
     static {
-        playerControllerPositions.add(new PositionComponent(-X, Y));
-        playerControllerPositions.add(new PositionComponent(X, Y));
-        playerControllerPositions.add(new PositionComponent(-X, -Y));
-        playerControllerPositions.add(new PositionComponent(X, -Y));
+        playerControllerPositions.add(new PositionComponent(-X -(BOX_SIDE / 2), Y - BOX_SIDE));
+        playerControllerPositions.add(new PositionComponent(X - (BOX_SIDE / 2), Y - BOX_SIDE));
+        playerControllerPositions.add(new PositionComponent(-X - (BOX_SIDE / 2), -Y));
+        playerControllerPositions.add(new PositionComponent(X - (BOX_SIDE / 2), -Y));
     }
 
     public SetupScreen(RacerGame game) {
@@ -68,11 +69,13 @@ public class SetupScreen implements Screen {
         }
 
         this.game = game;
+    }
 
-        players = new ArrayList<>();
-        for (int i = 0; i < NUM_PLAYERS; i++) {
-            players.add(new GameObject());
-        }
+    public List<GameObject> getGameObjects() {
+        List<GameObject> returnValues = new ArrayList<>();
+        returnValues.addAll(otherObjects);
+        returnValues.addAll(inputObjects);
+        return returnValues;
     }
 
     public List<GameObject> getResults() {
@@ -85,11 +88,24 @@ public class SetupScreen implements Screen {
     }
 
     private void setupPlayers() {
-        SizeComponent size = new SizeComponent(250, 250);
+        inputObjects = new ArrayList<>();
+        players = new ArrayList<>();
+
+        for (int i = 0; i < NUM_PLAYERS; i++) {
+            players.add(new GameObject());
+        }
+
+        SizeComponent size = new SizeComponent(BOX_SIDE, BOX_SIDE);
         for (int i = 0; i < players.size(); i++) {
             ControllerScreenObject obj = new ControllerScreenObject(keyboardSelectKeys.get(i), keyboardDeselectKeys.get(i), i, playerControllerPositions.get(i), size);
             inputObjects.add(obj);
         }
+    }
+
+    private void setupText() {
+        otherObjects = new ArrayList<>();
+
+        otherObjects.add(new TextScreenObject(new PositionComponent(-100, 0), "Enter or Start or continue", Color.BLACK));
     }
 
     @Override
@@ -99,14 +115,14 @@ public class SetupScreen implements Screen {
         batch = new AnimagicSpriteBatch(camera);
         batch.isShaderOn(false);
 
-        inputObjects = new ArrayList<>();
-
         setupPlayers();
+
+        setupText();
     }
 
     @Override
     public void render(float v) {
-        inputObjects.forEach(obj -> obj.update(v));
+        getGameObjects().forEach(obj -> obj.update(v));
 
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
             // Start race.
@@ -123,7 +139,7 @@ public class SetupScreen implements Screen {
         batch.setAmbientColor(Color.WHITE);
         batch.setAmbientIntensity(0.01f);
         batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
-        inputObjects.forEach(obj -> obj.draw(batch));
+        getGameObjects().forEach(obj -> obj.draw(batch));
         batch.end();
     }
 
@@ -156,5 +172,8 @@ public class SetupScreen implements Screen {
 
         inputObjects.clear();
         inputObjects = null;
+
+        otherObjects.clear();
+        otherObjects = null;
     }
 }
