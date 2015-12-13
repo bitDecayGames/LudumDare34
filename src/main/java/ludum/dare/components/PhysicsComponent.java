@@ -24,8 +24,6 @@ public class PhysicsComponent implements IComponent, IUpdate {
     public void update(float delta) {
         pos.x = body.aabb.xy.x;
         pos.y = body.aabb.xy.y;
-        size.h = body.aabb.height;
-        size.w = body.aabb.width;
-
+        size.set(body.aabb.width, body.aabb.height);
     }
 }
