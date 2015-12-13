@@ -21,7 +21,6 @@ public class GamepadControlComponent extends InputComponent {
     private Controller controller;
 
     private Set<InputAction> previousPresses = new HashSet<>();
-    private boolean inControl = true;
 
     static Map<InputAction, Integer> actionsToXboxButtons = new HashMap<>();
 
@@ -41,10 +40,6 @@ public class GamepadControlComponent extends InputComponent {
         } catch (IndexOutOfBoundsException e) {
             throw new Error("Xbox controller at " + index + " not found, are you sure it's connected?");
         }
-    }
-
-    public void inControl(boolean inControl) {
-        this.inControl = inControl;
     }
 
     @Override

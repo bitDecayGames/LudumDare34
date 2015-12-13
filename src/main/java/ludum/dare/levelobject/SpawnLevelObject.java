@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.gdx.level.RenderableLevelObject;
+import com.bitdecay.jump.geom.BitRectangle;
 import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.leveleditor.render.LevelEditor;
 
@@ -16,8 +17,8 @@ public class SpawnLevelObject extends RenderableLevelObject {
     private final TextureRegion texture;
 
     public SpawnLevelObject() {
-        this.texture = new TextureRegion(new Texture(Gdx.files.internal(LevelEditor.EDITOR_ASSETS_FOLDER + "/question.png")));
-
+        this.texture = new TextureRegion(new Texture(Gdx.files.internal("ui/button.9.png")));
+        rect = new BitRectangle(0, 0, 16 ,128);
     }
     @Override
     public BitBody buildBody() {
