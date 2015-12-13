@@ -1,6 +1,7 @@
 package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import ludum.dare.RacerGame;
+import ludum.dare.control.InputAction;
+import ludum.dare.control.InputUtil;
+import ludum.dare.control.Xbox360Pad;
 
 
 /**
@@ -118,6 +122,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        update(delta);
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -135,6 +140,13 @@ public class MainMenuScreen implements Screen {
                         }
                     })
             ));
+        }
+    }
+
+
+    public void update(float delta){
+        if(InputUtil.checkInputs(Input.Keys.SPACE, Xbox360Pad.START)){
+            game.setScreen(new SetupScreen(game));
         }
     }
 

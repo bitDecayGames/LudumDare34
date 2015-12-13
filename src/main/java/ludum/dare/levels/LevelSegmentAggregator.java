@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class LevelSegmentAggregator {
 
-    public static int TILE_SIZE = 16;
+    public static int TILE_SIZE = 32;
     public static boolean DEBUG = false;
 
 
