@@ -16,6 +16,7 @@ public class RacerGame extends Game {
         RacerGame.assetManager.load("packed/ui.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/player.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/upgrades.atlas", AnimagicTextureAtlas.class);
+        RacerGame.assetManager.load("skins/ui.atlas", AnimagicTextureAtlas.class);
     }
 
     @Override
