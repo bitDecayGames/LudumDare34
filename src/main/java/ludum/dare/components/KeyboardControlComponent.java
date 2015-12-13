@@ -12,12 +12,20 @@ import java.util.Set;
  */
 public class KeyboardControlComponent extends InputComponent {
 
-    GDXControls keyboard;
+    private GDXControls keyboard;
 
-    Set<InputAction> previousPresses = new HashSet<>();
+    private Set<InputAction> previousPresses = new HashSet<>();
+
+    private boolean inControl = true;
+
 
     public KeyboardControlComponent() {
         keyboard = GDXControls.defaultMapping;
+    }
+
+
+    public void inControl(boolean inControl) {
+        this.inControl = inControl;
     }
 
     @Override
@@ -30,21 +38,21 @@ public class KeyboardControlComponent extends InputComponent {
 
     @Override
     public boolean isJustPressed(InputAction action) {
-        return isPressed(action) && !previousPresses.contains(action);
+        return inControl && isPressed(action) && !previousPresses.contains(action);
     }
 
     @Override
     public boolean isPressed(InputAction action) {
-        return action.playerAction != null && keyboard.isPressed(action.playerAction);
+        return inControl && action.playerAction != null && keyboard.isPressed(action.playerAction);
     }
 
     @Override
     public boolean isJustPressed(PlayerAction playerAction) {
-        return keyboard.isJustPressed(playerAction);
+        return inControl && keyboard.isJustPressed(playerAction);
     }
 
     @Override
     public boolean isPressed(PlayerAction playerAction) {
-        return keyboard.isPressed(playerAction);
+        return inControl && keyboard.isPressed(playerAction);
     }
 }

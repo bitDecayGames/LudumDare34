@@ -16,11 +16,12 @@ import java.util.Set;
  */
 public class GamepadControlComponent extends InputComponent {
 
-    final static float STICK_TOLERANCE = 0.5f;
+    private final static float STICK_TOLERANCE = 0.5f;
 
-    Controller controller;
+    private Controller controller;
 
-    Set<InputAction> previousPresses = new HashSet<>();
+    private Set<InputAction> previousPresses = new HashSet<>();
+    private boolean inControl = true;
 
     static Map<InputAction, Integer> actionsToXboxButtons = new HashMap<>();
 
@@ -42,6 +43,10 @@ public class GamepadControlComponent extends InputComponent {
         }
     }
 
+    public void inControl(boolean inControl) {
+        this.inControl = inControl;
+    }
+
     @Override
     public void update(float delta) {
         previousPresses.clear();
@@ -52,13 +57,14 @@ public class GamepadControlComponent extends InputComponent {
 
     @Override
     public boolean isJustPressed(InputAction action) {
-        return isPressed(action) && !previousPresses.contains(action);
+        return inControl && isPressed(action) && !previousPresses.contains(action);
     }
 
     @Override
     public boolean isPressed(InputAction action) {
         int button;
-        if (actionsToXboxButtons.containsKey(action)) button = actionsToXboxButtons.get(action);
+        if (!inControl) return false;
+        else if (actionsToXboxButtons.containsKey(action)) button = actionsToXboxButtons.get(action);
         else return false;
 
         switch (action) {
@@ -78,12 +84,12 @@ public class GamepadControlComponent extends InputComponent {
     @Override
     public boolean isJustPressed(PlayerAction playerAction) {
         InputAction action = InputAction.forPlayerAction(playerAction);
-        return action != null && isJustPressed(action);
+        return inControl && action != null && isJustPressed(action);
     }
 
     @Override
     public boolean isPressed(PlayerAction playerAction) {
         InputAction action = InputAction.forPlayerAction(playerAction);
-        return action != null && isPressed(action);
+        return inControl && action != null && isPressed(action);
     }
 }

@@ -12,5 +12,7 @@ public abstract class InputComponent implements IComponent, IUpdate, ControlMap 
     public abstract boolean isPressed(InputAction action);
 
     public abstract boolean isJustPressed(InputAction action);
+
+    public abstract void inControl(boolean inControl);
 }
 
