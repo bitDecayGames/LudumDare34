@@ -10,11 +10,11 @@ import java.util.Set;
 public class RunState extends IState {
 
     public RunState(Set<IComponent> components) {
-        super(components);
+        super(components, null);
     }
 
     public void enter() {
-        // TODO: switch to a running animation
+        animationComponent.animator.switchToAnimation("run");
     }
 
     public void exit() {
@@ -22,9 +22,7 @@ public class RunState extends IState {
     }
 
     public IState update(float delta) {
-        // TODO: switch the direction of the animation based on something
-
-        if (!Gdx.input.isKeyPressed(Input.Keys.LEFT)) return new StandState(components);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return new JumpState(components);
         return null;
     }
 }

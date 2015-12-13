@@ -7,14 +7,14 @@ import ludum.dare.interfaces.IState;
 
 import java.util.Set;
 
-public class StandState extends IState {
+public class HurtState extends IState {
 
-    public StandState(Set<IComponent> components) {
-        super(components, null);
+    public HurtState(Set<IComponent> components, IState returnState) {
+        super(components, returnState);
     }
 
     public void enter() {
-        animationComponent.animator.switchToAnimation("stand");
+        animationComponent.animator.switchToAnimation("knockback");
     }
 
     public void exit() {
@@ -22,7 +22,7 @@ public class StandState extends IState {
     }
 
     public IState update(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return new RunState(components);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return new StandState(components);
         return null;
     }
 }

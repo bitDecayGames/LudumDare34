@@ -13,9 +13,6 @@ import ludum.dare.RacerGame;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 
-/**
- * Created by mwingfield on 8/6/15.
- */
 public class SplashScreen implements Screen {
 
     private Image ldWallpaper;
