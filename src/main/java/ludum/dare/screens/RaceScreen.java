@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -92,7 +93,7 @@ public class RaceScreen implements Screen, EditorHook {
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
     }
 
     @Override
@@ -167,6 +168,7 @@ public class RaceScreen implements Screen, EditorHook {
             batch.setCamera(cam);
             batch.begin();
             LightUtil.addBasicLight(batch);
+            batch.setNextLight(1, 1, 0, 1f, Color.RED);
             drawLevelEdit();
             gameObjects.forEach(obj -> obj.draw(batch));
             batch.end();
