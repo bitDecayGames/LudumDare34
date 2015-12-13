@@ -16,6 +16,8 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
 import ludum.dare.components.*;
+import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.interfaces.IComponent;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -23,6 +25,7 @@ public class Player extends StateMachine {
     private final PhysicsComponent phys;
     private final HealthComponent health;
     private final AnimationComponent anim;
+    private final AttackComponent attack;
 
     public Player() {
         size = new SizeComponent(100, 100);
@@ -30,6 +33,9 @@ public class Player extends StateMachine {
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, size);
         setupAnimation(anim.animator);
+
+        attack = new AttackComponent(10);
+
         phys = createBody();
         append(size).append(pos).append(phys).append(health).append(anim);
     }
@@ -65,6 +71,15 @@ public class Player extends StateMachine {
         phys.getBody().aabb.xy.set(x, y);
     }
 
+    public InputComponent getInputComponent() {
+        IComponent input = getFirstComponent(InputComponent.class);
+        if (input != null) {
+            return (InputComponent) input;
+        } else {
+            return null;
+        }
+    }
+
     public Vector3 getPosition() {
         return new Vector3(pos.x, pos.y, 0);
     }
@@ -82,5 +97,23 @@ public class Player extends StateMachine {
             throw new Error("Could not activate player controls");
         }
 
+    }
+
+    public void addUpgrade(Class clazz) {
+        if (clazz.equals(DoubleJumpComponent.class)) {
+            append(new DoubleJumpComponent(phys));
+        } else if (clazz.equals(JetPackComponent.class)) {
+            append(new JetPackComponent(phys));
+        } else if (clazz.equals(MetalComponent.class)) {
+            append(new MetalComponent(phys, health, attack));
+        } else if (clazz.equals(MysteryBagComponent.class)) {
+            append(new MysteryBagComponent());
+        } else if (clazz.equals(SpeedComponent.class)) {
+            append(new SpeedComponent(phys));
+        } else if (clazz.equals(WallJumpComponent.class)) {
+            append(new WallJumpComponent(phys));
+        } else {
+            throw new RuntimeException("Could not instantiate " + clazz);
+        }
     }
 }

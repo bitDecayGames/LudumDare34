@@ -129,7 +129,7 @@ public class SetupScreen implements Screen {
             // Set players globally with associated inputs.
             Players.intialize(getResults());
             // Start race.
-            game.setScreen(new RaceScreen(game));
+            game.setScreen(new UpgradeScreen(game));
         }
 
         camera.update();
