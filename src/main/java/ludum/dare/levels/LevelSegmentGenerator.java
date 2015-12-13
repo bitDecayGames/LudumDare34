@@ -7,9 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 12/12/2015.
- */
 public class LevelSegmentGenerator {
     public static final boolean DEBUG = false;
     public static final String SEGMENT_DIR = "levelSegments/";

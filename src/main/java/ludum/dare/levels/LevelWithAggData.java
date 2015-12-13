@@ -4,11 +4,6 @@ import com.bitdecay.jump.geom.BitRectangle;
 import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.TileObject;
 
-import java.util.List;
-
-/**
- * Created by Admin on 12/12/2015.
- */
 public class LevelWithAggData {
 
     public Level level;

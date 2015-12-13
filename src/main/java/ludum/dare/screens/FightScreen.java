@@ -28,7 +28,6 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
-import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.SpawnGameObject;
@@ -87,7 +86,7 @@ public class FightScreen implements Screen, EditorHook {
         camera.zoom = 0.7f;
 
         batch = new AnimagicSpriteBatch();
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
         batch.setCamera(camera);
     }
 

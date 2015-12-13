@@ -8,9 +8,6 @@ import com.bitdecay.jump.level.builder.LevelBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 12/12/2015.
- */
 public class LevelSegmentAggregator {
 
     public static int TILE_SIZE = 16;
