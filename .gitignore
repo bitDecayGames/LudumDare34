@@ -11,3 +11,4 @@
 **.iml
 classes
 **/packed
+dependency-reduced-pom.xml

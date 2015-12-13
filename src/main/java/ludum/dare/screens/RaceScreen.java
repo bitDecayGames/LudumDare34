@@ -49,19 +49,15 @@ public class RaceScreen implements Screen, EditorHook {
     List<GameObject> gameObjects = new ArrayList<>();
     List<GameObject> players = new ArrayList<>();
 
-
-    public RaceScreen(List<GameObject> players) {
-        this.players = players;
-    }
-
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
 
-    public RaceScreen(RacerGame game) {
+    public RaceScreen(RacerGame game, List<GameObject> players) {
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
         tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
-//        tilesetMap.put(1, ))).split(16, 16)[0]);
+
+        this.players = players;
 
         LevelSegmentGenerator generator = new LevelSegmentGenerator(10);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
@@ -72,6 +68,7 @@ public class RaceScreen implements Screen, EditorHook {
     public void show() {
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
+        batch.isShaderOn(false);
     }
 
     @Override
