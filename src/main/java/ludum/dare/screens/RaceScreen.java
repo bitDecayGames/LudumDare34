@@ -27,12 +27,15 @@ import com.bitdecay.jump.leveleditor.example.level.GravityLvlObject;
 import com.bitdecay.jump.leveleditor.example.level.SecretThing;
 import com.bitdecay.jump.leveleditor.example.level.ShellLevelObject;
 import com.bitdecay.jump.leveleditor.render.LevelEditor;
+import com.bitdecay.jump.leveleditor.render.LibGDXLevelRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
+import ludum.dare.gameobject.SpawnGameObject;
+import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 
@@ -53,8 +56,9 @@ public class RaceScreen implements Screen, EditorHook {
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
 
-    public RaceScreen(RacerGame game, List<Player> players) {
 
+    public RaceScreen(RacerGame game, List<Player> players) {
+        world.setGravity(0, -700);
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
         tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
 
@@ -93,6 +97,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void update(float delta){
+        world.step(delta);
         gameObjects.forEach(obj -> obj.update(delta));
     }
 
@@ -118,7 +123,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
-//        builderMap.put(SecretThing.class, SecretObject.class);
+        builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
 //        builderMap.put(ShellLevelObject.class, ShellObject.class);
 //        builderMap.put(GravityLvlObject.class, GravityField.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
@@ -159,6 +164,21 @@ public class RaceScreen implements Screen, EditorHook {
         world.setTileSize(level.tileSize);
         world.setObjects(buildBodies(level.otherObjects));
         world.resetTimePassed();
+
+//        for (GameObject gameObj : gameObjects) {
+//            if (gameObj instanceof SpawnGameObject) {
+//                SpawnGameObject spawn = (SpawnGameObject) gameObj;
+//                for (Player player : players) {
+//                    player.setPosition(spawn.pos.x, spawn.pos.y);
+//                    player.addToWorld(world);
+//                }
+//            }
+//        }
+
+        for (Player player : players) {
+            player.addToWorld(world);
+            gameObjects.add(player);
+        }
 
         if (level.debugSpawn != null) {
             JumperBody playerBody = new JumperBody();
