@@ -18,6 +18,7 @@ import ludum.dare.control.ControllerScreenObject;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.text.TextScreenObject;
+import ludum.dare.util.LightUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,15 +132,12 @@ public class SetupScreen implements Screen {
         }
 
         camera.update();
-        Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         Gdx.gl.glClearColor(100f / 255f, 139f / 255f, 237f / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.setAmbientColor(Color.WHITE);
-        batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
+        LightUtil.addBasicLight(batch);
         getGameObjects().forEach(obj -> obj.draw(batch));
         batch.end();
     }

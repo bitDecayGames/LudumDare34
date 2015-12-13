@@ -16,6 +16,8 @@ import java.util.Set;
  */
 public class GamepadControlComponent extends InputComponent {
 
+    final static float STICK_TOLERANCE = 0.5f;
+
     Controller controller;
 
     Set<InputAction> previousPresses = new HashSet<>();
@@ -61,13 +63,13 @@ public class GamepadControlComponent extends InputComponent {
 
         switch (action) {
             case DOWN:
-                return controller.getAxis(button) > 0.2f;
+                return controller.getAxis(button) > STICK_TOLERANCE;
             case UP:
-                return controller.getAxis(button) < -0.2f;
+                return controller.getAxis(button) < -STICK_TOLERANCE;
             case RIGHT:
-                return controller.getAxis(button) > 0.2f;
+                return controller.getAxis(button) > STICK_TOLERANCE;
             case LEFT:
-                return controller.getAxis(button) < -0.2f;
+                return controller.getAxis(button) < -STICK_TOLERANCE;
             default:
                 return controller.getButton(button);
         }

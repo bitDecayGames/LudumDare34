@@ -35,6 +35,7 @@ import ludum.dare.gameobject.SpawnGameObject;
 import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
+import ludum.dare.util.LightUtil;
 
 import java.util.*;
 
@@ -148,6 +149,7 @@ public class RaceScreen implements Screen, EditorHook {
             OrthographicCamera cam = cameras[i];
             batch.setProjectionMatrix(cam.combined);
             batch.begin();
+//            LightUtil.addBasicLight(batch);
             drawLevelEdit();
             gameObjects.forEach(obj -> obj.draw(batch));
             batch.end();
