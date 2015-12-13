@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlasLoader;
-import ludum.dare.screens.TestStateScreen;
+import ludum.dare.screens.SplashScreen;
 
 public class RacerGame extends Game {
     public static AssetManager assetManager = new AssetManager();
@@ -21,6 +21,6 @@ public class RacerGame extends Game {
     public void create() {
         queueAssetsForLoad();
         assetManager.finishLoading();
-        setScreen(new TestStateScreen(this));
+        setScreen(new SplashScreen(this));
     }
 }
