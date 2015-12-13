@@ -2,6 +2,7 @@ package ludum.dare.levels;
 
 import com.bitdecay.jump.geom.BitPointInt;
 import com.bitdecay.jump.level.Level;
+import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.LevelUtilities;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.level.builder.LevelBuilder;
@@ -85,6 +86,10 @@ public class LevelSegmentAggregator {
                     }
                 }
             }
+            for (LevelObject ta : segmentB.level.otherObjects) {
+                ta.rect.xy.x += tileAdjustmentX + TILE_SIZE;
+                ta.rect.xy.y += tileAdjustmentY;
+            }
         }
 
         if(DEBUG) {
@@ -122,6 +127,10 @@ public class LevelSegmentAggregator {
                         levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) to.rect.xy.x + TILE_SIZE, (int) to.rect.xy.y + TILE_SIZE), to.oneway, to.material);
                     }
                 }
+            }
+
+            for (LevelObject object : level.level.otherObjects) {
+                levelBuilder.createObject(object);
             }
         }
 //        LevelUtilities.saveLevel(levelBuilder, false);

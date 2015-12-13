@@ -33,6 +33,8 @@ import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
+import ludum.dare.gameobject.CoinGameObject;
+import ludum.dare.gameobject.FinishLineGameObject;
 import ludum.dare.gameobject.SpawnGameObject;
 import ludum.dare.levelobject.CoinLevelObject;
 import ludum.dare.levelobject.FinishLineLevelObject;
@@ -156,8 +158,8 @@ public class RaceScreen implements Screen, EditorHook {
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
         builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
-        builderMap.put(CoinLevelObject.class, SpawnGameObject.class);
-        builderMap.put(FinishLineLevelObject.class, SpawnGameObject.class);
+        builderMap.put(CoinLevelObject.class, CoinGameObject.class);
+        builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
         builderMap.put(PowerupLevelObject.class, SpawnGameObject.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
         exampleItems.add(new SpawnLevelObject());
@@ -209,15 +211,15 @@ public class RaceScreen implements Screen, EditorHook {
         world.setObjects(buildBodies(level.otherObjects));
         world.resetTimePassed();
 
-//        for (GameObject gameObj : gameObjects) {
-//            if (gameObj instanceof SpawnGameObject) {
-//                SpawnGameObject spawn = (SpawnGameObject) gameObj;
-//                for (Player player : Players.list()) {
-//                    player.setPosition(spawn.pos.x, spawn.pos.y);
-//                    player.addToWorld(world);
-//                }
-//            }
-//        }
+        for (GameObject gameObj : gameObjects) {
+            if (gameObj instanceof SpawnGameObject) {
+                SpawnGameObject spawn = (SpawnGameObject) gameObj;
+                for (Player player : Players.list()) {
+                    player.setPosition(spawn.pos.x, spawn.pos.y);
+                    player.addToWorld(world);
+                }
+            }
+        }
 
         for (Player player : Players.list()) {
             player.activateControls();
