@@ -9,6 +9,7 @@ import com.bitdecay.jump.control.ControlMap;
 import com.bitdecay.jump.control.PlayerInputController;
 import com.bitdecay.jump.geom.BitRectangle;
 import com.bitdecay.jump.properties.JumperProperties;
+import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.Animator;
 import com.bytebreakstudios.animagic.animation.FrameRate;
@@ -16,6 +17,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
+import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
 import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.interfaces.IComponent;
@@ -37,16 +39,17 @@ public class Player extends StateMachine {
 
         attack = new AttackComponent(10);
 
-        phys = createBody(anim);
+        phys = createBody();
         append(size).append(pos).append(phys).append(health).append(anim);
     }
 
-    private PhysicsComponent createBody(AnimationComponent anim) {
+    private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
+        body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
-        return new PhysicsComponent(body, pos, size, anim);
+        return new PhysicsComponent(body, pos, size);
     }
 
     private void setupAnimation(Animator a) {
@@ -64,6 +67,17 @@ public class Player extends StateMachine {
         a.addAnimation(new Animation("wall", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("wall").toArray(AnimagicTextureRegion.class)));
 
         a.switchToAnimation("stand");
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+
+        // Reset for now
+        // TODO do this somewhere else?
+        if (pos.y < -1000) {
+            setPosition(0, 0);
+        }
     }
 
     public void setPosition(float x, float y) {
