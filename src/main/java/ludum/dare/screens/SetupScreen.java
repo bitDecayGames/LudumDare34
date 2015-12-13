@@ -6,18 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
-import ludum.dare.components.TextComponent;
 import ludum.dare.control.ControllerScreenObject;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.text.TextScreenObject;
+import ludum.dare.util.LightUtil;
+import ludum.dare.util.Players;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,20 +126,23 @@ public class SetupScreen implements Screen {
         getGameObjects().forEach(obj -> obj.update(v));
 
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
+
+            // Set players globally with associated inputs.
+            Players.intialize(getResults());
             // Start race.
-            game.setScreen(new RaceScreen(game, getResults()));
+
+            SplashScreen.INTRO_MUSIC.stop();
+
+            game.setScreen(new UpgradeScreen(game));
         }
 
         camera.update();
-        Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         Gdx.gl.glClearColor(100f / 255f, 139f / 255f, 237f / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.setAmbientColor(Color.WHITE);
-        batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
+        LightUtil.addBasicLight(batch);
         getGameObjects().forEach(obj -> obj.draw(batch));
         batch.end();
     }

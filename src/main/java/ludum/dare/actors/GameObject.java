@@ -48,11 +48,20 @@ public class GameObject implements IUpdate, IDraw {
         components.forEach(comp -> {
             if (comp.getClass().equals(clazz)) {
                 returnList.add(comp);
-            } else if (clazz.isInterface() && comp.getClass().isAssignableFrom(clazz)) {
+            } else if (clazz.isAssignableFrom(comp.getClass())) {
                 returnList.add(comp);
             }
         });
         return returnList;
+    }
+
+    public boolean hasComponent(Class<? extends IComponent> clazz) {
+        return getComponents(clazz).size() > 0;
+    }
+
+    protected IComponent getFirstComponent(Class<? extends IComponent> clazz) {
+        List<IComponent> components = getComponents(clazz);
+        return components.size() > 0 ? components.get(0) : null;
     }
 
     public List<BitBody> build(LevelObject levelObject) {
@@ -79,5 +88,4 @@ public class GameObject implements IUpdate, IDraw {
     public void draw(SpriteBatch spriteBatch) {
         drawableComponents.forEach(c -> c.draw(spriteBatch));
     }
-
 }

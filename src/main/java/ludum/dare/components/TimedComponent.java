@@ -7,10 +7,12 @@ import ludum.dare.interfaces.IUpdate;
 /**
  * Created by jake on 12/12/2015.
  */
-public class TimedComponent implements IComponent, IUpdate, IRemoveable {
+public class TimedComponent implements IComponent, IUpdate, IRemoveable{
+    final float liveTimeConst;
     float liveTime;
 
     public TimedComponent(float liveTime){
+        liveTimeConst = liveTime;
         this.liveTime = liveTime;
     }
 
@@ -29,5 +31,9 @@ public class TimedComponent implements IComponent, IUpdate, IRemoveable {
     @Override
     public void remove() {
 
+    }
+
+    public void reset() {
+        liveTime = liveTimeConst;
     }
 }

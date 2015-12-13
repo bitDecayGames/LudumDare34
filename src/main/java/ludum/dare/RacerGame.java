@@ -3,6 +3,7 @@ package ludum.dare;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlasLoader;
 import ludum.dare.screens.SplashScreen;
@@ -15,6 +16,9 @@ public class RacerGame extends Game {
         RacerGame.assetManager.load("packed/test.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/ui.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/player.atlas", AnimagicTextureAtlas.class);
+        RacerGame.assetManager.load("packed/upgrades.atlas", AnimagicTextureAtlas.class);
+        RacerGame.assetManager.load("skins/ui.atlas", TextureAtlas.class);
+
     }
 
     @Override

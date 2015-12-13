@@ -12,16 +12,14 @@ import ludum.dare.interfaces.IComponent;
  * Created by Admin on 12/12/2015.
  */
 public class UpgradeOption {
-    IComponent component;
-    Animation animation;
-    String description; // Not sure if we need this, butt fucket.
+    public Class<? extends IComponent> clazz;
+    public Animation animation;
+    public String description; // Not sure if we need this, butt fucket.
 
-    public UpgradeOption(IComponent component, String textureDir) {
-        this.component = component;
-        // need the atlas
-
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/test.atlas", AnimagicTextureAtlas.class);
-        this.animation = new Animation("item", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.25f), new AnimagicTextureRegion[] {atlas.findRegion("doubleJump")});
+    public UpgradeOption(Class<? extends IComponent> clazz, String textureName) {
+        this.clazz = clazz;
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/upgrades.atlas", AnimagicTextureAtlas.class);
+        this.animation = new Animation("item", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.25f), new AnimagicTextureRegion[] {atlas.findRegion(textureName)});
     }
 
     public void update(float delta) {

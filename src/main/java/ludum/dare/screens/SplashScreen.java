@@ -3,6 +3,7 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import ludum.dare.RacerGame;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
+import ludum.dare.util.SoundLibrary;
 
 public class SplashScreen implements Screen {
 
@@ -19,6 +21,7 @@ public class SplashScreen implements Screen {
     private Image bdWallpaper;
     private Stage stage;
     private RacerGame game;
+    public static Music INTRO_MUSIC;
 
     public SplashScreen(RacerGame game){
         this.game = game;
@@ -33,22 +36,29 @@ public class SplashScreen implements Screen {
 
     @Override
     public void show() {
+        INTRO_MUSIC = SoundLibrary.GetMusic("hero_immortal_short_intro");
+        if (!INTRO_MUSIC.isPlaying()) {
+            INTRO_MUSIC.setLooping(true);
+            INTRO_MUSIC.setVolume(0.4f);
+            INTRO_MUSIC.play();
+        }
+
         bdWallpaper.addAction(Actions.alpha(0));
         ldWallpaper.addAction(
                 Actions.sequence(
                         Actions.alpha(0),
                         Actions.delay(0.25f),
-                        Actions.fadeIn(0.5f),
-                        Actions.delay(1.5f),
-                        Actions.fadeOut(0.5f),
+                        Actions.fadeIn(3f),
+                        Actions.delay(3f),
+                        Actions.fadeOut(3f),
                         Actions.run(
                                 new Runnable() {
                                     @Override
                                     public void run() {
                                         bdWallpaper.addAction(Actions.sequence(
-                                                Actions.fadeIn(0.5f),
-                                                Actions.delay(1.5f),
-                                                Actions.fadeOut(0.5f),
+                                                Actions.fadeIn(3f),
+                                                Actions.delay(3f),
+                                                Actions.fadeOut(3f),
                                                 Actions.run(
                                                         new Runnable() {
                                                             @Override
@@ -70,7 +80,7 @@ public class SplashScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (InputUtil.checkInputs(Input.Keys.S, Xbox360Pad.START)) {
+        if (InputUtil.checkInputs(Input.Keys.S, Xbox360Pad.BACK)) {
             nextScreen();
         }
 
@@ -104,6 +114,6 @@ public class SplashScreen implements Screen {
     }
 
     private void nextScreen() {
-        game.setScreen(new SetupScreen(game));
+        game.setScreen(new MainMenuScreen(game));
     }
 }
