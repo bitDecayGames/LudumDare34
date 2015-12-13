@@ -1,5 +1,6 @@
 package ludum.dare.actors.player;
 
+import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.Animator;
@@ -14,12 +15,10 @@ public class Player extends StateMachine {
     public Player() {
         SizeComponent size = new SizeComponent(100, 100);
         PositionComponent pos = new PositionComponent(0, 0);
-        //PhysicsComponent phys = new PhysicsComponent(new JumperBody(), pos, size);
+        PhysicsComponent phys = new PhysicsComponent(new JumperBody(), pos, size);
         HealthComponent health = new HealthComponent(10, 10);
         AnimationComponent anim = new AnimationComponent("player", pos, size);
         setupAnimation(anim.animator);
-//        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
-//        TextureRegionComponent img = new TextureRegionComponent(atlas.findRegion("run/1"), pos, size);
         InputComponent input = new InputComponent(new GDXControls());
 
         this.append(size).append(pos).append(phys).append(health).append(anim).append(input);
