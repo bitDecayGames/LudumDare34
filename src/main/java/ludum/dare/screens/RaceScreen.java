@@ -1,9 +1,10 @@
 package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BitBody;
@@ -20,14 +21,7 @@ import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
-import com.bitdecay.jump.leveleditor.example.game.GravityField;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
-import com.bitdecay.jump.leveleditor.example.game.ShellObject;
-import com.bitdecay.jump.leveleditor.example.level.GravityLvlObject;
-import com.bitdecay.jump.leveleditor.example.level.SecretThing;
-import com.bitdecay.jump.leveleditor.example.level.ShellLevelObject;
-import com.bitdecay.jump.leveleditor.render.LevelEditor;
-import com.bitdecay.jump.leveleditor.render.LibGDXLevelRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
@@ -38,12 +32,15 @@ import ludum.dare.gameobject.SpawnGameObject;
 import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
+import ludum.dare.util.LightUtil;
 
 import java.util.*;
 
 public class RaceScreen implements Screen, EditorHook {
 
-    OrthographicCamera[] cameras = new OrthographicCamera[4];
+    RacerGame game;
+
+    OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
 
     Map<Class, Class> builderMap = new HashMap<>();
@@ -56,13 +53,22 @@ public class RaceScreen implements Screen, EditorHook {
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
 
-
     public RaceScreen(RacerGame game, List<Player> players) {
+        if (game == null) {
+            throw new Error("No game provided");
+        }
+        if (players == null || players.size() < 1) {
+            throw new Error("No players provided");
+        }
+
         world.setGravity(0, -700);
+
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
         tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
 
+        this.game = game;
         this.players = players;
+        cameras = new OrthographicCamera[this.players.size()];
 
         LevelSegmentGenerator generator = new LevelSegmentGenerator(10);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
@@ -78,27 +84,26 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) cameras[0].translate(-1, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) cameras[0].translate(1, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) cameras[0].translate(0, 1);
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) cameras[0].translate(0, -1);
         update(delta);
-        for (Camera cam : cameras) cam.update();
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        for (int i = 0; i < cameras.length; i++){
-            Gdx.gl.glViewport(0, Gdx.graphics.getHeight() / cameras.length * i, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length );
-            OrthographicCamera cam = cameras[i];
-            batch.setProjectionMatrix(cam.combined);
-            batch.begin();
-            draw();
-            batch.end();
-        }
+
+        draw();
     }
 
     public void update(float delta){
         world.step(delta);
         gameObjects.forEach(obj -> obj.update(delta));
+
+        updateCameras(delta);
+    }
+
+    private void updateCameras(float delta) {
+        for (int i = 0; i < cameras.length; i++) {
+            Camera cam = cameras[i];
+            // Follow player
+            Vector3 playerPos = players.get(i).getPosition();
+            cam.position.set(playerPos);
+            cam.update();
+        }
     }
 
     @Override
@@ -129,9 +134,19 @@ public class RaceScreen implements Screen, EditorHook {
         return exampleItems;
     }
 
-    public void draw(){
-        drawLevelEdit();
-        gameObjects.forEach(obj -> obj.draw(batch));
+    private void draw(){
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        for (int i = 0; i < cameras.length; i++) {
+            Gdx.gl.glViewport(0, Gdx.graphics.getHeight() / cameras.length * i, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
+            OrthographicCamera cam = cameras[i];
+            batch.setCamera(cam);
+            batch.begin();
+            LightUtil.addBasicLight(batch);
+            drawLevelEdit();
+            gameObjects.forEach(obj -> obj.draw(batch));
+            batch.end();
+        }
     }
 
     private void drawLevelEdit() {
@@ -172,6 +187,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        }
 
         for (Player player : players) {
+            player.activateControls();
             player.addToWorld(world);
             gameObjects.add(player);
         }
@@ -182,7 +198,7 @@ public class RaceScreen implements Screen, EditorHook {
             playerBody.jumperProps = level.debugSpawn.jumpProps;
 
             playerBody.bodyType = BodyType.DYNAMIC;
-            playerBody.aabb = new BitRectangle(level.debugSpawn.rect.xy.x,level.debugSpawn.rect.xy.y,16,32);
+            playerBody.aabb = new BitRectangle(level.debugSpawn.rect.xy.x, level.debugSpawn.rect.xy.y, 16, 32);
             playerBody.renderStateWatcher = new JumperRenderStateWatcher();
             playerBody.controller = new PlayerInputController(GDXControls.defaultMapping);
 

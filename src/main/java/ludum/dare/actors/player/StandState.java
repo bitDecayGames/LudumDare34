@@ -1,7 +1,6 @@
 package ludum.dare.actors.player;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.bitdecay.jump.control.PlayerAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 
@@ -22,7 +21,7 @@ public class StandState extends IState {
     }
 
     public IState update(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return new RunState(components);
+        if (inputComponent.isJustPressed(PlayerAction.RIGHT)) return new RunState(components);
         return null;
     }
 }

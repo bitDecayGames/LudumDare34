@@ -8,6 +8,7 @@ import ludum.dare.interfaces.IComponent;
  * Created by jake on 12/12/2015.
  */
 public class DoubleJumpComponent implements IComponent {
+    public int cost = 0;
 
     public DoubleJumpComponent(PhysicsComponent phys){
         if(phys.getBody() instanceof JumperBody) {

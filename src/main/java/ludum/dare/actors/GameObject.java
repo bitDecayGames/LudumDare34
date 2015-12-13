@@ -3,6 +3,7 @@ package ludum.dare.actors;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.level.LevelObject;
+import ludum.dare.components.upgradeComponents.IRemoveable;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IUpdate;
@@ -47,7 +48,7 @@ public class GameObject implements IUpdate, IDraw {
         components.forEach(comp -> {
             if (comp.getClass().equals(clazz)) {
                 returnList.add(comp);
-            } else if (clazz.isInterface() && comp.getClass().isAssignableFrom(clazz)) {
+            } else if (clazz.isAssignableFrom(comp.getClass())) {
                 returnList.add(comp);
             }
         });
@@ -58,13 +59,29 @@ public class GameObject implements IUpdate, IDraw {
         return getComponents(clazz).size() > 0;
     }
 
+    protected IComponent getFirstComponent(Class<? extends IComponent> clazz) {
+        List<IComponent> components = getComponents(clazz);
+        return components.size() > 0 ? components.get(0) : null;
+    }
+
     public List<BitBody> build(LevelObject levelObject) {
         return Collections.emptyList();
     }
 
     @Override
     public void update(float delta) {
-        updateableComponents.forEach(c -> c.update(delta));
+        List<IComponent> pendingRemoves = new ArrayList<>();
+        updateableComponents.forEach(c -> {
+            c.update(delta);
+            if (c instanceof IRemoveable) {
+                if(((IRemoveable) c).shouldRemove()){
+                    ((IRemoveable) c).remove();
+                    pendingRemoves.add((IComponent) c);
+                }
+            }
+        });
+        components.removeAll(pendingRemoves);
+        updateableComponents.removeAll(pendingRemoves);
     }
 
     @Override
