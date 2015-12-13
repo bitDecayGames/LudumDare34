@@ -30,6 +30,8 @@ public abstract class AbstractState implements IState, StateListener {
             if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
         });
         this.returnState = returnState;
+
+        checkValidData();
     }
 
     @Override
@@ -50,6 +52,24 @@ public abstract class AbstractState implements IState, StateListener {
         currentRenderState = state;
 
         updateFacing(state);
+    }
+
+    private void checkValidData() {
+        if (physicsComponent == null) {
+            throw createDataError(PhysicsComponent.class);
+        } else if (physicsComponent.getBody() == null || physicsComponent.getBody().renderStateWatcher == null) {
+            throw new RuntimeException(PhysicsComponent.class + " missing data");
+        }
+        if (animationComponent == null) {
+            throw createDataError(AnimationComponent.class);
+        }
+        if (inputComponent == null) {
+            throw createDataError(InputComponent.class);
+        }
+    }
+
+    private RuntimeException createDataError(Class clazz) {
+        return new RuntimeException("No " + clazz + " provided");
     }
 
     private void updateFacing(RenderState state) {
