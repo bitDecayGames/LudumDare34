@@ -32,6 +32,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
+import ludum.dare.collection.GameObjects;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.SpawnGameObject;
@@ -61,10 +62,9 @@ public class RaceScreen implements Screen, EditorHook {
 
     Map<Integer, TextureRegion[]> tilesetMap = new HashMap<>();
 
-    List<GameObject> gameObjects = new ArrayList<>();
-
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
+    GameObjects gameObjects = new GameObjects();
 
     public RaceScreen(RacerGame game) {
         if (game == null) {
@@ -93,7 +93,7 @@ public class RaceScreen implements Screen, EditorHook {
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
-        batch.isShaderOn(true);
+        batch.isShaderOn(false);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     public void update(float delta){
         world.step(delta);
-        gameObjects.forEach(obj -> obj.update(delta));
+        gameObjects.update(delta);
 
         updateCameras(delta);
 
@@ -170,7 +170,7 @@ public class RaceScreen implements Screen, EditorHook {
             LightUtil.addBasicLight(batch);
             batch.setNextLight(1, 1, 0, 1f, Color.RED);
             drawLevelEdit();
-            gameObjects.forEach(obj -> obj.draw(batch));
+            gameObjects.draw(batch);
             batch.end();
         }
     }
