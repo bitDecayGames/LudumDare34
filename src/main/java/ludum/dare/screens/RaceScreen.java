@@ -32,6 +32,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
+import ludum.dare.actors.player.Player;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 
@@ -47,12 +48,12 @@ public class RaceScreen implements Screen, EditorHook {
     Map<Integer, TextureRegion[]> tilesetMap = new HashMap<>();
 
     List<GameObject> gameObjects = new ArrayList<>();
-    List<GameObject> players = new ArrayList<>();
+    List<Player> players = new ArrayList<>();
 
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
 
-    public RaceScreen(RacerGame game, List<GameObject> players) {
+    public RaceScreen(RacerGame game, List<Player> players) {
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
         tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
