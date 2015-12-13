@@ -13,8 +13,20 @@ public class PunchState extends AbstractState implements AnimationListener {
     private Animation punchAnimation;
     private boolean done = false;
 
-    public PunchState(Set<IComponent> components, IState returnState) {
-        super(components, returnState);
+    public PunchState(Set<IComponent> components) {
+        super(components);
+    }
+
+    public Boolean shouldRun(IState currentState) {
+        if (currentState instanceof PunchState) {
+            return false;
+        }
+
+        if (!inputComponent.isJustPressed(InputAction.PUNCH)) {
+            return false;
+        }
+
+        return true;
     }
 
     public void enter() {
@@ -43,9 +55,9 @@ public class PunchState extends AbstractState implements AnimationListener {
         if (punchAnimation != null) punchAnimation.stopListening(this);
     }
 
+    @Override
     public IState update(float delta) {
-        if (done) return returnState;
-        return null;
+        return done ? getJumpState() : null;
     }
 
     @Override

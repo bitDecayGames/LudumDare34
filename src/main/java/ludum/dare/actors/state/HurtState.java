@@ -11,8 +11,8 @@ public class HurtState extends AbstractState {
 
     private HurtComponent hurt;
 
-    public HurtState(Set<IComponent> components, IState returnState) {
-        super(components, returnState);
+    public HurtState(Set<IComponent> components) {
+        super(components);
     }
 
     public void enter() {
@@ -26,7 +26,7 @@ public class HurtState extends AbstractState {
 
     public IState update(float delta) {
         hurt.update(delta);
-        if (hurt.isTimerDone()) return returnState;
+        if (hurt.isTimerDone()) return getJumpState();
         return null;
     }
 }

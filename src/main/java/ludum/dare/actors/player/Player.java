@@ -17,10 +17,13 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
+import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
 import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
+import ludum.dare.interfaces.IState;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -28,6 +31,7 @@ public class Player extends StateMachine {
     private final PhysicsComponent phys;
     private final HealthComponent health;
     private final AnimationComponent anim;
+    private final PlayerCurrencyComponent wallet;
     private final AttackComponent attack;
 
     public Player() {
@@ -35,6 +39,7 @@ public class Player extends StateMachine {
         pos = new PositionComponent(0, 0);
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, 0));
+        wallet = new PlayerCurrencyComponent();
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
@@ -49,6 +54,8 @@ public class Player extends StateMachine {
         body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
+
+        setupAnimation(anim.animator);
         return new PhysicsComponent(body, pos, size);
     }
 
@@ -71,12 +78,25 @@ public class Player extends StateMachine {
 
     @Override
     public void update(float delta) {
-        super.update(delta);
-
         // Reset for now
         // TODO do this somewhere else?
         if (pos.y < -1000) {
             setPosition(0, 0);
+        }
+
+        checkForStateSwitch();
+
+        super.update(delta);
+    }
+
+    private void checkForStateSwitch() {
+        IState newState = null;
+        PunchState punch = new PunchState(components);
+        if (punch.shouldRun(activeState)) {
+            newState = punch;
+        }
+        if (newState != null) {
+            setActiveState(newState);
         }
     }
 
@@ -107,7 +127,7 @@ public class Player extends StateMachine {
         try {
             ControlMap controls = (ControlMap) getFirstComponent(InputComponent.class);
             phys.getBody().controller = new PlayerInputController(controls);
-            activeState = new StandState(components);
+            setActiveState(new StandState(components));
         } catch (Error e) {
             throw new Error("Could not activate player controls");
         }
@@ -117,8 +137,8 @@ public class Player extends StateMachine {
     public void addUpgrade(Class clazz) {
         if (clazz.equals(DoubleJumpComponent.class)) {
             append(new DoubleJumpComponent(phys));
-        } else if (clazz.equals(JetPackComponent.class)) {
-            append(new JetPackComponent(phys));
+        } else if (clazz.equals(FloatUpgradeComponent.class)) {
+            append(new FloatUpgradeComponent(phys));
         } else if (clazz.equals(MetalComponent.class)) {
             append(new MetalComponent(phys, health, attack));
         } else if (clazz.equals(MysteryBagComponent.class)) {

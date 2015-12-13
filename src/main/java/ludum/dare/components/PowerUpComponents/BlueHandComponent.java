@@ -8,6 +8,6 @@ import ludum.dare.interfaces.IComponent;
 public class BlueHandComponent implements IComponent{
 
     public BlueHandComponent(){
-
+//      yea, i have no idea how to do this
     }
 }

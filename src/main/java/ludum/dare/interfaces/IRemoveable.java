@@ -1,4 +1,4 @@
-package ludum.dare.components.upgradeComponents;
+package ludum.dare.interfaces;
 
 /**
  * Created by jake on 12/12/2015.

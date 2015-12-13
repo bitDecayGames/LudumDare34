@@ -1,6 +1,7 @@
-package ludum.dare.components.upgradeComponents;
+package ludum.dare.components;
 
 import ludum.dare.interfaces.IComponent;
+import ludum.dare.interfaces.IRemoveable;
 import ludum.dare.interfaces.IUpdate;
 
 /**
