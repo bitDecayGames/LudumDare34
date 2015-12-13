@@ -22,7 +22,9 @@ public class GameObjects {
     }
 
     public void update(float delta) {
+        // Add pending objects.
         gameObjects.addAll(pendingAdds);
+        pendingAdds.clear();
 
         gameObjects.forEach(obj -> obj.update(delta));
     }
