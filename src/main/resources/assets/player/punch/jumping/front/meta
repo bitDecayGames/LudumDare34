@@ -1,14 +1,14 @@
 {
   "0" : {
-    "originX" : 0,
+    "originX" : 12,
     "originY" : 0
   },
   "1" : {
-    "originX" : 0,
-    "originY" : 0
+    "originX" : 10,
+    "originY" : 1
   },
   "2" : {
-    "originX" : 0,
+    "originX" : 15,
     "originY" : 0
   }
 }

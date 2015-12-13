@@ -2,6 +2,7 @@ package ludum.dare.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.bytebreakstudios.animagic.animation.Animator;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
@@ -11,13 +12,16 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
 
     public final Animator animator;
     private final PositionComponent position;
-    private final SizeComponent size;
-    private Boolean flipVerticalAxis = false;
+    private final float scale;
+    private final Vector2 offset;
+    private boolean flipVerticalAxis = false;
 
-    public AnimationComponent(String name, PositionComponent position, SizeComponent size){
+    public AnimationComponent(String name, PositionComponent position, float scale, Vector2 offset) {
         this.position = position;
-        this.size = size;
         animator = new Animator(name);
+        this.scale = scale;
+        if (offset != null) this.offset = offset;
+        else this.offset = new Vector2(0, 0);
     }
 
     @Override
@@ -28,10 +32,7 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
     @Override
     public void draw(SpriteBatch spriteBatch) {
         TextureRegion reg = animator.getFrame();
-
-        float ratio = size.h / reg.getRegionHeight();
-
-        spriteBatch.draw(reg, position.x, position.y, reg.getRegionWidth() * ratio * (flipVerticalAxis ? -1 : 1), reg.getRegionHeight() * ratio);
+        spriteBatch.draw(reg, position.x + offset.x, position.y + offset.y, reg.getRegionWidth() * scale * (flipVerticalAxis ? -1 : 1), reg.getRegionHeight() * scale);
     }
 
     public void setFlipVerticalAxis(boolean value) {
