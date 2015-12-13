@@ -26,12 +26,16 @@ import com.bitdecay.jump.leveleditor.example.game.SecretObject;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.SpawnGameObject;
+import ludum.dare.levelobject.CoinLevelObject;
+import ludum.dare.levelobject.FinishLineLevelObject;
+import ludum.dare.levelobject.PowerupLevelObject;
 import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
@@ -42,6 +46,7 @@ import java.util.*;
 
 public class RaceScreen implements Screen, EditorHook {
 
+    private final AnimagicTextureRegion fallbackTileTexture;
     RacerGame game;
 
     OrthographicCamera[] cameras;
@@ -64,7 +69,8 @@ public class RaceScreen implements Screen, EditorHook {
         world.setGravity(0, -700);
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-        tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
+        fallbackTileTexture = atlas.findRegion("fallbacktileset");
+        tilesetMap.put(0, fallbackTileTexture.split(16, 16)[0]);
 
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
@@ -122,19 +128,25 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<EditorIdentifierObject> getTilesets() {
-        return null;
+        return Arrays.asList(new EditorIdentifierObject(0, "Fallback", tilesetMap.get(0)[1]));
     }
 
     @Override
     public List<EditorIdentifierObject> getThemes() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
         builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
+        builderMap.put(CoinLevelObject.class, SpawnGameObject.class);
+        builderMap.put(FinishLineLevelObject.class, SpawnGameObject.class);
+        builderMap.put(PowerupLevelObject.class, SpawnGameObject.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
         exampleItems.add(new SpawnLevelObject());
+        exampleItems.add(new CoinLevelObject());
+        exampleItems.add(new FinishLineLevelObject());
+        exampleItems.add(new PowerupLevelObject());
         return exampleItems;
     }
 
