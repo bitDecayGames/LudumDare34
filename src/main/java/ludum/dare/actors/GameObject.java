@@ -1,14 +1,13 @@
 package ludum.dare.actors;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bitdecay.jump.BitBody;
+import com.bitdecay.jump.level.LevelObject;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IUpdate;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GameObject implements IUpdate, IDraw {
     protected final Set<IComponent> components = new HashSet<>();
@@ -53,6 +52,10 @@ public class GameObject implements IUpdate, IDraw {
             }
         });
         return returnList;
+    }
+
+    public List<BitBody> build(LevelObject levelObject) {
+        return Collections.emptyList();
     }
 
     @Override

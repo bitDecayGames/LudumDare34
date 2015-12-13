@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlasLoader;
 import ludum.dare.actors.GameObject;
+import ludum.dare.screens.RaceScreen;
 import ludum.dare.screens.SetupScreen;
 import ludum.dare.screens.SplashScreen;
 import ludum.dare.screens.UpgradeScreen;
@@ -34,6 +35,6 @@ public class RacerGame extends Game {
         for (int i = 0; i < 4; i++) {
             players.add(new GameObject());
         }
-        setScreen(new SetupScreen(players));
+        setScreen(new RaceScreen(this));
     }
 }

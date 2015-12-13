@@ -25,9 +25,9 @@ public class SplashScreen implements Screen {
     public SplashScreen(RacerGame game){
         this.game = game;
         stage = new Stage();
-        ldWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("sprites/menu/splash.png"))));
+        ldWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/splash.png"))));
         ldWallpaper.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        bdWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("sprites/menu/bitDecay.png"))));
+        bdWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/bitDecay.png"))));
         bdWallpaper.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(ldWallpaper);
         stage.addActor(bdWallpaper);

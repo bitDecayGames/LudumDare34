@@ -1,10 +1,8 @@
 package ludum.dare;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.bytebreakstudios.animagic.texture.AnimagicTexturePacker;
-import ludum.dare.screens.RaceScreen;
 
 import java.io.File;
 
