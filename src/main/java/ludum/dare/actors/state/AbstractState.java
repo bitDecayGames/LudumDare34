@@ -65,17 +65,37 @@ public abstract class AbstractState implements IState, StateListener {
         updateFacing();
 
         switch ((JumperRenderState) state) {
-            case LEFT_STANDING:
             case RIGHT_STANDING:
+            case LEFT_STANDING:
                 jumpState = new StandState(components);
                 break;
-            case LEFT_RUNNING:
             case RIGHT_RUNNING:
+            case LEFT_RUNNING:
                 jumpState = new RunState(components);
                 break;
-            case LEFT_JUMPING:
             case RIGHT_JUMPING:
+            case LEFT_JUMPING:
                 jumpState = new JumpState(components);
+                break;
+            case RIGHT_APEX:
+            case LEFT_APEX:
+                jumpState = new ApexState(components);
+                break;
+            case RIGHT_FALLING:
+            case LEFT_FALLING:
+                jumpState = new FallState(components);
+                break;
+            case RIGHT_AIR_AGAINST_WALL:
+            case LEFT_AIR_AGAINST_WALL:
+                jumpState = new AirWallState(components);
+                break;
+            case RIGHT_GROUNDED_AGAINST_WALL:
+            case LEFT_GROUNDED_AGAINST_WALL:
+                jumpState = new GroundWallState(components);
+                break;
+            case RIGHT_PUSHED:
+            case LEFT_PUSHED:
+                jumpState = new PushState(components);
                 break;
             default:
                 jumpState = null;
