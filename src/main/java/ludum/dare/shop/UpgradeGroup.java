@@ -116,4 +116,8 @@ public class UpgradeGroup {
             renderX += renderSize + buffer;
         }
     }
+
+    public List<UpgradeOption> getChoices() {
+        return choices;
+    }
 }

@@ -6,10 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
-import ludum.dare.actors.GameObject;
+import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.upgradeComponents.*;
-import ludum.dare.interfaces.IComponent;
 import ludum.dare.shop.UpgradeGroup;
 import ludum.dare.shop.UpgradeOption;
 
@@ -17,17 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeScreen implements Screen {
-
-    private static ArrayList<Class<? extends IComponent>> MASTER_LIST = new ArrayList<>();
-    static {
-        MASTER_LIST.add(DoubleJumpComponent.class);
-        MASTER_LIST.add(EmptyUpgradeComponent.class);
-        MASTER_LIST.add(JetPackComponent.class);
-        MASTER_LIST.add(MetalComponent.class);
-        MASTER_LIST.add(MysteryBagComponent.class);
-        MASTER_LIST.add(SpeedComponent.class);
-        MASTER_LIST.add(WallJumpComponent.class);
-    }
+    private static ArrayList<UpgradeOption> MASTER_LIST = new ArrayList<>();
 
     OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     AnimagicSpriteBatch batch;
@@ -35,23 +24,31 @@ public class UpgradeScreen implements Screen {
     List<UpgradeGroup> groups = new ArrayList<>();
 
     private int spacePerGroup;
+    private RacerGame game;
+    private List<Player> players;
+
+    public UpgradeScreen(RacerGame game, List<Player> players) {
+        this.game = game;
+        this.players = players;
+        if (MASTER_LIST.size() == 0) {
+            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
+            MASTER_LIST.add(new UpgradeOption(JetPackComponent.class, "float"));
+            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal"));
+            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
+            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
+            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
+        }
+    }
 
     @Override
     public void show() {
-        camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
         batch = new AnimagicSpriteBatch(camera);
         batch.isShaderOn(false);
 
-        // need a way to get the players in the game.
-        List<GameObject> players = new ArrayList<>();
-        players.add(new GameObject());
-        players.add(new GameObject());
-        players.add(new GameObject());
-        players.add(new GameObject());
-
         spacePerGroup = Gdx.graphics.getHeight() / players.size();
-        for (GameObject player : players) {
+        for (Player player : players) {
             UpgradeGroup upgradeGroup = buildPlayerOptions(player);
             groups.add(upgradeGroup);
         }
@@ -61,11 +58,21 @@ public class UpgradeScreen implements Screen {
         UpgradeGroup group = new UpgradeGroup();
         group.initialize(player);
         int tries = 10;
+        int added = 0;
         while (tries > 0) {
             tries--;
-            Class<? extends IComponent> upgradeComponent = MASTER_LIST.get((int) (Math.random() * MASTER_LIST.size()));
-            if (!player.hasComponent(upgradeComponent)) {
-                group.addChoice(new UpgradeOption(upgradeComponent, ));
+            UpgradeOption option = MASTER_LIST.get((int) (Math.random() * MASTER_LIST.size()));
+            for(UpgradeOption selectedOption : group.getChoices()) {
+                if (option == selectedOption) {
+                    continue;
+                }
+            }
+            if (!player.hasComponent(option.clazz)) {
+                group.addChoice(option);
+                added++;
+            }
+            if (added >= 3) {
+                break;
             }
         }
         return group;
