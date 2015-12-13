@@ -33,7 +33,7 @@ public class TestStateScreen implements Screen {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
 
         player = new Player();
     }
