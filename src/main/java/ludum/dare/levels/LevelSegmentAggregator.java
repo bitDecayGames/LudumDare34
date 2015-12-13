@@ -17,17 +17,16 @@ public class LevelSegmentAggregator {
     public static int TILE_SIZE = 16;
     public static boolean DEBUG = false;
 
-    public LevelSegmentAggregator(List<Level> levelsRaw){
 
+    public static Level assembleSegments(List<Level> levelsRaw) {
         List<LevelWithAggData> levels = new ArrayList<>();
-
         levelsRaw.forEach(l -> levels.add(new LevelWithAggData(l)));
 
         adjustRectsInEachLevelSegment(levels);
-        buildAggregatedLevels(levels);
+        return buildAggregatedLevels(levels);
     }
 
-    private void adjustRectsInEachLevelSegment(List<LevelWithAggData> levels) {
+    private static void adjustRectsInEachLevelSegment(List<LevelWithAggData> levels) {
 
         if(DEBUG){
             System.out.println("Printing out two level sections before adjustments:");
@@ -102,7 +101,7 @@ public class LevelSegmentAggregator {
         }
     }
 
-    private void buildAggregatedLevels(List<LevelWithAggData> levelsWithMetaData){
+    private static Level buildAggregatedLevels(List<LevelWithAggData> levelsWithMetaData){
         LevelBuilder levelBuilder = new LevelBuilder(TILE_SIZE);
 
         for(LevelWithAggData level : levelsWithMetaData) {
@@ -115,13 +114,14 @@ public class LevelSegmentAggregator {
                 }
             }
         }
-        LevelUtilities.saveLevel(levelBuilder, false);
+//        LevelUtilities.saveLevel(levelBuilder, false);
+        return levelBuilder.optimizeLevel();
     }
 
     public static void main(String args[]){
 
         LevelSegmentGenerator levelSegmentGenerator = new LevelSegmentGenerator(15);
 
-        new LevelSegmentAggregator(levelSegmentGenerator.generateLevelSegments());
+        LevelSegmentAggregator.assembleSegments(levelSegmentGenerator.generateLevelSegments());
     }
 }
