@@ -1,7 +1,6 @@
 package ludum.dare.actors.player;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.bitdecay.jump.Facing;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 
@@ -22,7 +21,20 @@ public class JumpState extends IState {
     }
 
     public IState update(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return new HurtState(components, this);
+        Facing facing = physicsComponent.getBody().facing;
+        switch (facing) {
+            case LEFT:
+                animationComponent.setFlipVerticalAxis(true);
+                break;
+            case RIGHT:
+                animationComponent.setFlipVerticalAxis(false);
+                break;
+            default:
+                throw new Error("Invalid facing set");
+        }
+
+        if (physicsComponent.getBody().grounded) return new StandState(components);
+//        if (inputComponent.isPressed(InputAction.JUMP)) return new HurtState(components, this);
         return null;
     }
 }

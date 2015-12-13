@@ -36,6 +36,7 @@ import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 import ludum.dare.util.LightUtil;
+import ludum.dare.util.Players;
 
 import java.util.*;
 
@@ -51,17 +52,13 @@ public class RaceScreen implements Screen, EditorHook {
     Map<Integer, TextureRegion[]> tilesetMap = new HashMap<>();
 
     List<GameObject> gameObjects = new ArrayList<>();
-    List<Player> players = new ArrayList<>();
 
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
 
-    public RaceScreen(RacerGame game, List<Player> players) {
+    public RaceScreen(RacerGame game) {
         if (game == null) {
             throw new Error("No game provided");
-        }
-        if (players == null || players.size() < 1) {
-            throw new Error("No players provided");
         }
 
         world.setGravity(0, -700);
@@ -70,8 +67,7 @@ public class RaceScreen implements Screen, EditorHook {
         tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
 
         this.game = game;
-        this.players = players;
-        cameras = new OrthographicCamera[this.players.size()];
+        cameras = new OrthographicCamera[Players.list().size()];
 
         LevelSegmentGenerator generator = new LevelSegmentGenerator(10);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
@@ -100,7 +96,7 @@ public class RaceScreen implements Screen, EditorHook {
 
         // Reset level
         if (InputUtil.checkInputs(Input.Keys.R, Xbox360Pad.BACK)) {
-            game.setScreen(new RaceScreen(game, players));
+            game.setScreen(new RaceScreen(game));
         }
     }
 
@@ -108,7 +104,7 @@ public class RaceScreen implements Screen, EditorHook {
         for (int i = 0; i < cameras.length; i++) {
             Camera cam = cameras[i];
             // Follow player
-            Vector3 playerPos = players.get(i).getPosition();
+            Vector3 playerPos = Players.list().get(i).getPosition();
             cam.position.set(playerPos);
             cam.update();
         }
@@ -187,14 +183,14 @@ public class RaceScreen implements Screen, EditorHook {
 //        for (GameObject gameObj : gameObjects) {
 //            if (gameObj instanceof SpawnGameObject) {
 //                SpawnGameObject spawn = (SpawnGameObject) gameObj;
-//                for (Player player : players) {
+//                for (Player player : Players.list()) {
 //                    player.setPosition(spawn.pos.x, spawn.pos.y);
 //                    player.addToWorld(world);
 //                }
 //            }
 //        }
 
-        for (Player player : players) {
+        for (Player player : Players.list()) {
             player.activateControls();
             player.addToWorld(world);
             // TODO handle spawn points.

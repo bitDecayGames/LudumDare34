@@ -12,6 +12,7 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
     public final Animator animator;
     private final PositionComponent position;
     private final SizeComponent size;
+    private Boolean flipVerticalAxis = false;
 
     public AnimationComponent(String name, PositionComponent position, SizeComponent size){
         this.position = position;
@@ -23,13 +24,17 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
     public void update(float delta) {
         animator.update(delta);
     }
+
     @Override
     public void draw(SpriteBatch spriteBatch) {
         TextureRegion reg = animator.getFrame();
 
         float ratio = size.h / reg.getRegionHeight();
 
-        spriteBatch.draw(reg, position.x, position.y, reg.getRegionWidth() * ratio, reg.getRegionHeight() * ratio);
+        spriteBatch.draw(reg, position.x, position.y, reg.getRegionWidth() * ratio * (flipVerticalAxis ? -1 : 1), reg.getRegionHeight() * ratio);
     }
 
+    public void setFlipVerticalAxis(boolean value) {
+        flipVerticalAxis = value;
+    }
 }

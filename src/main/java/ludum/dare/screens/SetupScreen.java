@@ -6,19 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
-import ludum.dare.components.TextComponent;
 import ludum.dare.control.ControllerScreenObject;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.text.TextScreenObject;
 import ludum.dare.util.LightUtil;
+import ludum.dare.util.Players;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,8 +126,10 @@ public class SetupScreen implements Screen {
         getGameObjects().forEach(obj -> obj.update(v));
 
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
+            // Set players globally with associated inputs.
+            Players.intialize(getResults());
             // Start race.
-            game.setScreen(new UpgradeScreen(game, getResults()));
+            game.setScreen(new UpgradeScreen(game));
         }
 
         camera.update();
