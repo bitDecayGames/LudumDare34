@@ -11,6 +11,9 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
 
+/**
+ * THIS CLASS IS FOR DEBUGGING THE PLAYER, SHOULD NOT BE USED!!!!!!!!!
+ */
 public class TestStateScreen implements Screen {
 
     OrthographicCamera camera;
