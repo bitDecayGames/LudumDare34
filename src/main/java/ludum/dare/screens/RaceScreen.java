@@ -97,6 +97,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void update(float delta){
+        world.step(delta);
         gameObjects.forEach(obj -> obj.update(delta));
     }
 
@@ -133,7 +134,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void draw(){
-        drawLevelEdit();
+//        drawLevelEdit();
         gameObjects.forEach(obj -> obj.draw(batch));
     }
 
@@ -164,14 +165,19 @@ public class RaceScreen implements Screen, EditorHook {
         world.setObjects(buildBodies(level.otherObjects));
         world.resetTimePassed();
 
-        for (GameObject gameObj : gameObjects) {
-            if (gameObj instanceof SpawnGameObject) {
-                SpawnGameObject spawn = (SpawnGameObject) gameObj;
-                for (Player player : players) {
-                    player.setPosition(spawn.pos.x, spawn.pos.y);
-                    player.addToWorld(world);
-                }
-            }
+//        for (GameObject gameObj : gameObjects) {
+//            if (gameObj instanceof SpawnGameObject) {
+//                SpawnGameObject spawn = (SpawnGameObject) gameObj;
+//                for (Player player : players) {
+//                    player.setPosition(spawn.pos.x, spawn.pos.y);
+//                    player.addToWorld(world);
+//                }
+//            }
+//        }
+
+        for (Player player : players) {
+            player.addToWorld(world);
+            gameObjects.add(player);
         }
 
         if (level.debugSpawn != null) {

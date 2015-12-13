@@ -20,7 +20,7 @@ public class Player extends StateMachine {
     private final AnimationComponent anim;
 
     public Player() {
-        size = new SizeComponent(120, 120);
+        size = new SizeComponent(16, 32);
         pos = new PositionComponent(0, 0);
         phys = new PhysicsComponent(new JumperBody(), pos, size);
         health = new HealthComponent(10, 10);
@@ -30,9 +30,9 @@ public class Player extends StateMachine {
         anim.animator.addAnimation(new Animation("standing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.1f), atlas.findRegions("stand").toArray(AnimagicTextureRegion.class)));
         anim.animator.switchToAnimation("standing");
 
-        TextureRegionComponent textComp = new TextureRegionComponent(atlas.findRegion("standing/1"), pos, size);
+//        TextureRegionComponent textComp = new TextureRegionComponent(atlas.findRegion("standing/1"), pos, size);
 
-        this.append(size).append(pos).append(phys).append(health).append(anim).append(textComp);
+        this.append(size).append(pos).append(phys).append(health).append(anim);
 
         this.activeState = new StandState(this.components);
     }
