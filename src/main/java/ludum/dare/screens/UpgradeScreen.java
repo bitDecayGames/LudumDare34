@@ -12,9 +12,6 @@ import ludum.dare.shop.UpgradeGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 12/12/2015.
- */
 public class UpgradeScreen implements Screen {
 
     OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

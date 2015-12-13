@@ -1,6 +1,7 @@
 package ludum.dare.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bytebreakstudios.animagic.animation.Animator;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
@@ -24,7 +25,11 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
     }
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(animator.getFrame(), position.x, position.y, size.w, size.h);
+        TextureRegion reg = animator.getFrame();
+
+        float ratio = size.h / reg.getRegionHeight();
+
+        spriteBatch.draw(reg, position.x, position.y, reg.getRegionWidth() * ratio, reg.getRegionHeight() * ratio);
     }
 
 }
