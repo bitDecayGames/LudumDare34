@@ -122,8 +122,7 @@ public class SetupScreen implements Screen {
         batch.begin();
         batch.setAmbientColor(Color.WHITE);
         batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.RED);
-        batch.setNextLight(-mousePos.x, -mousePos.y, 0.5f, 1, Color.GREEN);
+        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
         inputObjects.forEach(obj -> obj.draw(batch));
         batch.end();
     }

@@ -6,8 +6,12 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.bitdecay.jump.gdx.input.GDXControls;
+import com.bytebreakstudios.animagic.animation.Animation;
+import com.bytebreakstudios.animagic.animation.FrameRate;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import com.bytebreakstudios.animagic.texture.data.AnimagicTextureData;
+import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.components.InputComponent;
 import ludum.dare.components.PositionComponent;
@@ -35,9 +39,9 @@ public class ControllerScreenObject extends GameObject {
         this.keyboardDeselect = keyboardDeselect;
         this.xbox360ControllerIndex = xbox360ControllerIndex;
 
-        aiTexture = getTextureCompnent("bum.png", "bum_n.png", position, size);
-        keyboardTexture = getTextureCompnent("bum_n.png", null, position, size);
-        xbox360Texture = getTextureCompnent("title.png", null, position, size);
+        aiTexture = getTextureCompnent("computer", position, size);
+        keyboardTexture = getTextureCompnent("keyboard", position, size);
+        xbox360Texture = getTextureCompnent("controller", position, size);
 
         append(position);
         append(size);
@@ -46,8 +50,9 @@ public class ControllerScreenObject extends GameObject {
         swapInput(new InputComponent(new AIControlMapAdapter()));
     }
 
-    private TextureRegionComponent getTextureCompnent(String name, String normalName, PositionComponent p, SizeComponent s) {
-        return new TextureRegionComponent(new AnimagicTextureRegion(new Texture(name), normalName != null ? new Texture(normalName) : null, new AnimagicTextureData((int) s.w, (int) s.h)), p, s);
+    private TextureRegionComponent getTextureCompnent(String name, PositionComponent p, SizeComponent s) {
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
+        return new TextureRegionComponent(atlas.findRegion(name), p, s);
     }
 
     private void updateControllerSelection() {
