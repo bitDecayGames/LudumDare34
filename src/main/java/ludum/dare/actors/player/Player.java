@@ -32,12 +32,6 @@ public class Player extends StateMachine {
         anim = new AnimationComponent("player", pos, size);
         setupAnimation(anim.animator);
 
-//        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
-//        anim.animator.addAnimation(new Animation("standing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.1f), atlas.findRegions("stand").toArray(AnimagicTextureRegion.class)));
-//        anim.animator.switchToAnimation("standing");
-
-//        TextureRegionComponent textComp = new TextureRegionComponent(atlas.findRegion("standing/1"), pos, size);
-
         this.append(size).append(pos).append(phys).append(health).append(anim);
 
         this.activeState = new StandState(this.components);
