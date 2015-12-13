@@ -20,6 +20,7 @@ public class Player extends StateMachine {
     private final PhysicsComponent phys;
     private final HealthComponent health;
     private final AnimationComponent anim;
+    private final PlayerCurrencyComponent wallet;
 
     public Player() {
         size = new SizeComponent(100, 100);
@@ -30,6 +31,7 @@ public class Player extends StateMachine {
         phys = new PhysicsComponent(body, pos, size);
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, size);
+        wallet = new PlayerCurrencyComponent();
         setupAnimation(anim.animator);
 
         this.append(size).append(pos).append(phys).append(health).append(anim);

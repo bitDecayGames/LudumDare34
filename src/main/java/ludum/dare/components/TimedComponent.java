@@ -1,12 +1,13 @@
-package ludum.dare.components.upgradeComponents;
+package ludum.dare.components;
 
+import ludum.dare.components.upgradeComponents.IRemoveable;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IUpdate;
 
 /**
  * Created by jake on 12/12/2015.
  */
-public class TimedComponent implements IComponent, IUpdate, IRemoveable{
+public class TimedComponent implements IComponent, IUpdate, IRemoveable {
     float liveTime;
 
     public TimedComponent(float liveTime){
