@@ -28,6 +28,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
+import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.SpawnGameObject;
@@ -187,10 +188,10 @@ public class FightScreen implements Screen, EditorHook {
 
         for (Player player : Players.list()) {
             player.activateControls();
-            player.addToWorld(world);
+            // TODO fix/consolidate this.
+//            player.addToScreen(new LevelInteractionComponent(world, gameObjects));
             // TODO handle spawn points.
             player.setPosition(0, 0);
-            gameObjects.add(player);
         }
 
         if (level.debugSpawn != null) {
