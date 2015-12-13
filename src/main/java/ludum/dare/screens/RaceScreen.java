@@ -203,7 +203,7 @@ public class RaceScreen implements Screen, EditorHook {
             playerBody.jumperProps = level.debugSpawn.jumpProps;
 
             playerBody.bodyType = BodyType.DYNAMIC;
-            playerBody.aabb = new BitRectangle(level.debugSpawn.rect.xy.x,level.debugSpawn.rect.xy.y, 16, 32);
+            playerBody.aabb = new BitRectangle(level.debugSpawn.rect.xy.x, level.debugSpawn.rect.xy.y, 16, 32);
             playerBody.renderStateWatcher = new JumperRenderStateWatcher();
             playerBody.controller = new PlayerInputController(GDXControls.defaultMapping);
 
