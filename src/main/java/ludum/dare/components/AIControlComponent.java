@@ -26,4 +26,9 @@ public class AIControlComponent extends InputComponent {
     public boolean isJustPressed(InputAction action) {
         return false;
     }
+
+    @Override
+    public void update(float delta) {
+
+    }
 }
