@@ -9,7 +9,7 @@ import ludum.dare.control.GamepadControlMapAdapter;
 import ludum.dare.interfaces.IComponent;
 
 /**
- * Adapter component around
+ * Adapter component around inputs from users or an AI.
  */
 public class InputComponent implements IComponent, ControlMap {
 
