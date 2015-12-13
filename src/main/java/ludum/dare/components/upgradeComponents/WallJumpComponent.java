@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import com.bitdecay.jump.JumperBody;
 import ludum.dare.components.PhysicsComponent;
 import ludum.dare.interfaces.IComponent;
 
@@ -7,9 +8,13 @@ import ludum.dare.interfaces.IComponent;
  * Created by jake on 12/12/2015.
  */
 public class WallJumpComponent implements IComponent {
+    public int cost = 0;
 
     public WallJumpComponent(PhysicsComponent phys){
-
-//        TODO : do the wall jump stuffs
+        if(phys.getBody() instanceof JumperBody){
+            ((JumperBody) phys.getBody()).jumperProps.wallJumpEnabled = true;
+            ((JumperBody) phys.getBody()).jumperProps.wallSlideEnabled = true;
+            ((JumperBody) phys.getBody()).jumperProps.wallMaxSlideSpeed = 200;
+        }
     }
 }

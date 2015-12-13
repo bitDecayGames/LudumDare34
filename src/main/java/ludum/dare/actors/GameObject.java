@@ -3,6 +3,7 @@ package ludum.dare.actors;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.level.LevelObject;
+import ludum.dare.components.upgradeComponents.IRemoveable;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IUpdate;
@@ -65,7 +66,18 @@ public class GameObject implements IUpdate, IDraw {
 
     @Override
     public void update(float delta) {
-        updateableComponents.forEach(c -> c.update(delta));
+        List<IComponent> pendingRemoves = new ArrayList<>();
+        updateableComponents.forEach(c -> {
+            c.update(delta);
+            if (c instanceof IRemoveable) {
+                if(((IRemoveable) c).shouldRemove()){
+                    ((IRemoveable) c).remove();
+                    pendingRemoves.add((IComponent) c);
+                }
+            }
+        });
+        components.removeAll(pendingRemoves);
+        updateableComponents.removeAll(pendingRemoves);
     }
 
     @Override
