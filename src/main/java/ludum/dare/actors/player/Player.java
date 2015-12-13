@@ -1,5 +1,6 @@
 package ludum.dare.actors.player;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
@@ -31,7 +32,7 @@ public class Player extends StateMachine {
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(0, 0);
         health = new HealthComponent(10, 10);
-        anim = new AnimationComponent("player", pos, size);
+        anim = new AnimationComponent("player", pos, 1f, new Vector2(8, 0));
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
