@@ -22,13 +22,7 @@ public class Player extends StateMachine {
 //        TextureRegionComponent img = new TextureRegionComponent(atlas.findRegion("run/1"), pos, size);
         InputComponent input = new InputComponent(new GDXControls());
 
-        this.append(size)
-                .append(pos)
-                        //.append(phys)
-                .append(health)
-                .append(anim)
-//                .append(img)
-                .append(input);
+        this.append(size).append(pos).append(phys).append(health).append(anim).append(input);
 
         this.activeState = new StandState(this.components);
     }
