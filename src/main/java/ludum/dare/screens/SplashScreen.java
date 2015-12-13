@@ -40,7 +40,7 @@ public class SplashScreen implements Screen {
         if (!INTRO_MUSIC.isPlaying()) {
             INTRO_MUSIC.setLooping(true);
             INTRO_MUSIC.setVolume(0.4f);
-//            INTRO_MUSIC.play();
+            INTRO_MUSIC.play();
         }
 
         bdWallpaper.addAction(Actions.alpha(0));

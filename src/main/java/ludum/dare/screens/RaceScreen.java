@@ -90,7 +90,7 @@ public class RaceScreen implements Screen, EditorHook {
     public void show() {
 
         music = SoundLibrary.GetMusic("fight");
-//        music.play();
+        music.play();
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();

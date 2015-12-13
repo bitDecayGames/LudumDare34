@@ -81,7 +81,7 @@ public class FightScreen implements Screen, EditorHook {
     public void show() {
 
         music = SoundLibrary.GetMusic("ouroboros");
-//        music.play();
+        music.play();
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.zoom = 0.7f;
