@@ -11,6 +11,7 @@ import ludum.dare.actors.player.Player;
 import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.shop.UpgradeGroup;
 import ludum.dare.shop.UpgradeOption;
+import ludum.dare.util.Players;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,9 @@ public class UpgradeScreen implements Screen {
 
     private int spacePerGroup;
     private RacerGame game;
-    private List<Player> players;
 
-    public UpgradeScreen(RacerGame game, List<Player> players) {
+    public UpgradeScreen(RacerGame game) {
         this.game = game;
-        this.players = players;
         if (MASTER_LIST.size() == 0) {
             MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
             MASTER_LIST.add(new UpgradeOption(JetPackComponent.class, "float"));
@@ -47,8 +46,8 @@ public class UpgradeScreen implements Screen {
         batch = new AnimagicSpriteBatch(camera);
         batch.isShaderOn(false);
 
-        spacePerGroup = Gdx.graphics.getHeight() / players.size();
-        for (Player player : players) {
+        spacePerGroup = Gdx.graphics.getHeight() / Players.list().size();
+        for (Player player : Players.list()) {
             UpgradeGroup upgradeGroup = buildPlayerOptions(player);
             groups.add(upgradeGroup);
         }
@@ -88,7 +87,7 @@ outer:  while (tries > 0) {
             }
         }
         if (allReady) {
-            game.setScreen(new RaceScreen(game, players));
+            game.setScreen(new RaceScreen(game));
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
