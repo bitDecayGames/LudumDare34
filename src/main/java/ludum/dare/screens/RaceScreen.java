@@ -3,9 +3,9 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
@@ -18,6 +18,7 @@ import com.bitdecay.jump.gdx.level.RenderableLevelObject;
 import com.bitdecay.jump.geom.BitRectangle;
 import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
+import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
 import com.bitdecay.jump.leveleditor.example.game.GravityField;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
@@ -25,10 +26,16 @@ import com.bitdecay.jump.leveleditor.example.game.ShellObject;
 import com.bitdecay.jump.leveleditor.example.level.GravityLvlObject;
 import com.bitdecay.jump.leveleditor.example.level.SecretThing;
 import com.bitdecay.jump.leveleditor.example.level.ShellLevelObject;
+import com.bitdecay.jump.leveleditor.render.LevelEditor;
+import com.bitdecay.jump.leveleditor.render.LibGDXLevelRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
+import ludum.dare.actors.player.Player;
+import ludum.dare.gameobject.SpawnGameObject;
+import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 
@@ -41,18 +48,22 @@ public class RaceScreen implements Screen, EditorHook {
 
     Map<Class, Class> builderMap = new HashMap<>();
 
+    Map<Integer, TextureRegion[]> tilesetMap = new HashMap<>();
+
     List<GameObject> gameObjects = new ArrayList<>();
-    List<GameObject> players = new ArrayList<>();
-
-
-    public RaceScreen(List<GameObject> players) {
-        this.players = players;
-    }
+    List<Player> players = new ArrayList<>();
 
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
 
-    public RaceScreen(RacerGame game) {
+
+    public RaceScreen(RacerGame game, List<Player> players) {
+        world.setGravity(0, -700);
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
+        tilesetMap.put(0, atlas.findRegion("fallbacktileset").split(16, 16)[0]);
+
+        this.players = players;
+
         LevelSegmentGenerator generator = new LevelSegmentGenerator(10);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
         levelChanged(raceLevel);
@@ -62,6 +73,7 @@ public class RaceScreen implements Screen, EditorHook {
     public void show() {
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
+        batch.isShaderOn(false);
     }
 
     @Override
@@ -85,6 +97,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void update(float delta){
+        world.step(delta);
         gameObjects.forEach(obj -> obj.update(delta));
     }
 
@@ -110,7 +123,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
-//        builderMap.put(SecretThing.class, SecretObject.class);
+        builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
 //        builderMap.put(ShellLevelObject.class, ShellObject.class);
 //        builderMap.put(GravityLvlObject.class, GravityField.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
@@ -121,7 +134,23 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void draw(){
+        drawLevelEdit();
         gameObjects.forEach(obj -> obj.draw(batch));
+    }
+
+    private void drawLevelEdit() {
+        /**
+         * TODO: we still need to find a better way to load a grid into the world but with custom tile objects.
+         * It shouldn't be hard, but it does need to be done.
+         **/
+        for (int x = 0; x < currentLevel.gridObjects.length; x++) {
+            for (int y = 0; y < currentLevel.gridObjects[0].length; y++) {
+                TileObject obj = currentLevel.gridObjects[x][y];
+                if (obj != null) {
+                    batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                }
+            }
+        }
     }
 
     @Override
@@ -135,6 +164,21 @@ public class RaceScreen implements Screen, EditorHook {
         world.setTileSize(level.tileSize);
         world.setObjects(buildBodies(level.otherObjects));
         world.resetTimePassed();
+
+//        for (GameObject gameObj : gameObjects) {
+//            if (gameObj instanceof SpawnGameObject) {
+//                SpawnGameObject spawn = (SpawnGameObject) gameObj;
+//                for (Player player : players) {
+//                    player.setPosition(spawn.pos.x, spawn.pos.y);
+//                    player.addToWorld(world);
+//                }
+//            }
+//        }
+
+        for (Player player : players) {
+            player.addToWorld(world);
+            gameObjects.add(player);
+        }
 
         if (level.debugSpawn != null) {
             JumperBody playerBody = new JumperBody();

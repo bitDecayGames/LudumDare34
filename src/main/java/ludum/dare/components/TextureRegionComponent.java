@@ -19,6 +19,10 @@ public class TextureRegionComponent implements IComponent, IDraw {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(region, position.x, position.y, size.w, size.h);
+        spriteBatch.draw(region,
+                position.x,
+                position.y,
+                size.w,
+                size.h);
     }
 }
