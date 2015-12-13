@@ -1,18 +1,18 @@
 {
   "0" : {
     "originX" : 10,
-    "originY" : 13
+    "originY" : 0
   },
   "1" : {
     "originX" : 8,
-    "originY" : 14
+    "originY" : 0
   },
   "2" : {
     "originX" : 12,
-    "originY" : 12
+    "originY" : -1
   },
   "3" : {
     "originX" : 8,
-    "originY" : 14
+    "originY" : 0
   }
 }

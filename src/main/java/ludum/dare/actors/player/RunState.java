@@ -2,6 +2,7 @@ package ludum.dare.actors.player;
 
 import com.bitdecay.jump.Facing;
 import com.bitdecay.jump.control.PlayerAction;
+import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 
@@ -37,6 +38,7 @@ public class RunState extends IState {
         if (!inputComponent.isPressed(PlayerAction.RIGHT) &&
                 !inputComponent.isPressed(PlayerAction.LEFT)) return new StandState(components);
         else if (inputComponent.isJustPressed(PlayerAction.JUMP)) return new JumpState(components);
+        else if (inputComponent.isJustPressed(InputAction.PUNCH)) return new PunchState(components, this);
         return null;
     }
 }
