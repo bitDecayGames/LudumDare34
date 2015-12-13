@@ -50,21 +50,13 @@ public class UpgradeGroup {
 
     public void update(float delta) {
         if (active) {
+            if (choices.size() <= 0) {
+                active = false;
+            }
+
             // update the upgrades (animation, etc)
             for (UpgradeOption option : choices) {
                 option.update(delta);
-            }
-
-            // check player controls and update our selection if one was made
-
-            // TODO: these need to be pulled from the control component once we have one
-            boolean playerLeft = false, playerRight = false, playerSelect = false;
-            if (playerLeft) {
-                left();
-            } else if (playerRight) {
-                right();
-            } else if (playerSelect) {
-                select();
             }
 
             InputComponent inputComponent = player.getInputComponent();
@@ -86,6 +78,8 @@ public class UpgradeGroup {
                 if (inputComponent.isJustPressed(InputAction.JUMP)) {
                     select();
                 }
+            } else {
+                throw new RuntimeException("Player had no input component");
             }
             inputComponent.update(delta);
         }
@@ -106,10 +100,11 @@ public class UpgradeGroup {
     }
 
     private void select() {
-        System.out.println(selectedIndex + " " + choices.get(selectedIndex));
         active = false;
-        Class clazz = choices.get(selectedIndex).clazz;
-        player.addUpgrade(clazz);
+        if (selectedIndex > choices.size()) {
+            Class clazz = choices.get(selectedIndex).clazz;
+            player.addUpgrade(clazz);
+        }
     }
 
     public void render(AnimagicSpriteBatch batch, int yTop, int yBottom) {

@@ -14,7 +14,6 @@ public class GameObject implements IUpdate, IDraw {
     protected final Set<IComponent> components = new HashSet<>();
     protected final Set<IUpdate> updateableComponents = new HashSet<>();
     protected final Set<IDraw> drawableComponents = new HashSet<>();
-    private Object inputComponent;
     // If you add another set list, make sure to update the append/remove methods or JAKE WILL BEAT YOU!
 
     public GameObject(){}
