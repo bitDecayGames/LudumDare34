@@ -23,12 +23,15 @@ public class LevelSegmentGenerator {
 
         int segmentsAvailable;
 
-        segmentsAvailable = new File(SEGMENT_DIR).list().length;
+        // Minus 1 is to account for the starting segment that we don't want chosen
+        segmentsAvailable = new File(SEGMENT_DIR).list().length - 1;
         System.out.println("Segments available: " + segmentsAvailable);
 
         List<Level> generatedListOfSegments = new ArrayList<>();
 
-        for (int i = 0; i < numSegmentToUse; i++){
+        generatedListOfSegments.add(LevelUtilities.loadLevel(SEGMENT_DIR + "segment_start"));
+
+        for (int i = 1; i < numSegmentToUse; i++){
             int levelIndex = (int) (Math.random() * segmentsAvailable + 1);
             System.out.println("The segment chosen was " + levelIndex);
             generatedListOfSegments.add(LevelUtilities.loadLevel(SEGMENT_DIR + "segment_" + levelIndex));
