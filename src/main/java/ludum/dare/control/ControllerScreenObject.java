@@ -3,20 +3,11 @@ package ludum.dare.control;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-import com.bitdecay.jump.gdx.input.GDXControls;
-import com.bytebreakstudios.animagic.animation.Animation;
-import com.bytebreakstudios.animagic.animation.FrameRate;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
-import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
-import com.bytebreakstudios.animagic.texture.data.AnimagicTextureData;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
-import ludum.dare.components.InputComponent;
-import ludum.dare.components.PositionComponent;
-import ludum.dare.components.SizeComponent;
-import ludum.dare.components.TextureRegionComponent;
+import ludum.dare.components.*;
 import ludum.dare.interfaces.IComponent;
 
 import java.util.List;
@@ -47,7 +38,7 @@ public class ControllerScreenObject extends GameObject {
         append(size);
 
         // Default to AI selection.
-        swapInput(new InputComponent(new AIControlMapAdapter()));
+        swapInput(new AIControlComponent());
     }
 
     private TextureRegionComponent getTextureCompnent(String name, PositionComponent p, SizeComponent s) {
@@ -61,13 +52,13 @@ public class ControllerScreenObject extends GameObject {
         Controller xboxController = safeGetXboxController(xbox360ControllerIndex);
         // Reset to AI
         if (Gdx.input.isKeyPressed(keyboardDeselect) || safeGetXboxButton(xboxController, xbox360Deselect)) {
-            newInput = new InputComponent(new AIControlMapAdapter());
+            newInput = new AIControlComponent();
         // Select Keyboard
         } else if (Gdx.input.isKeyPressed(keyboardSelect)) {
-            newInput = new InputComponent(GDXControls.defaultMapping);
+            newInput = new KeyboardControlComponent();
         // Select Xbox
         } else if (safeGetXboxButton(xboxController, xbox360Select)) {
-            newInput = new InputComponent(new GamepadControlMapAdapter(xbox360ControllerIndex));
+            newInput = new GamepadControlComponent(xbox360ControllerIndex);
         }
 
         swapInput(newInput);
@@ -96,19 +87,10 @@ public class ControllerScreenObject extends GameObject {
 
         TextureRegionComponent texture;
 
-        switch (input.getType()) {
-            case AI:
-                texture = aiTexture;
-                break;
-            case KEYBOARD:
-                texture = keyboardTexture;
-                break;
-            case XBOX_360:
-                texture = xbox360Texture;
-                break;
-            default:
-                throw new Error("Input type not supported");
-        }
+        if (input instanceof AIControlComponent) texture = aiTexture;
+        else if (input instanceof KeyboardControlComponent) texture = keyboardTexture;
+        else if (input instanceof GamepadControlComponent) texture = xbox360Texture;
+        else throw new RuntimeException("Input type not supported");
 
         append(texture);
         append(input);
