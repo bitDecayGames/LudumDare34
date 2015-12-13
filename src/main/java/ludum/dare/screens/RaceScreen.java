@@ -87,7 +87,7 @@ public class RaceScreen implements Screen, EditorHook {
     @Override
     public void show() {
 
-        music = SoundLibrary.GetMusic("ouroboros");
+        music = SoundLibrary.GetMusic("fight");
         music.play();
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
