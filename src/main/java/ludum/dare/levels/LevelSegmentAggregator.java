@@ -19,6 +19,16 @@ public class LevelSegmentAggregator {
 
 
     public static Level assembleSegments(List<Level> levelsRaw) {
+        if (levelsRaw.size() <= 0) {
+            throw new RuntimeException("Cannot aggregate empty chunks");
+        }
+        LevelSegmentAggregator.TILE_SIZE = levelsRaw.get(0).tileSize;
+        for (Level level : levelsRaw) {
+            if (level.tileSize != LevelSegmentAggregator.TILE_SIZE) {
+                throw new RuntimeException("Attempting to aggregate levels with different tile sizes");
+            }
+        }
+
         List<LevelWithAggData> levels = new ArrayList<>();
         levelsRaw.forEach(l -> levels.add(new LevelWithAggData(l)));
 
