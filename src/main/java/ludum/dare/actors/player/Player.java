@@ -37,16 +37,16 @@ public class Player extends StateMachine {
 
         attack = new AttackComponent(10);
 
-        phys = createBody(anim);
+        phys = createBody();
         append(size).append(pos).append(phys).append(health).append(anim);
     }
 
-    private PhysicsComponent createBody(AnimationComponent anim) {
+    private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
-        return new PhysicsComponent(body, pos, size, anim);
+        return new PhysicsComponent(body, pos, size);
     }
 
     private void setupAnimation(Animator a) {

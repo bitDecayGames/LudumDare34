@@ -16,16 +16,8 @@ public class KeyboardControlComponent extends InputComponent {
 
     private Set<InputAction> previousPresses = new HashSet<>();
 
-    private boolean inControl = true;
-
-
     public KeyboardControlComponent() {
         keyboard = GDXControls.defaultMapping;
-    }
-
-
-    public void inControl(boolean inControl) {
-        this.inControl = inControl;
     }
 
     @Override
