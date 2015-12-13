@@ -16,7 +16,6 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
 import ludum.dare.components.*;
-import ludum.dare.interfaces.IComponent;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -31,8 +30,8 @@ public class Player extends StateMachine {
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, size);
         setupAnimation(anim.animator);
-
-        this.append(size).append(pos).append(createBody()).append(health).append(anim);
+        phys = createBody();
+        this.append(size).append(pos).append(phys).append(health).append(anim);
 
         this.activeState = new StandState(this.components);
     }
@@ -42,7 +41,7 @@ public class Player extends StateMachine {
         body.jumperProps = new JumperProperties();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
-        phys = new PhysicsComponent(body, pos, size);
+        return new PhysicsComponent(body, pos, size);
     }
 
     private void setupAnimation(Animator a) {
@@ -63,6 +62,7 @@ public class Player extends StateMachine {
     }
 
     public void setPosition(float x, float y) {
+        // TODO: doesn't this need to set the PositionComponent?
         phys.getBody().velocity.set(0, 0);
         phys.getBody().aabb.xy.set(x, y);
     }
