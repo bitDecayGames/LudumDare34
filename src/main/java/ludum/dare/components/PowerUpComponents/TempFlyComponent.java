@@ -9,7 +9,7 @@ import ludum.dare.components.TimedComponent;
 public class TempFlyComponent extends TimedComponent{
     private PhysicsComponent phys;
 
-    public TempFlyComponent(PhysicsComponent phys) {
+    public TempFlyComponent() {
         super(5);
 //        Alter physics to make fly, dunno how do
     }

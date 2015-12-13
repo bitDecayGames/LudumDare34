@@ -147,6 +147,16 @@ public class Player extends StateMachine {
             append(new SpeedComponent(phys));
         } else if (clazz.equals(WallJumpComponent.class)) {
             append(new WallJumpComponent(phys));
+        } else if (clazz.equals(EmptyUpgradeComponent.class)) {
+            append(new EmptyUpgradeComponent());
+        } else if (clazz.equals(FireProjectileComponent.class)) {
+            append(new FireProjectileComponent());
+        } else if (clazz.equals(IceProjectileComponent.class)) {
+            append(new IceProjectileComponent());
+        } else if (clazz.equals(WebProjectileComponent.class)) {
+            append(new WebProjectileComponent());
+        } else if (clazz.equals(PoisonProjectileComponent.class)) {
+            append(new PoisonProjectileComponent());
         } else {
             throw new RuntimeException("Could not instantiate " + clazz);
         }

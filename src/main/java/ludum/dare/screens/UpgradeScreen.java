@@ -41,6 +41,11 @@ public class UpgradeScreen implements Screen {
             MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
             MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
             MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
+            MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire"));
+            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison"));
+            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice"));
+            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web"));
+            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop"));
         }
     }
 

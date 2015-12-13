@@ -10,10 +10,6 @@ import ludum.dare.interfaces.IUpdate;
  */
 public class StealCoinsComponent implements IComponent{
 
-    public StealCoinsComponent(PlayerCurrencyComponent myWallet, PlayerCurrencyComponent aWallet, PlayerCurrencyComponent bWallet, PlayerCurrencyComponent cWallet) {
-        myWallet.getACoin(3);
-        aWallet.loseACoin();
-        bWallet.loseACoin();
-        cWallet.loseACoin();
+    public StealCoinsComponent() {
     }
 }

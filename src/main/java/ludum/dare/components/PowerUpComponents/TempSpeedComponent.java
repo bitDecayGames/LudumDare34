@@ -9,19 +9,19 @@ import ludum.dare.components.TimedComponent;
 public class TempSpeedComponent extends TimedComponent {
     private PhysicsComponent phys;
 
-    public TempSpeedComponent(PhysicsComponent phys){
+    public TempSpeedComponent(){
         super(5);
-        this.phys = phys;
-        this.phys.getBody().props.acceleration = this.phys.getBody().props.acceleration + 300;
+//        this.phys = phys;
+//        this.phys.getBody().props.acceleration = this.phys.getBody().props.acceleration + 300;
     }
 
     @Override
     public void update(float delta) {
-        super.update(delta);
+//        super.update(delta);
     }
 
     @Override
     public void remove(){
-        phys.getBody().props.acceleration = phys.getBody().props.acceleration - 300;
+//        phys.getBody().props.acceleration = phys.getBody().props.acceleration - 300;
     }
 }
