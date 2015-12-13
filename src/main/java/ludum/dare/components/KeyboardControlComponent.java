@@ -17,7 +17,7 @@ public class KeyboardControlComponent extends InputComponent {
     Set<InputAction> previousPresses = new HashSet<>();
 
     public KeyboardControlComponent() {
-        keyboard = new GDXControls();
+        keyboard = GDXControls.defaultMapping;
     }
 
     @Override
