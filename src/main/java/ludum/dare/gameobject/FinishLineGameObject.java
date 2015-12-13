@@ -26,7 +26,7 @@ public class FinishLineGameObject extends BasePlacedObject {
     public List<BitBody> build(LevelObject levelObject) {
         size = new SizeComponent(0, 0);
         pos = new PositionComponent(0, 0);
-        anim = new AnimationComponent("finish", pos, 1f, new Vector2(0, 0));
+        anim = new AnimationComponent("finish", pos, 1f, new Vector2(0, -8));
         setupAnimation();
 
         phys = new PhysicsComponent(levelObject.buildBody(), pos, size);
@@ -37,7 +37,8 @@ public class FinishLineGameObject extends BasePlacedObject {
     private void setupAnimation() {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        anim.animator.addAnimation(new Animation("anim", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/chest/open").toArray(AnimagicTextureRegion.class)));
-        anim.animator.switchToAnimation("anim");
+        anim.animator.addAnimation(new Animation("ongoing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish").toArray(AnimagicTextureRegion.class)));
+        anim.animator.addAnimation(new Animation("finished", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish2").toArray(AnimagicTextureRegion.class)));
+        anim.animator.switchToAnimation("ongoing");
     }
 }

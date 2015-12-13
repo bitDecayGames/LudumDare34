@@ -24,6 +24,7 @@ import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
+import com.bitdecay.jump.leveleditor.render.LibGDXWorldRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
@@ -35,6 +36,7 @@ import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.CoinGameObject;
 import ludum.dare.gameobject.FinishLineGameObject;
+import ludum.dare.gameobject.PowerupGameObject;
 import ludum.dare.gameobject.SpawnGameObject;
 import ludum.dare.levelobject.CoinLevelObject;
 import ludum.dare.levelobject.FinishLineLevelObject;
@@ -57,6 +59,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
+    LibGDXWorldRenderer worldRenderer = new LibGDXWorldRenderer();
 
     Map<Class, Class> builderMap = new HashMap<>();
 
@@ -72,6 +75,8 @@ public class RaceScreen implements Screen, EditorHook {
             throw new Error("No game provided");
         }
 
+        constructBuilderMap();
+
         world.setGravity(0, -700);
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
@@ -81,9 +86,20 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        LevelSegmentGenerator generator = new LevelSegmentGenerator(10);
+        generateNextLevel(10);
+    }
+
+    public void generateNextLevel(int length) {
+        LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
         levelChanged(raceLevel);
+    }
+
+    private void constructBuilderMap() {
+        builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
+        builderMap.put(CoinLevelObject.class, CoinGameObject.class);
+        builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
+        builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
     }
 
     @Override
@@ -105,8 +121,8 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void update(float delta){
-        world.step(delta);
         gameObjects.forEach(obj -> obj.update(delta));
+        world.step(delta);
 
         updateCameras(delta);
 
@@ -157,10 +173,6 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
-        builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
-        builderMap.put(CoinLevelObject.class, CoinGameObject.class);
-        builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
-        builderMap.put(PowerupLevelObject.class, SpawnGameObject.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
         exampleItems.add(new SpawnLevelObject());
         exampleItems.add(new CoinLevelObject());
@@ -182,6 +194,8 @@ public class RaceScreen implements Screen, EditorHook {
             gameObjects.forEach(obj -> obj.draw(batch));
             batch.end();
         }
+
+//        worldRenderer.render(world, cameras[0]);
     }
 
     private void drawLevelEdit() {
@@ -269,7 +283,7 @@ public class RaceScreen implements Screen, EditorHook {
                     bodies.addAll(newObject.build(levelObject));
                     gameObjects.add(newObject);
                 } else {
-                    bodies.add(levelObject.buildBody());
+                    throw new RuntimeException("Found object that doesn't have mapping: " + levelObject);
                 }
             }
             return bodies;

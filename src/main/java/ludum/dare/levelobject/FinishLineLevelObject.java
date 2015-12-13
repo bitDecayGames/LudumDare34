@@ -20,8 +20,8 @@ public class FinishLineLevelObject extends RenderableLevelObject {
     public FinishLineLevelObject() {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        this.texture = atlas.findRegion("collect/chest/open");
-        rect = new BitRectangle(0, 0, 35, 23);
+        this.texture = atlas.findRegion("collect/finish");
+        rect = new BitRectangle(0, 0, 42, 38);
     }
 
     @Override

@@ -839,16 +839,6 @@
       "height" : 8.0
     },
     "uuid" : "e78d1480-eac8-4d89-a789-10f2f8dd356c"
-  } ], [ "ludum.dare.levelobject.SpawnLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : -96.0,
-        "y" : -128.0
-      },
-      "width" : 16.0,
-      "height" : 128.0
-    },
-    "uuid" : "b83d7b64-31e4-4377-aa36-d80956523387"
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {

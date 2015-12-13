@@ -124,7 +124,7 @@ public class LevelSegmentAggregator {
             for (TileObject[] toa : level.level.gridObjects) {
                 for (TileObject to : toa) {
                     if (to != null) {
-                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) to.rect.xy.x + TILE_SIZE, (int) to.rect.xy.y + TILE_SIZE), to.oneway, to.material);
+                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) (to.rect.xy.x + to.rect.width), (int) (to.rect.xy.y + to.rect.height)), to.oneway, to.material);
                     }
                 }
             }

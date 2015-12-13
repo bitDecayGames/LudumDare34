@@ -662,13 +662,13 @@
   "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.FinishLineLevelObject", {
     "rect" : {
       "xy" : {
-        "x" : 128.0,
+        "x" : 96.0,
         "y" : -128.0
       },
-      "width" : 16.0,
-      "height" : 256.0
+      "width" : 42.0,
+      "height" : 38.0
     },
-    "uuid" : "ef5149df-0d5c-44c0-809f-0c88c4797fc6"
+    "uuid" : "cff1c0c8-16bf-48c2-adf1-cddf656a5309"
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {
