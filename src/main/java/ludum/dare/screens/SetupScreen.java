@@ -110,7 +110,7 @@ public class SetupScreen implements Screen {
 
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
             // Start race.
-            game.setScreen(new RaceScreen(getResults()));
+            game.setScreen(new RaceScreen(game, getResults()));
         }
 
         camera.update();
