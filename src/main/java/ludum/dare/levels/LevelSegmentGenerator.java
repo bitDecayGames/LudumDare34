@@ -11,6 +11,7 @@ import java.util.List;
  * Created by Admin on 12/12/2015.
  */
 public class LevelSegmentGenerator {
+    public static final String SEGMENT_DIR = "levelSegments/";
 
     int numSegmentToUse;
 
@@ -22,7 +23,7 @@ public class LevelSegmentGenerator {
 
         int segmentsAvailable;
 
-        segmentsAvailable = new File("src\\main\\resources\\levelSegments").list().length;
+        segmentsAvailable = new File(SEGMENT_DIR).list().length;
         System.out.println("Segments available: " + segmentsAvailable);
 
         List<Level> generatedListOfSegments = new ArrayList<>();
@@ -30,7 +31,7 @@ public class LevelSegmentGenerator {
         for (int i = 0; i < numSegmentToUse; i++){
             int levelIndex = (int) (Math.random() * segmentsAvailable + 1);
             System.out.println("The segment chosen was " + levelIndex);
-            generatedListOfSegments.add(LevelUtilities.loadLevel("src\\main\\resources\\levelSegments\\segment_" + levelIndex));
+            generatedListOfSegments.add(LevelUtilities.loadLevel(SEGMENT_DIR + "segment_" + levelIndex));
         }
 
         return generatedListOfSegments;
