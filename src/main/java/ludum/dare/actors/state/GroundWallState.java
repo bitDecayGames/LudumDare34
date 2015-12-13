@@ -12,7 +12,7 @@ public class GroundWallState extends AbstractState {
 
     public void enter() {
         super.enter();
-        animationComponent.animator.switchToAnimation("wall");
+        animationComponent.animator.switchToAnimation("run");
     }
 
     public void exit() {

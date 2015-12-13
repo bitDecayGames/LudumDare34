@@ -12,7 +12,7 @@ public class ApexState extends AbstractState {
 
     public void enter() {
         super.enter();
-        animationComponent.animator.switchToAnimation("jump");
+        animationComponent.animator.switchToAnimation("apex");
     }
 
     public void exit() {

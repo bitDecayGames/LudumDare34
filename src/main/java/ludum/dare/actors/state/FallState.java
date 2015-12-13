@@ -12,7 +12,7 @@ public class FallState extends AbstractState {
 
     public void enter() {
         super.enter();
-        animationComponent.animator.switchToAnimation("jump");
+        animationComponent.animator.switchToAnimation("fall");
     }
 
     public void exit() {
