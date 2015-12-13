@@ -8,8 +8,8 @@ import ludum.dare.interfaces.IComponent;
 public class PlayerCurrencyComponent implements IComponent {
     public int currency = 0;
 
-    public void getACoin(){
-        currency ++;
+    public void getACoin(int c){
+        currency = currency + c;
     }
 
     public void loseACoin(){
