@@ -36,13 +36,12 @@ public class JumpState extends AbstractState {
         }
 
         if (physicsComponent.getBody().grounded) {
-            if (inputComponent.isJustPressed(PlayerAction.RIGHT) || inputComponent.isJustPressed(PlayerAction.LEFT)) {
+            if (inputComponent.isPressed(PlayerAction.RIGHT) || inputComponent.isPressed(PlayerAction.LEFT)) {
                 return new RunState(components);
             } else {
                 return new StandState(components);
             }
         }
-//        if (inputComponent.isPressed(InputAction.JUMP)) return new HurtState(components, this);
         return null;
     }
 }

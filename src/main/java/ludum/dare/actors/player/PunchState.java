@@ -20,7 +20,6 @@ public class PunchState extends AbstractState {
     }
 
     public IState update(float delta) {
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) return new StandState(components);
         return null;
     }
 }
