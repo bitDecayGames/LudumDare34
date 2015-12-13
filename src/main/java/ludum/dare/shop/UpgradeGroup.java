@@ -8,6 +8,12 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
+import ludum.dare.actors.player.Player;
+import ludum.dare.components.AIControlComponent;
+import ludum.dare.components.InputComponent;
+import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.control.InputAction;
+import ludum.dare.interfaces.IComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +23,14 @@ import java.util.List;
  * Created by Admin on 12/12/2015.
  */
 public class UpgradeGroup {
-    GameObject player;
+    Player player;
     List<UpgradeOption> choices = new ArrayList<>();
     int selectedIndex = 0;
 
     AnimagicTextureRegion selectionTexture;
 
     boolean active = true;
+    private boolean ready;
 
     //TODO: we will need to replace this argument with a player object once we have one.
 
@@ -31,8 +38,8 @@ public class UpgradeGroup {
      * This will build the options based on a provided player object
      * @param player
      */
-    public void initialize(GameObject player) {
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/test.atlas", AnimagicTextureAtlas.class);
+    public void initialize(Player player) {
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/upgrades.atlas", AnimagicTextureAtlas.class);
         selectionTexture = atlas.findRegion("selection");
         this.player = player;
     }
@@ -60,15 +67,27 @@ public class UpgradeGroup {
                 select();
             }
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-                left();
+            InputComponent inputComponent = player.getInputComponent();
+            if (inputComponent instanceof AIControlComponent) {
+                if (Math.random() < .3f) {
+                    left();
+                } else if (Math.random() > .7f) {
+                    right();
+                } else {
+                    select();
+                }
+            } else if (inputComponent != null) {
+                if (inputComponent.isJustPressed(InputAction.LEFT)) {
+                    left();
+                }
+                if (inputComponent.isJustPressed(InputAction.RIGHT)) {
+                    right();
+                }
+                if (inputComponent.isJustPressed(InputAction.JUMP)) {
+                    select();
+                }
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-                right();
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                select();
-            }
+            inputComponent.update(delta);
         }
     }
 
@@ -89,6 +108,8 @@ public class UpgradeGroup {
     private void select() {
         System.out.println(selectedIndex + " " + choices.get(selectedIndex));
         active = false;
+        Class clazz = choices.get(selectedIndex).clazz;
+        player.addUpgrade(clazz);
     }
 
     public void render(AnimagicSpriteBatch batch, int yTop, int yBottom) {
@@ -119,5 +140,9 @@ public class UpgradeGroup {
 
     public List<UpgradeOption> getChoices() {
         return choices;
+    }
+
+    public boolean isReady() {
+        return !active;
     }
 }

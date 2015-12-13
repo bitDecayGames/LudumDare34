@@ -59,12 +59,12 @@ public class UpgradeScreen implements Screen {
         group.initialize(player);
         int tries = 10;
         int added = 0;
-        while (tries > 0) {
+outer:  while (tries > 0) {
             tries--;
             UpgradeOption option = MASTER_LIST.get((int) (Math.random() * MASTER_LIST.size()));
             for(UpgradeOption selectedOption : group.getChoices()) {
                 if (option == selectedOption) {
-                    continue;
+                    continue outer;
                 }
             }
             if (!player.hasComponent(option.clazz)) {
@@ -80,8 +80,15 @@ public class UpgradeScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        boolean allReady = true;
         for (UpgradeGroup group : groups) {
             group.update(delta);
+            if (!group.isReady()) {
+                allReady = false;
+            }
+        }
+        if (allReady) {
+            game.setScreen(new RaceScreen(game, players));
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -97,6 +104,7 @@ public class UpgradeScreen implements Screen {
             group.render(batch, yTop, yBottom);
         }
         batch.end();
+
     }
 
     @Override
