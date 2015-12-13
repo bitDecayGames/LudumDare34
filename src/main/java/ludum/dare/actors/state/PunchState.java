@@ -1,7 +1,6 @@
-package ludum.dare.actors.player;
+package ludum.dare.actors.state;
 
 import ludum.dare.interfaces.IComponent;
-import ludum.dare.interfaces.AbstractState;
 import ludum.dare.interfaces.IState;
 
 import java.util.Set;
