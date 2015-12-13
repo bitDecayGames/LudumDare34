@@ -24,6 +24,10 @@ In IntelliJ, you will need to add the dependencies as modules in your project.
 
 Run by right-clicking src/main/java/ludum/dare/Launcher.java and selecting "Run Launcher.main()"
 
+## Xbawkz Controllers OSX
+
+To get dem XBawkz controllerz workin' in ur Mac (Yosemite): https://github.com/360Controller/360Controller/releases/tag/v0.15_beta3_unofficial
+
 ## Reading material
 
 Entity Component
