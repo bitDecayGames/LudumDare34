@@ -31,6 +31,7 @@ public class RacerGame extends Game {
         List<GameObject> players = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             players.add(new GameObject());
+
         }
         setScreen(new RaceScreen(this));
     }
