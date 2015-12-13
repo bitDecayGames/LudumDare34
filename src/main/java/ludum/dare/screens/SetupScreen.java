@@ -52,14 +52,15 @@ public class SetupScreen implements Screen {
     }
 
     // Onscreen positions
-    final static float X = 300;
-    final static float Y = 250;
+    final static float BOX_SIDE = 250;
+    final static float X = 200;
+    final static float Y = 325;
     final static List<PositionComponent> playerControllerPositions = new ArrayList<>();
     static {
-        playerControllerPositions.add(new PositionComponent(-X, Y));
-        playerControllerPositions.add(new PositionComponent(X, Y));
-        playerControllerPositions.add(new PositionComponent(-X, -Y));
-        playerControllerPositions.add(new PositionComponent(X, -Y));
+        playerControllerPositions.add(new PositionComponent(-X -(BOX_SIDE / 2), Y - BOX_SIDE));
+        playerControllerPositions.add(new PositionComponent(X - (BOX_SIDE / 2), Y - BOX_SIDE));
+        playerControllerPositions.add(new PositionComponent(-X - (BOX_SIDE / 2), -Y));
+        playerControllerPositions.add(new PositionComponent(X - (BOX_SIDE / 2), -Y));
     }
 
     public SetupScreen(RacerGame game) {
@@ -85,7 +86,7 @@ public class SetupScreen implements Screen {
     }
 
     private void setupPlayers() {
-        SizeComponent size = new SizeComponent(250, 250);
+        SizeComponent size = new SizeComponent(BOX_SIDE, BOX_SIDE);
         for (int i = 0; i < players.size(); i++) {
             ControllerScreenObject obj = new ControllerScreenObject(keyboardSelectKeys.get(i), keyboardDeselectKeys.get(i), i, playerControllerPositions.get(i), size);
             inputObjects.add(obj);
