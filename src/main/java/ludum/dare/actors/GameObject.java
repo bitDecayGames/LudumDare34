@@ -55,6 +55,10 @@ public class GameObject implements IUpdate, IDraw {
         return returnList;
     }
 
+    public boolean hasComponent(Class<? extends IComponent> clazz) {
+        return getComponents(clazz).size() > 0;
+    }
+
     protected IComponent getFirstComponent(Class<? extends IComponent> clazz) {
         List<IComponent> components = getComponents(clazz);
         return components.size() > 0 ? components.get(0) : null;
@@ -84,5 +88,4 @@ public class GameObject implements IUpdate, IDraw {
     public void draw(SpriteBatch spriteBatch) {
         drawableComponents.forEach(c -> c.draw(spriteBatch));
     }
-
 }

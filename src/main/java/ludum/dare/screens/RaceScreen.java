@@ -137,12 +137,8 @@ public class RaceScreen implements Screen, EditorHook {
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
         builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
-//        builderMap.put(ShellLevelObject.class, ShellObject.class);
-//        builderMap.put(GravityLvlObject.class, GravityField.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
-//        exampleItems.add(new SecretThing());
-//        exampleItems.add(new ShellLevelObject());
-//        exampleItems.add(new GravityLvlObject());
+        exampleItems.add(new SpawnLevelObject());
         return exampleItems;
     }
 
