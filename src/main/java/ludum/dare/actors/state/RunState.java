@@ -22,8 +22,6 @@ public class RunState extends AbstractState {
     }
 
     public IState update(float delta) {
-        super.update(delta);
-
         if (!inputComponent.isPressed(PlayerAction.RIGHT) &&
                 !inputComponent.isPressed(PlayerAction.LEFT)) return new StandState(components);
         else if (inputComponent.isJustPressed(PlayerAction.JUMP)) return new JumpState(components);

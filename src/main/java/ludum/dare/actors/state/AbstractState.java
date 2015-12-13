@@ -45,13 +45,14 @@ public abstract class AbstractState implements IState, StateListener {
     }
 
     @Override
-    public IState update(float delta) {
-        updateFacing();
+    public void stateChanged(RenderState state) {
+        previousRenderState = currentRenderState;
+        currentRenderState = state;
 
-        return null;
+        updateFacing(state);
     }
 
-    private void updateFacing() {
+    private void updateFacing(RenderState state) {
         Facing facing = physicsComponent.getBody().facing;
         switch (facing) {
             case LEFT:
@@ -63,11 +64,5 @@ public abstract class AbstractState implements IState, StateListener {
             default:
                 throw new Error("Invalid facing set");
         }
-    }
-
-    @Override
-    public void stateChanged(RenderState state) {
-        previousRenderState = currentRenderState;
-        currentRenderState = state;
     }
 }

@@ -22,8 +22,6 @@ public class JumpState extends AbstractState {
     }
 
     public IState update(float delta) {
-        super.update(delta);
-
         if (physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(PlayerAction.RIGHT) || inputComponent.isPressed(PlayerAction.LEFT)) {
                 return new RunState(components);
