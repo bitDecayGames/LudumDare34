@@ -14,21 +14,8 @@ public class ProjectileComponent {
     public boolean iceProj = false;
     public boolean poisonProj = false;
 
-    public ProjectileComponent(ProjectileComponent proj, String projLVL2Name){
-        if(!proj.projLVL1 && !proj.isProjLVL2){
-            this.projLVL1 = true;
-        } else if (proj.projLVL1 && !proj.isProjLVL2){
-            this.isProjLVL2 = true;
-            if(projLVL2Name == "FIRE_PROJECTILE"){
-                fireProj = true;
-            } else if (projLVL2Name == "WEB_PROJECTILE"){
-                webProj = true;
-            } else if (projLVL2Name == "ICE_PROJECTILE"){
-                iceProj = true;
-            }else if (projLVL2Name == "POISON_PROJECTILE"){
-                poisonProj = true;
-            }
-        }
+    public ProjectileComponent(){
+        projLVL1 = true;
     }
 
 }
