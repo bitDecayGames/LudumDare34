@@ -56,7 +56,7 @@ public class Player extends StateMachine {
         a.addAnimation(new Animation("stand", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), atlas.findRegions("stand").toArray(AnimagicTextureRegion.class)));
         a.addAnimation(new Animation("wall", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), atlas.findRegions("wall").toArray(AnimagicTextureRegion.class)));
 
-        a.switchToAnimation("run");
+        a.switchToAnimation("stand");
     }
 
     public void setPosition(float x, float y) {

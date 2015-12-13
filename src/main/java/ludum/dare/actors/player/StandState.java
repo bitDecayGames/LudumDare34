@@ -21,7 +21,7 @@ public class StandState extends IState {
     }
 
     public IState update(float delta) {
-        if (inputComponent.isJustPressed(PlayerAction.RIGHT)) return new RunState(components);
+        if (inputComponent.isJustPressed(PlayerAction.RIGHT) || inputComponent.isJustPressed(PlayerAction.LEFT)) return new RunState(components);
         return null;
     }
 }
