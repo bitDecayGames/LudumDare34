@@ -3,9 +3,9 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 
 
@@ -39,8 +38,8 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final RacerGame game) {
         this.game = game;
 
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", AnimagicTextureAtlas.class);
-        Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas.atlas);
+        TextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", TextureAtlas.class);
+        Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas);
 
         background = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/splash.png"))));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

@@ -1,7 +1,6 @@
 package ludum.dare.components;
 
 import com.bitdecay.jump.control.PlayerAction;
-import ludum.dare.components.upgradeComponents.TimedComponent;
 import ludum.dare.control.InputAction;
 
 // TODO Mike implement for AI

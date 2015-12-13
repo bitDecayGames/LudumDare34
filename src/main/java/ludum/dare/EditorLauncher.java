@@ -36,7 +36,7 @@ public class EditorLauncher {
                 Player playerInstance = new Player();
                 playerInstance.append(new KeyboardControlComponent());
                 players.add(playerInstance);
-                Players.intialize(players);
+                Players.initialize(players);
 
                 RaceScreen raceScreen = new RaceScreen(game);
                 raceScreen.show();
