@@ -51,7 +51,7 @@ public abstract class AbstractState implements IState, StateListener {
         previousRenderState = currentRenderState;
         currentRenderState = state;
 
-        updateFacing(state);
+        updateFacing();
     }
 
     private void checkValidData() {
@@ -72,7 +72,7 @@ public abstract class AbstractState implements IState, StateListener {
         return new RuntimeException("No " + clazz + " provided");
     }
 
-    private void updateFacing(RenderState state) {
+    private void updateFacing() {
         Facing facing = physicsComponent.getBody().facing;
         switch (facing) {
             case LEFT:
