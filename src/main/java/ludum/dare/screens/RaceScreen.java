@@ -42,6 +42,12 @@ public class RaceScreen implements Screen, EditorHook {
     Map<Class, Class> builderMap = new HashMap<>();
 
     List<GameObject> gameObjects = new ArrayList<>();
+    List<GameObject> players = new ArrayList<>();
+
+
+    public RaceScreen(List<GameObject> players) {
+        this.players = players;
+    }
 
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();

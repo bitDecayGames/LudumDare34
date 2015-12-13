@@ -7,9 +7,6 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlasLoader;
 import ludum.dare.actors.GameObject;
 import ludum.dare.screens.RaceScreen;
-import ludum.dare.screens.SetupScreen;
-import ludum.dare.screens.SplashScreen;
-import ludum.dare.screens.UpgradeScreen;
 
 import java.util.ArrayList;
 import java.util.List;
