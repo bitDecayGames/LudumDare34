@@ -13,15 +13,17 @@ public class StandState extends AbstractState {
     }
 
     public void enter() {
+        super.enter();
         animationComponent.animator.switchToAnimation("stand");
     }
 
     public void exit() {
-
+        super.exit();
     }
 
     public IState update(float delta) {
         super.update(delta);
+
         if (inputComponent.isJustPressed(PlayerAction.RIGHT) || inputComponent.isJustPressed(PlayerAction.LEFT)) return new RunState(components);
         else if (inputComponent.isJustPressed(PlayerAction.JUMP)) return new JumpState(components);
         return null;

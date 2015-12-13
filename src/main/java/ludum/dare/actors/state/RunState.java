@@ -13,11 +13,12 @@ public class RunState extends AbstractState {
     }
 
     public void enter() {
+        super.enter();
         animationComponent.animator.switchToAnimation("run");
     }
 
     public void exit() {
-
+        super.exit();
     }
 
     public IState update(float delta) {

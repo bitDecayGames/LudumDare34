@@ -12,11 +12,12 @@ public class HurtState extends AbstractState {
     }
 
     public void enter() {
+        super.enter();
         animationComponent.animator.switchToAnimation("knockback");
     }
 
     public void exit() {
-
+        super.exit();
     }
 
     public IState update(float delta) {

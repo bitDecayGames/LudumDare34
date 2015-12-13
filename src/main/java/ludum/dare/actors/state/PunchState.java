@@ -12,10 +12,11 @@ public class PunchState extends AbstractState {
     }
 
     public void enter() {
+        super.enter();
     }
 
     public void exit() {
-
+        super.exit();
     }
 
     public IState update(float delta) {
