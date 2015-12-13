@@ -21,6 +21,7 @@ public class HurtState extends AbstractState {
     }
 
     public IState update(float delta) {
+        super.update(delta);
         return null;
     }
 }

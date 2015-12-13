@@ -1,5 +1,6 @@
 package ludum.dare.interfaces;
 
+import com.bitdecay.jump.Facing;
 import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.InputComponent;
 import ludum.dare.components.PhysicsComponent;
@@ -21,5 +22,22 @@ public abstract class AbstractState implements IState{
             if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
         });
         this.returnState = returnState;
+    }
+
+    @Override
+    public IState update(float delta) {
+        Facing facing = physicsComponent.getBody().facing;
+        switch (facing) {
+            case LEFT:
+                animationComponent.setFlipVerticalAxis(true);
+                break;
+            case RIGHT:
+                animationComponent.setFlipVerticalAxis(false);
+                break;
+            default:
+                throw new Error("Invalid facing set");
+        }
+
+        return null;
     }
 }

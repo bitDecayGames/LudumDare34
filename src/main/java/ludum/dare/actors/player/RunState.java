@@ -23,17 +23,7 @@ public class RunState extends AbstractState {
     }
 
     public IState update(float delta) {
-        Facing facing = physicsComponent.getBody().facing;
-        switch (facing) {
-            case LEFT:
-                animationComponent.setFlipVerticalAxis(true);
-                break;
-            case RIGHT:
-                animationComponent.setFlipVerticalAxis(false);
-                break;
-            default:
-                throw new Error("Invalid facing set");
-        }
+        super.update(delta);
 
         if (!inputComponent.isPressed(PlayerAction.RIGHT) &&
                 !inputComponent.isPressed(PlayerAction.LEFT)) return new StandState(components);
