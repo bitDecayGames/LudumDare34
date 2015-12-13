@@ -6,17 +6,5 @@
   "1" : {
     "originX" : 12,
     "originY" : 0
-  },
-  "2" : {
-    "originX" : 17,
-    "originY" : -1
-  },
-  "3" : {
-    "originX" : 19,
-    "originY" : 0
-  },
-  "4" : {
-    "originX" : 19,
-    "originY" : 0
   }
 }
