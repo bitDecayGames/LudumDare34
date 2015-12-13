@@ -30,15 +30,13 @@ public class PunchState extends AbstractState implements AnimationListener {
     }
 
     public Boolean shouldRun(IState currentState) {
-        if (currentState instanceof PunchState) {
-            return false;
+        if (inputComponent.isJustPressed(InputAction.PUNCH)) {
+            if (!(currentState instanceof PunchState)) {
+                return true;
+            }
         }
 
-        if (!inputComponent.isJustPressed(InputAction.PUNCH)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     public void enter() {
