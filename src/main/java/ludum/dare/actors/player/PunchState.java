@@ -19,9 +19,9 @@ public class PunchState extends IState implements AnimationListener {
     }
 
     public void enter() {
-        if (returnState instanceof JumpState) {
+        if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/jumping/up");
-            if (inputComponent.isPressed(InputAction.DOWN)) switchToAnimation("punch/jumping/down");
+            else if (inputComponent.isPressed(InputAction.DOWN)) switchToAnimation("punch/jumping/down");
             else switchToAnimation("punch/jumping/front");
         } else {
             if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/up");

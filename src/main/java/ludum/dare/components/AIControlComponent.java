@@ -51,6 +51,11 @@ public class AIControlComponent extends InputComponent {
     }
 
     @Override
+    public void inControl(boolean inControl) {
+
+    }
+
+    @Override
     public void update(float delta) {
         jumpCycleTimer.update(delta);
 
