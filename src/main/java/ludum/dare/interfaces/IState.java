@@ -18,7 +18,7 @@ public abstract class IState {
         components.forEach(comp -> {
             if (comp instanceof PhysicsComponent) physicsComponent = (PhysicsComponent) comp;
             if (comp instanceof AnimationComponent) animationComponent = (AnimationComponent) comp;
-            if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
+                if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
         });
         this.returnState = returnState;
     }

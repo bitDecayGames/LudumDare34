@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.utils.Array;
+import com.bitdecay.jump.control.ControlMap;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;

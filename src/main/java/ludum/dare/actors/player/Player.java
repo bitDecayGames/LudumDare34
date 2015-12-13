@@ -31,9 +31,7 @@ public class Player extends StateMachine {
         anim = new AnimationComponent("player", pos, size);
         setupAnimation(anim.animator);
         phys = createBody();
-        this.append(size).append(pos).append(phys).append(health).append(anim);
-
-        this.activeState = new StandState(this.components);
+        append(size).append(pos).append(phys).append(health).append(anim);
     }
 
     private PhysicsComponent createBody() {
@@ -79,6 +77,7 @@ public class Player extends StateMachine {
         try {
             ControlMap controls = (ControlMap) getFirstComponent(InputComponent.class);
             phys.getBody().controller = new PlayerInputController(controls);
+            activeState = new StandState(components);
         } catch (Error e) {
             throw new Error("Could not activate player controls");
         }

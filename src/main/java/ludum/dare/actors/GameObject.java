@@ -47,7 +47,7 @@ public class GameObject implements IUpdate, IDraw {
         components.forEach(comp -> {
             if (comp.getClass().equals(clazz)) {
                 returnList.add(comp);
-            } else if (clazz.isInterface() && comp.getClass().isAssignableFrom(clazz)) {
+            } else if (clazz.isAssignableFrom(comp.getClass())) {
                 returnList.add(comp);
             }
         });

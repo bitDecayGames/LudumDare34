@@ -35,7 +35,7 @@ public class KeyboardControlComponent extends InputComponent {
 
     @Override
     public boolean isPressed(InputAction action) {
-        return keyboard.isPressed(action.playerAction);
+        return action.playerAction != null && keyboard.isPressed(action.playerAction);
     }
 
     @Override
