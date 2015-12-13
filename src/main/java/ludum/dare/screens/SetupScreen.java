@@ -114,7 +114,7 @@ public class SetupScreen implements Screen {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.lookAt(0, 0, 0);
         batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
 
         setupPlayers();
 

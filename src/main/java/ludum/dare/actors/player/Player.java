@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
-import com.bitdecay.jump.collision.BitWorld;
 import com.bitdecay.jump.control.ControlMap;
 import com.bitdecay.jump.control.PlayerInputController;
 import com.bitdecay.jump.geom.BitRectangle;
@@ -33,6 +32,7 @@ public class Player extends StateMachine {
     private final AnimationComponent anim;
     private final PlayerCurrencyComponent wallet;
     private final AttackComponent attack;
+    private LevelInteractionComponent levelComponent;
 
     public Player() {
         size = new SizeComponent(100, 100);
@@ -103,7 +103,6 @@ public class Player extends StateMachine {
     }
 
     public void setPosition(float x, float y) {
-        // TODO: doesn't this need to set the PositionComponent?
         phys.getBody().velocity.set(0, 0);
         phys.getBody().aabb.xy.set(x, y);
     }
@@ -121,8 +120,14 @@ public class Player extends StateMachine {
         return new Vector3(pos.x, pos.y, 0);
     }
 
-    public void addToWorld(BitWorld world) {
-        world.addBody(phys.getBody());
+    public void addToScreen(LevelInteractionComponent levelComp) {
+        // Remove any existing level components.
+        remove(LevelInteractionComponent.class);
+
+        levelComponent = levelComp;
+        append(levelComponent);
+
+        levelComponent.addToLevel(this, phys);
     }
 
     public void activateControls() {

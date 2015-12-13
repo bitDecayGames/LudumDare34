@@ -8,6 +8,7 @@ import com.bitdecay.jump.render.JumperRenderState;
 import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.InputComponent;
 import ludum.dare.components.PhysicsComponent;
+import ludum.dare.components.PositionComponent;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 
@@ -18,6 +19,7 @@ public abstract class AbstractState implements IState, StateListener {
     protected PhysicsComponent physicsComponent;
     protected AnimationComponent animationComponent;
     protected InputComponent inputComponent;
+    protected PositionComponent positionComponent;
 
     private IState jumpState = null;
 
@@ -30,6 +32,7 @@ public abstract class AbstractState implements IState, StateListener {
             if (comp instanceof PhysicsComponent) physicsComponent = (PhysicsComponent) comp;
             if (comp instanceof AnimationComponent) animationComponent = (AnimationComponent) comp;
             if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
+            if (comp instanceof PositionComponent) positionComponent = (PositionComponent) comp;
         });
 
         checkValidData();
@@ -117,6 +120,9 @@ public abstract class AbstractState implements IState, StateListener {
         }
         if (inputComponent == null) {
             throw createDataError(InputComponent.class);
+        }
+        if (positionComponent == null) {
+            throw createDataError(PositionComponent.class);
         }
     }
 

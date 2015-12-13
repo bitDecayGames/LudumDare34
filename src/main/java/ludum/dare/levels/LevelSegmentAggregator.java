@@ -3,19 +3,15 @@ package ludum.dare.levels;
 import com.bitdecay.jump.geom.BitPointInt;
 import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
-import com.bitdecay.jump.level.LevelUtilities;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.level.builder.LevelBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 12/12/2015.
- */
 public class LevelSegmentAggregator {
 
-    public static int TILE_SIZE = 32;
+    public static int TILE_SIZE = 16;
     public static boolean DEBUG = false;
 
 
