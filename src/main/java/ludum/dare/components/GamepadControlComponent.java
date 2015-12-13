@@ -55,7 +55,7 @@ public class GamepadControlComponent extends InputComponent {
 
     @Override
     public boolean isPressed(InputAction action) {
-        int button = 0;
+        int button;
         if (actionsToXboxButtons.containsKey(action)) button = actionsToXboxButtons.get(action);
         else return false;
 
@@ -68,14 +68,9 @@ public class GamepadControlComponent extends InputComponent {
                 return controller.getAxis(button) > 0.2f;
             case LEFT:
                 return controller.getAxis(button) < -0.2f;
-            case JUMP:
-                return controller.getButton(button);
-            case PUNCH:
-                return controller.getButton(button);
-            case PROJECTILE:
+            default:
                 return controller.getButton(button);
         }
-        return false;
     }
 
     @Override
