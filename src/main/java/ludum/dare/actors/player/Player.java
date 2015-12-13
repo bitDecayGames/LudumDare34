@@ -65,6 +65,17 @@ public class Player extends StateMachine {
         a.switchToAnimation("stand");
     }
 
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+
+        // Reset for now
+        // TODO do this somewhere else?
+        if (pos.y < -1000) {
+            setPosition(0, 0);
+        }
+    }
+
     public void setPosition(float x, float y) {
         // TODO: doesn't this need to set the PositionComponent?
         phys.getBody().velocity.set(0, 0);
