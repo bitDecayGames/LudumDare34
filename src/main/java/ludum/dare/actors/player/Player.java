@@ -38,7 +38,7 @@ public class Player extends StateMachine {
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(0, 0);
         health = new HealthComponent(10, 10);
-        anim = new AnimationComponent("player", pos, 1f, new Vector2(8, 0));
+        anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -3));
         wallet = new PlayerCurrencyComponent();
         setupAnimation(anim.animator);
 

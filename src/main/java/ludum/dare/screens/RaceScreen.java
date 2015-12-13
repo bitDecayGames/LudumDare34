@@ -73,8 +73,8 @@ public class RaceScreen implements Screen, EditorHook {
         world.setGravity(0, -700);
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-        fallbackTileTexture = atlas.findRegion("fallbacktileset");
-        tilesetMap.put(0, fallbackTileTexture.split(16, 16)[0]);
+        fallbackTileTexture = atlas.findRegion("crystal");
+        tilesetMap.put(0, fallbackTileTexture.split(fallbackTileTexture.getRegionWidth() / 16, fallbackTileTexture.getRegionHeight())[0]);
 
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
@@ -126,7 +126,16 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void render(OrthographicCamera cam) {
+        for(OrthographicCamera playerCam : cameras) {
+            playerCam.position.set(cam.position);
+            playerCam.zoom = cam.zoom;
+            playerCam.viewportWidth = cam.viewportWidth;
+            playerCam.viewportHeight = cam.viewportHeight;
+            playerCam.projection.set(cam.projection);
 
+            playerCam.update();
+        }
+        draw();
     }
 
     @Override
@@ -159,7 +168,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     private void draw(){
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         for (int i = 0; i < cameras.length; i++) {
             Gdx.gl.glViewport(0, Gdx.graphics.getHeight() / cameras.length * i, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
