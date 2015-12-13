@@ -4,7 +4,7 @@
 
     <groupId>com.bitdecay</groupId>
     <artifactId>LudumDare34</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>Ludum Dare 34</name>
     <version>0.1-SNAPSHOT</version>
@@ -16,11 +16,6 @@
         <commonsVersion>2.4</commonsVersion>
         <jumpVersion>0.1-SNAPSHOT</jumpVersion>
     </properties>
-
-    <modules>
-        <module>../animagic</module>
-        <module>../Jump</module>
-    </modules>
 
     <build>
         <plugins>
@@ -38,6 +33,27 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Executable Shade</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>ludum.dare.Launcher</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -92,13 +108,11 @@
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-controllers</artifactId>
             <version>${gdxVersion}</version>
-            <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-controllers-desktop</artifactId>
             <version>${gdxVersion}</version>
-            <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
