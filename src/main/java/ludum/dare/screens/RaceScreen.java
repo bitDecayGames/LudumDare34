@@ -1,6 +1,7 @@
 package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,6 +29,8 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
+import ludum.dare.control.InputUtil;
+import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.SpawnGameObject;
 import ludum.dare.levelobject.SpawnLevelObject;
 import ludum.dare.levels.LevelSegmentAggregator;
@@ -94,6 +97,11 @@ public class RaceScreen implements Screen, EditorHook {
         gameObjects.forEach(obj -> obj.update(delta));
 
         updateCameras(delta);
+
+        // Reset level
+        if (InputUtil.checkInputs(Input.Keys.R, Xbox360Pad.BACK)) {
+            game.setScreen(new RaceScreen(game, players));
+        }
     }
 
     private void updateCameras(float delta) {
@@ -193,6 +201,8 @@ public class RaceScreen implements Screen, EditorHook {
         for (Player player : players) {
             player.activateControls();
             player.addToWorld(world);
+            // TODO handle spawn points.
+            player.setPosition(0, 0);
             gameObjects.add(player);
         }
 
