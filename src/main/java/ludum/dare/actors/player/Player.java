@@ -3,7 +3,6 @@ package ludum.dare.actors.player;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.collision.BitWorld;
-import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bitdecay.jump.geom.BitRectangle;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.Animator;

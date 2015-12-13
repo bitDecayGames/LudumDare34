@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class UpgradeGroup {
     GameObject player;
-    List<UpgradeOption> choices;
+    List<UpgradeOption> choices = new ArrayList<>();
     int selectedIndex = 0;
 
     AnimagicTextureRegion selectionTexture;
@@ -35,10 +35,10 @@ public class UpgradeGroup {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/test.atlas", AnimagicTextureAtlas.class);
         selectionTexture = atlas.findRegion("selection");
         this.player = player;
-        choices = new ArrayList<>();
-        choices.add(new UpgradeOption(null, "test"));
-        choices.add(new UpgradeOption(null, "test"));
-        choices.add(new UpgradeOption(null, "test"));
+    }
+
+    public void addChoice(UpgradeOption option) {
+        choices.add(option);
     }
 
     public void update(float delta) {

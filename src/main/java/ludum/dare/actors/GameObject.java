@@ -54,6 +54,10 @@ public class GameObject implements IUpdate, IDraw {
         return returnList;
     }
 
+    public boolean hasComponent(Class<? extends IComponent> clazz) {
+        return getComponents(clazz).size() > 0;
+    }
+
     public List<BitBody> build(LevelObject levelObject) {
         return Collections.emptyList();
     }

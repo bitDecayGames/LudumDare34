@@ -7,12 +7,27 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.actors.GameObject;
+import ludum.dare.actors.player.Player;
+import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.interfaces.IComponent;
 import ludum.dare.shop.UpgradeGroup;
+import ludum.dare.shop.UpgradeOption;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeScreen implements Screen {
+
+    private static ArrayList<Class<? extends IComponent>> MASTER_LIST = new ArrayList<>();
+    static {
+        MASTER_LIST.add(DoubleJumpComponent.class);
+        MASTER_LIST.add(EmptyUpgradeComponent.class);
+        MASTER_LIST.add(JetPackComponent.class);
+        MASTER_LIST.add(MetalComponent.class);
+        MASTER_LIST.add(MysteryBagComponent.class);
+        MASTER_LIST.add(SpeedComponent.class);
+        MASTER_LIST.add(WallJumpComponent.class);
+    }
 
     OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     AnimagicSpriteBatch batch;
@@ -42,9 +57,17 @@ public class UpgradeScreen implements Screen {
         }
     }
 
-    private UpgradeGroup buildPlayerOptions(GameObject player) {
+    private UpgradeGroup buildPlayerOptions(Player player) {
         UpgradeGroup group = new UpgradeGroup();
         group.initialize(player);
+        int tries = 10;
+        while (tries > 0) {
+            tries--;
+            Class<? extends IComponent> upgradeComponent = MASTER_LIST.get((int) (Math.random() * MASTER_LIST.size()));
+            if (!player.hasComponent(upgradeComponent)) {
+                group.addChoice(new UpgradeOption(upgradeComponent, ));
+            }
+        }
         return group;
     }
 
