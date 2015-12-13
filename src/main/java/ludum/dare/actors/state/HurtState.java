@@ -1,4 +1,4 @@
-package ludum.dare.actors.player;
+package ludum.dare.actors.state;
 
 import com.badlogic.gdx.math.Vector2;
 import ludum.dare.components.HurtComponent;
@@ -7,7 +7,7 @@ import ludum.dare.interfaces.IState;
 
 import java.util.Set;
 
-public class HurtState extends IState {
+public class HurtState extends AbstractState {
 
     private HurtComponent hurt;
 

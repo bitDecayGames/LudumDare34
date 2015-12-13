@@ -1,4 +1,4 @@
-package ludum.dare.actors.player;
+package ludum.dare.actors.state;
 
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.AnimationListener;
@@ -9,8 +9,7 @@ import ludum.dare.interfaces.IState;
 
 import java.util.Set;
 
-public class PunchState extends IState implements AnimationListener {
-
+public class PunchState extends AbstractState implements AnimationListener {
     private Animation punchAnimation;
     private boolean done = false;
 
@@ -19,6 +18,7 @@ public class PunchState extends IState implements AnimationListener {
     }
 
     public void enter() {
+        super.enter();
         if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/jumping/up");
             else if (inputComponent.isPressed(InputAction.DOWN)) switchToAnimation("punch/jumping/down");
@@ -39,6 +39,7 @@ public class PunchState extends IState implements AnimationListener {
     }
 
     public void exit() {
+        super.exit();
         if (punchAnimation != null) punchAnimation.stopListening(this);
     }
 
