@@ -24,11 +24,13 @@ public class AIControlComponent extends InputComponent {
         }
 
         if (action.equals(PlayerAction.RIGHT)) {
-            return true;
+//            return true;
+            return false;
         }
 
         if (action.equals(PlayerAction.JUMP)) {
-            return jump;
+//            return jump;
+            return false;
         }
 
         return false;

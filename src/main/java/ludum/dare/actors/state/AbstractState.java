@@ -4,6 +4,7 @@ import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.Facing;
 import com.bitdecay.jump.common.RenderState;
 import com.bitdecay.jump.common.StateListener;
+import com.bitdecay.jump.render.JumperRenderState;
 import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.InputComponent;
 import ludum.dare.components.PhysicsComponent;
@@ -17,19 +18,19 @@ public abstract class AbstractState implements IState, StateListener {
     protected PhysicsComponent physicsComponent;
     protected AnimationComponent animationComponent;
     protected InputComponent inputComponent;
-    protected IState returnState = null;
+
+    private IState jumpState = null;
 
     protected RenderState currentRenderState;
     protected RenderState previousRenderState;
 
-    public AbstractState(Set<IComponent> components, IState returnState) {
+    public AbstractState(Set<IComponent> components) {
         this.components = components;
         components.forEach(comp -> {
             if (comp instanceof PhysicsComponent) physicsComponent = (PhysicsComponent) comp;
             if (comp instanceof AnimationComponent) animationComponent = (AnimationComponent) comp;
             if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
         });
-        this.returnState = returnState;
 
         checkValidData();
     }
@@ -37,8 +38,8 @@ public abstract class AbstractState implements IState, StateListener {
     @Override
     public void enter() {
         BitBody body = physicsComponent.getBody();
-        currentRenderState = body.renderStateWatcher.getState();
         body.renderStateWatcher.addListener(this);
+        stateChanged(body.renderStateWatcher.getState());
     }
 
     @Override
@@ -47,11 +48,42 @@ public abstract class AbstractState implements IState, StateListener {
     }
 
     @Override
+    public IState update(float delta) {
+        IState internalState = internalUpdate(delta);
+        return internalState != null ? internalState : jumpState;
+    }
+
+    protected IState internalUpdate(float delta) {
+        return null;
+    }
+
+    @Override
     public void stateChanged(RenderState state) {
         previousRenderState = currentRenderState;
         currentRenderState = state;
 
         updateFacing();
+
+        switch ((JumperRenderState) state) {
+            case LEFT_STANDING:
+            case RIGHT_STANDING:
+                jumpState = new StandState(components);
+                break;
+            case LEFT_RUNNING:
+            case RIGHT_RUNNING:
+                jumpState = new RunState(components);
+                break;
+            case LEFT_JUMPING:
+            case RIGHT_JUMPING:
+                jumpState = new JumpState(components);
+                break;
+            default:
+                jumpState = null;
+        }
+    }
+
+    protected IState getJumpState() {
+        return jumpState;
     }
 
     private void checkValidData() {
