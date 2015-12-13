@@ -119,9 +119,9 @@ public class UpgradeGroup {
 
         int renderX = edgeSpace;
         if (active) {
-            batch.setColor(Color.WHITE);
+            batch.setColor(Color.YELLOW);
         } else {
-            batch.setColor(Color.GRAY);
+            batch.setColor(Color.DARK_GRAY);
         }
         for (int i = 0; i < choices.size(); i ++) {
             // do shit plox.
