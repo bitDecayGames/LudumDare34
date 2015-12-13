@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
+import ludum.dare.actors.player.Player;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
 import ludum.dare.components.TextComponent;
@@ -30,7 +31,7 @@ public class SetupScreen implements Screen {
 
     List<GameObject> otherObjects;
     List<ControllerScreenObject> inputObjects;
-    List<GameObject> players;
+    List<Player> players;
 
     final static int NUM_PLAYERS = 4;
 
@@ -78,7 +79,7 @@ public class SetupScreen implements Screen {
         return returnValues;
     }
 
-    public List<GameObject> getResults() {
+    public List<Player> getResults() {
         // Copy inputs into players.
         for (int i = 0; i < inputObjects.size(); i++) {
             players.get(i).append(inputObjects.get(i).getInputComponent());
@@ -92,7 +93,7 @@ public class SetupScreen implements Screen {
         players = new ArrayList<>();
 
         for (int i = 0; i < NUM_PLAYERS; i++) {
-            players.add(new GameObject());
+            players.add(new Player());
         }
 
         SizeComponent size = new SizeComponent(BOX_SIDE, BOX_SIDE);

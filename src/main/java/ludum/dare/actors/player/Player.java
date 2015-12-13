@@ -13,9 +13,8 @@ public class Player extends StateMachine {
         PhysicsComponent phys = new PhysicsComponent(new JumperBody(), pos, size);
         HealthComponent health = new HealthComponent(10, 10);
         AnimationComponent anim = new AnimationComponent("player", pos, size);
-        InputComponent input = new InputComponent(null);
 
-        this.append(size).append(pos).append(phys).append(health).append(anim).append(input);
+        this.append(size).append(pos).append(phys).append(health).append(anim);
 
         this.activeState = new StandState(this.components);
     }
