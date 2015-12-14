@@ -1,9 +1,10 @@
 package ludum.dare.actors.projectile;
 
 import com.badlogic.gdx.math.Vector2;
+import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
-import com.bitdecay.jump.collision.BitWorld;
+import com.bitdecay.jump.collision.ContactListener;
 import com.bitdecay.jump.geom.BitRectangle;
 import com.bitdecay.jump.properties.JumperProperties;
 import com.bytebreakstudios.animagic.animation.Animation;
@@ -14,13 +15,16 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
 import ludum.dare.components.*;
+import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends StateMachine {
+public class Projectile extends StateMachine implements ContactListener, IRemoveable{
     private final SizeComponent size;
     private final PositionComponent pos;
     private final PhysicsComponent phys;
     private final AnimationComponent anim;
     private final AttackComponent attack;
+
+    private Boolean shouldRemove = false;
 
     public Projectile(PositionComponent source) {
         super();
@@ -46,15 +50,16 @@ public class Projectile extends StateMachine {
         body.velocity.set(500, 0);
         body.userObject = this;
         body.props.gravitational = false;
+        body.addContactListener(this);
 
         setupAnimation(anim.animator);
         return new PhysicsComponent(body, pos, size);
     }
 
     private void setupAnimation(Animator a) {
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/coin").toArray(AnimagicTextureRegion.class)));
 
         a.switchToAnimation("fire");
     }
@@ -66,5 +71,35 @@ public class Projectile extends StateMachine {
 
     public PhysicsComponent getPhysics() {
         return phys;
+    }
+
+    @Override
+    public boolean shouldRemove() {
+        return shouldRemove;
+    }
+
+    @Override
+    public void remove() {
+    }
+
+    @Override
+    public void contactStarted(BitBody bitBody) {
+        // TODO Add more logic for damage here if we hit a player.
+        shouldRemove = true;
+    }
+
+    @Override
+    public void contact(BitBody bitBody) {
+
+    }
+
+    @Override
+    public void contactEnded(BitBody bitBody) {
+
+    }
+
+    @Override
+    public void crushed() {
+
     }
 }
