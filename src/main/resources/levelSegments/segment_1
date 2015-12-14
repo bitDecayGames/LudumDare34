@@ -309,7 +309,17 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null, null, null, null, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ ] ],
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.LightLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 32.0,
+        "y" : 96.0
+      },
+      "width" : 32.0,
+      "height" : 32.0
+    },
+    "uuid" : "0063134e-d012-4e0f-8c41-a169024ebb4c"
+  } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {
     "x" : -5,

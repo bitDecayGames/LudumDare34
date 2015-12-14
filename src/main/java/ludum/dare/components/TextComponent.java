@@ -2,7 +2,7 @@ package ludum.dare.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 
@@ -32,7 +32,7 @@ public class TextComponent implements IComponent, IDraw {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
+    public void draw(AnimagicSpriteBatch spriteBatch) {
         font.draw(spriteBatch, text, position.x, position.y);
     }
 }

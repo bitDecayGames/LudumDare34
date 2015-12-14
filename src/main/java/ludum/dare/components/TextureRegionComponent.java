@@ -1,6 +1,6 @@
 package ludum.dare.components;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
@@ -18,7 +18,7 @@ public class TextureRegionComponent implements IComponent, IDraw {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
+    public void draw(AnimagicSpriteBatch spriteBatch) {
         spriteBatch.draw(region,
                 position.x,
                 position.y,
