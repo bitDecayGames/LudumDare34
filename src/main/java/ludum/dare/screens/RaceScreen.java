@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -54,6 +55,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
+    SpriteBatch ui;
     LibGDXWorldRenderer worldRenderer = new LibGDXWorldRenderer();
 
     Map<Class, Class> builderMap = new HashMap<>();
@@ -63,6 +65,8 @@ public class RaceScreen implements Screen, EditorHook {
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
     GameObjects gameObjects = new GameObjects();
+
+    TextureRegion splitScreenSeparator;
 
     public RaceScreen(RacerGame game) {
         if (game == null) {
@@ -78,6 +82,9 @@ public class RaceScreen implements Screen, EditorHook {
         Array<AnimagicTextureRegion> bridgesTileTextures = atlas.findRegions("bridges");
         tilesetMap.put(0, crystalTileTextures.toArray(TextureRegion.class));
         tilesetMap.put(1, bridgesTileTextures.toArray(TextureRegion.class));
+
+        atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
+        splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
 
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
@@ -113,6 +120,8 @@ public class RaceScreen implements Screen, EditorHook {
             cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         batch = new AnimagicSpriteBatch();
         batch.isShaderOn(true);
+
+        ui = new SpriteBatch();
     }
 
     @Override
@@ -201,6 +210,10 @@ public class RaceScreen implements Screen, EditorHook {
         Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
         draw(cameras[3]);
 
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.begin();
+        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.end();
 
 //        worldRenderer.render(world, cameras[0]);
     }
