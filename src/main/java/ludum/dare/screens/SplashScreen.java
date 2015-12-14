@@ -37,10 +37,13 @@ public class SplashScreen implements Screen {
     @Override
     public void show() {
         INTRO_MUSIC = SoundLibrary.GetMusic("hero_immortal_short_intro");
-        if (!INTRO_MUSIC.isPlaying()) {
-            INTRO_MUSIC.setLooping(true);
-            INTRO_MUSIC.setVolume(0.4f);
-            INTRO_MUSIC.play();
+
+        if(RacerGame.MUSIC_ON) {
+            if (!INTRO_MUSIC.isPlaying()) {
+                INTRO_MUSIC.setLooping(true);
+                INTRO_MUSIC.setVolume(0.4f);
+                INTRO_MUSIC.play();
+            }
         }
 
         bdWallpaper.addAction(Actions.alpha(0));
