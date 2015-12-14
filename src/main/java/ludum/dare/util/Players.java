@@ -36,4 +36,8 @@ public class Players {
         }
         return shallowCopy;
     }
+
+    public static boolean isInitialized() {
+        return initialized;
+    }
 }
