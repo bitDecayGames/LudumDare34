@@ -10,6 +10,7 @@ import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
+import ludum.dare.util.SoundLibrary;
 
 import java.util.Set;
 
@@ -43,7 +44,8 @@ public class PunchState extends AbstractState implements AnimationListener {
 
     public void enter() {
         super.enter();
-
+        int randomizer = (int) (Math.random() * 4) + 1;
+        SoundLibrary.GetSound("Punch"+randomizer).play();
         Vector2 direction = new Vector2();
         if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) {

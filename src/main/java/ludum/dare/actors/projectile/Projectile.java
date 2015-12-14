@@ -13,11 +13,12 @@ import com.bytebreakstudios.animagic.animation.FrameRate;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
+import ludum.dare.actors.GameObject;
 import ludum.dare.actors.StateMachine;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends StateMachine implements ContactListener, IRemoveable {
+public class Projectile extends GameObject implements ContactListener, IRemoveable {
     private final static float PROJECTILE_SPEED = 500;
     private final static float PROJECTILE_TIME_TO_LIVE = 10;
 

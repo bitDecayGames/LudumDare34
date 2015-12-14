@@ -15,6 +15,12 @@ public class StateMachine extends GameObject {
     }
 
     public void setActiveState(IState value) {
+        if (activeState == value) {
+            return;
+        } else if (activeState != null && value != null && activeState.getClass().equals(value.getClass())) {
+            return;
+        }
+
         if (activeState != null) {
             activeState.exit();
         }
