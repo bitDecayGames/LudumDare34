@@ -131,10 +131,6 @@ outer:  while (tries > 0) {
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        batch.begin();
-//        batch.setAmbientColor(Color.WHITE);
-//        batch.setAmbientIntensity(0.01f);
-//        batch.setNextLight(0, 0, 0.1f, 0.9f, Color.RED);
 
         int screenWidth = Gdx.graphics.getWidth() / 2;
         int screenHeight = Gdx.graphics.getHeight() / 2;
@@ -146,14 +142,6 @@ outer:  while (tries > 0) {
         draw(groups.get(1));
         Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
         draw(groups.get(0));
-
-//        for (int i = 0; i < groups.size(); i++) {
-//            UpgradeGroup group = groups.get(i);
-//            int yTop = (groups.size() - i) * spacePerGroup;
-//            int yBottom = yTop - spacePerGroup;
-//            group.render(batch, yTop, yBottom);
-//        }
-//        batch.end();
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         ui.begin();
