@@ -10,6 +10,6 @@ public class FloatUpgradeComponent implements IComponent {
     public int cost = 0;
 
     public FloatUpgradeComponent(PhysicsComponent phys){
-        phys.getBody().props.gravityModifier = phys.getBody().props.gravityModifier * 0.8qf;
+        phys.getBody().props.gravityModifier = phys.getBody().props.gravityModifier * 0.8f;
     }
 }
