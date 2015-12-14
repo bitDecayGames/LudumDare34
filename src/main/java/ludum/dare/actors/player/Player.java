@@ -55,6 +55,7 @@ public class Player extends StateMachine {
     private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
+        body.jumperProps.jumpCount = 1;
         body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
