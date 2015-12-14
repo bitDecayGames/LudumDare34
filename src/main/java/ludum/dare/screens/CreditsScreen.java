@@ -74,7 +74,7 @@ public class CreditsScreen implements Screen {
                 "Programmers:" + SPACE_AFTER_TITLE +
                 "Logan Moore" + SPACE_AFTER_NAME +
                 "Mike Wingfield" + SPACE_AFTER_NAME +
-                "Jake 'Ballmer Peak' Cabon-Thomski" + SPACE_AFTER_NAME +
+                "Jake \"Ballmer Peak\" Cabon-Thomski" + SPACE_AFTER_NAME +
                 "Jake Fisher" + SPACE_AFTER_NAME +
                 "Tanner Moore",
                 skin);
@@ -128,7 +128,7 @@ public class CreditsScreen implements Screen {
 
     public void update(float delta){
 
-        if (InputUtil.checkInputs(Input.Keys.ESCAPE, Xbox360Pad.B)) {
+        if (InputUtil.checkInputs(Input.Keys.ESCAPE, Xbox360Pad.B) || InputUtil.checkInputs(Input.Keys.B, Xbox360Pad.B)) {
             escWasPressed = true;
         } else if (escWasPressed && !(InputUtil.checkInputs(Input.Keys.ESCAPE, Xbox360Pad.B))){
             game.setScreen(new MainMenuScreen(game));

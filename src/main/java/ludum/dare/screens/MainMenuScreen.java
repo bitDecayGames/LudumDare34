@@ -132,9 +132,9 @@ public class MainMenuScreen implements Screen {
 
     public void update(float delta){
 
-        if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
+        if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.A)) {
             enterWasPressed = true;
-        } else if (enterWasPressed && !(InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START))){
+        } else if (enterWasPressed && !(InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.A))){
             switch (menuSelection) {
                 case 0:
                     game.setScreen(new SetupScreen(game));
