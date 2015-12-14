@@ -76,7 +76,12 @@ public class CreditsScreen implements Screen {
                 "Mike Wingfield" + SPACE_AFTER_NAME +
                 "Jake \"Ballmer Peak\" Cabon-Thomski" + SPACE_AFTER_NAME +
                 "Jake Fisher" + SPACE_AFTER_NAME +
-                "Tanner Moore",
+                "Tanner Moore" + SPACE_AFTER_TITLE +
+                "Music:" + SPACE_AFTER_TITLE +
+                "Ville Nousiainen Xythe mutkanto - Fight" + SPACE_AFTER_NAME +
+                "Matthew Pablo - Riverside Ride" + SPACE_AFTER_NAME +
+                "Trevor Lentz - Hero Immortal" + SPACE_AFTER_NAME +
+                "lemon42 - A Journey Awaits",
                 skin);
         lblCredits.setFontScale(6);
         lblCredits.setFillParent(true);
@@ -96,7 +101,7 @@ public class CreditsScreen implements Screen {
     public void show() {
 //         animate the main menu when entering
         lblCredits.addAction(Actions.sequence(
-                Actions.moveBy(0, -Gdx.graphics.getHeight()),
+                Actions.moveBy(0, -(Gdx.graphics.getHeight()*1.5f)),
                 Actions.moveBy(0, Gdx.graphics.getHeight()*3, 30)
 
         ));

@@ -148,20 +148,20 @@ public class MainMenuScreen implements Screen {
             }
         }
 
-        if (InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.DOWN) && !downIsPressed) {
+        if (InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.LS_DOWN) && !downIsPressed) {
             menuSelection = (menuSelection + 1) % 3;
             downIsPressed = true;
-        } else if(!InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.DOWN)){
+        } else if(!InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.LS_DOWN)){
             downIsPressed = false;
         }
 
-        if (InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.UP) && !upIsPressed) {
+        if (InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.LS_UP) && !upIsPressed) {
             menuSelection -= 1;
             if (menuSelection < 0) {
                 menuSelection = 2;
             }
             upIsPressed = true;
-        } else if(!InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.UP)){
+        } else if(!InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.LS_UP)){
             upIsPressed = false;
         }
 
