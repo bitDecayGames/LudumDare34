@@ -1,5 +1,7 @@
 package ludum.dare.actors.state;
 
+import com.badlogic.gdx.math.Vector2;
+import com.bitdecay.jump.Facing;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.AnimationListener;
 import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
@@ -42,16 +44,41 @@ public class PunchState extends AbstractState implements AnimationListener {
     public void enter() {
         super.enter();
 
+        Vector2 direction = new Vector2();
         if (!physicsComponent.getBody().grounded) {
-            if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/jumping/up");
-            else if (inputComponent.isPressed(InputAction.DOWN)) switchToAnimation("punch/jumping/down");
-            else switchToAnimation("punch/jumping/front");
+            if (inputComponent.isPressed(InputAction.UP)) {
+                switchToAnimation("punch/jumping/up");
+                direction.y = 1;
+            } else if (inputComponent.isPressed(InputAction.DOWN)) {
+                switchToAnimation("punch/jumping/down");
+                direction.y = -1;
+            } else {
+                switchToAnimation("punch/jumping/front");
+                direction.x = 1;
+            }
         } else {
-            if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/up");
-            else switchToAnimation("punch/front");
+            if (inputComponent.isPressed(InputAction.UP)) {
+                switchToAnimation("punch/up");
+                direction.y = 1;
+            } else {
+                switchToAnimation("punch/front");
+                direction.x = 1;
+            }
         }
 
-        addProjectile();
+        Facing facing = physicsComponent.getBody().facing;
+        switch (facing) {
+            case LEFT:
+                direction.x *= -1;
+                break;
+            case RIGHT:
+                // Do nothing.
+                break;
+            default:
+                throw new Error("Invalid facing set");
+        }
+
+        addProjectile(direction);
     }
 
     private void switchToAnimation(String animationName) {
@@ -63,8 +90,8 @@ public class PunchState extends AbstractState implements AnimationListener {
         }
     }
 
-    private void addProjectile() {
-        Projectile projectile = new Projectile(positionComponent);
+    private void addProjectile(Vector2 direction) {
+        Projectile projectile = new Projectile(positionComponent, direction, levelComponent, physicsComponent);
         levelComponent.addToLevel(projectile, projectile.getPhysics());
     }
 

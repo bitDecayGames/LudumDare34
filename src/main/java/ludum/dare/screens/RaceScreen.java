@@ -38,14 +38,8 @@ import ludum.dare.collection.GameObjects;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
-import ludum.dare.gameobject.CoinGameObject;
-import ludum.dare.gameobject.FinishLineGameObject;
-import ludum.dare.gameobject.PowerupGameObject;
-import ludum.dare.gameobject.SpawnGameObject;
-import ludum.dare.levelobject.CoinLevelObject;
-import ludum.dare.levelobject.FinishLineLevelObject;
-import ludum.dare.levelobject.PowerupLevelObject;
-import ludum.dare.levelobject.SpawnLevelObject;
+import ludum.dare.gameobject.*;
+import ludum.dare.levelobject.*;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 import ludum.dare.util.LightUtil;
@@ -55,8 +49,6 @@ import ludum.dare.util.SoundLibrary;
 import java.util.*;
 
 public class RaceScreen implements Screen, EditorHook {
-
-    private final AnimagicTextureRegion fallbackTileTexture;
     RacerGame game;
 
     private Music music;
@@ -83,8 +75,10 @@ public class RaceScreen implements Screen, EditorHook {
         world.setGravity(0, -700);
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-        fallbackTileTexture = atlas.findRegion("crystal");
-        tilesetMap.put(0, fallbackTileTexture.split(fallbackTileTexture.getRegionWidth() / 16, fallbackTileTexture.getRegionHeight())[0]);
+        TextureRegion crystalTileTexture = atlas.findRegion("crystal");
+        TextureRegion bridgesTileTexture = atlas.findRegion("bridges");
+        tilesetMap.put(0, crystalTileTexture.split(crystalTileTexture.getRegionWidth() / 16, crystalTileTexture.getRegionHeight())[0]);
+        tilesetMap.put(1, bridgesTileTexture.split(bridgesTileTexture.getRegionWidth() / 16, bridgesTileTexture.getRegionHeight())[0]);
 
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
@@ -103,6 +97,7 @@ public class RaceScreen implements Screen, EditorHook {
         builderMap.put(CoinLevelObject.class, CoinGameObject.class);
         builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
         builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
+        builderMap.put(LightLevelObject.class, LightGameObject.class);
     }
 
     @Override
@@ -169,7 +164,8 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<EditorIdentifierObject> getTilesets() {
-        return Arrays.asList(new EditorIdentifierObject(0, "Fallback", tilesetMap.get(0)[1]));
+        return Arrays.asList(new EditorIdentifierObject(0, "Fallback", tilesetMap.get(0)[0]),
+                new EditorIdentifierObject(1, "Bridges", tilesetMap.get(1)[0]));
     }
 
     @Override
@@ -184,6 +180,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new CoinLevelObject());
         exampleItems.add(new FinishLineLevelObject());
         exampleItems.add(new PowerupLevelObject());
+        exampleItems.add(new LightLevelObject());
         return exampleItems;
     }
 
@@ -195,8 +192,6 @@ public class RaceScreen implements Screen, EditorHook {
             OrthographicCamera cam = cameras[i];
             batch.setCamera(cam);
             batch.begin();
-            LightUtil.addBasicLight(batch);
-            batch.setNextLight(1, 1, 0, 1f, Color.RED);
             drawLevelEdit();
             gameObjects.draw(batch);
             batch.end();
@@ -223,6 +218,7 @@ public class RaceScreen implements Screen, EditorHook {
     @Override
     public void levelChanged(Level level) {
         gameObjects.clear();
+        world.removeAllBodies();
 
         currentLevel = level;
         world.setTileSize(16);
