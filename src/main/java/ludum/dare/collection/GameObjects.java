@@ -1,14 +1,18 @@
 package ludum.dare.collection;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.actors.GameObject;
+import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IRemoveable;
+import ludum.dare.interfaces.IShapeDraw;
+import ludum.dare.interfaces.IUpdate;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class GameObjects {
+public class GameObjects implements IUpdate, IDraw, IShapeDraw {
     List<GameObject> gameObjects;
 
     List<GameObject> pendingAdds;
@@ -63,6 +67,11 @@ public class GameObjects {
 
     public void draw(AnimagicSpriteBatch batch) {
         gameObjects.forEach(obj -> obj.draw(batch));
+    }
+
+    @Override
+    public void draw(ShapeRenderer shapeRenderer) {
+        gameObjects.forEach(obj -> obj.draw(shapeRenderer));
     }
 
     public void clear() {

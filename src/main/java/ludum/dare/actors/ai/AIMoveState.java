@@ -17,7 +17,7 @@ public class AIMoveState implements IState {
 
 
     private float timeBeforeAttack = 2;
-    private float timeBeforeNewTarget = (float) Math.random();
+    private final float timeBeforeNewTarget = (float) Math.random();
     private float newTargetTimer = 0;
     private Vector2 target;
 
@@ -65,17 +65,18 @@ public class AIMoveState implements IState {
 
         if (target.dst(pos.x, pos.y) < 16) {
             getNewTargetPosition(pos);
-        } else {
-            System.out.println(target + " " + pos + " " + target.dst(pos.x, pos.y));
         }
 
         if (last3Targets.size() == 3) {
             Vector2 t1 = last3Targets.get(0);
             Vector2 t2 = last3Targets.get(1);
             Vector2 t3 = last3Targets.get(2);
-            if (t1.dst(t2) < 5 && t2.dst(t3) < 5) {
-                me.setPosition(target.x, pos.y + 100);
+            if (t1.dst(t2) < 50 && t2.dst(t3) < 50) {
+                me.setPosition(target.x, pos.y + 10);
+            } else {
+                System.out.println(last3Targets);
             }
+
         }
 
 

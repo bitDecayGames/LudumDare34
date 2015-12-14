@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -37,6 +38,7 @@ import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.collection.GameObjects;
+import ludum.dare.components.AIControlComponent;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
@@ -44,6 +46,7 @@ import ludum.dare.gameobject.*;
 import ludum.dare.levelobject.*;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
+import ludum.dare.levels.ai.Nodes;
 import ludum.dare.util.Players;
 import ludum.dare.util.SoundLibrary;
 
@@ -57,6 +60,7 @@ public class RaceScreen implements Screen, EditorHook {
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
     SpriteBatch ui;
+    ShapeRenderer debug;
     LibGDXWorldRenderer worldRenderer = new LibGDXWorldRenderer();
 
     Map<Class, Class> builderMap = new HashMap<>();
@@ -94,12 +98,20 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(10);
+        generateNextLevel(2);
     }
 
     public void generateNextLevel(int length) {
         LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
+
+        Nodes aiNodes = Nodes.generateNodesFromLevel(raceLevel);
+        for (Player player : Players.list()) {
+            if (player.getInputComponent() instanceof AIControlComponent) {
+                ((AIControlComponent) player.getInputComponent()).setAINodes(aiNodes);
+            }
+        }
+
         levelChanged(raceLevel);
     }
 
@@ -127,6 +139,8 @@ public class RaceScreen implements Screen, EditorHook {
         batch.isShaderOn(true);
 
         ui = new SpriteBatch();
+
+        debug = new ShapeRenderer();
     }
 
     @Override
@@ -244,6 +258,14 @@ public class RaceScreen implements Screen, EditorHook {
         drawLevelEdit();
         gameObjects.draw(batch);
         batch.end();
+
+        debug.setProjectionMatrix(cam.combined);
+        debug.setAutoShapeType(true);
+        debug.begin();
+        debug.set(ShapeRenderer.ShapeType.Line);
+        debug.setColor(Color.WHITE);
+        gameObjects.draw(debug);
+        debug.end();
     }
 
     private void drawLevelEdit() {

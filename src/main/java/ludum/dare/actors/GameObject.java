@@ -1,5 +1,6 @@
 package ludum.dare.actors;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.level.LevelObject;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
@@ -7,7 +8,7 @@ import ludum.dare.interfaces.*;
 
 import java.util.*;
 
-public class GameObject implements IUpdate, IDraw, IPreDraw {
+public class GameObject implements IUpdate, IDraw, IPreDraw, IShapeDraw {
     protected final Set<IComponent> components = new HashSet<>();
     protected final Set<IUpdate> updateableComponents = new HashSet<>();
     protected final Set<IDraw> drawableComponents = new HashSet<>();
@@ -84,6 +85,13 @@ public class GameObject implements IUpdate, IDraw, IPreDraw {
     @Override
     public void draw(AnimagicSpriteBatch spriteBatch) {
         drawableComponents.forEach(c -> c.draw(spriteBatch));
+    }
+
+    @Override
+    public void draw(ShapeRenderer shapeRenderer) {
+        for (IComponent component : components) {
+            if (component != null && component instanceof IShapeDraw) ((IShapeDraw) component).draw(shapeRenderer);
+        }
     }
 
     @Override

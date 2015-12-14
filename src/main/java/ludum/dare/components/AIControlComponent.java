@@ -1,18 +1,21 @@
 package ludum.dare.components;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.bitdecay.jump.control.PlayerAction;
 import ludum.dare.actors.ai.AIMoveState;
 import ludum.dare.actors.player.Player;
 import ludum.dare.control.InputAction;
+import ludum.dare.interfaces.IShapeDraw;
 import ludum.dare.interfaces.IState;
+import ludum.dare.levels.ai.Nodes;
 import ludum.dare.util.Players;
 
 import java.util.HashSet;
 import java.util.Set;
 
 // TODO Mike implement for AI
-public class AIControlComponent extends InputComponent {
+public class AIControlComponent extends InputComponent implements IShapeDraw {
 
     private final static float JUMP_CYCLE_TIME = 1;
     Boolean jump = false;
@@ -20,6 +23,7 @@ public class AIControlComponent extends InputComponent {
     TimedComponent jumpCycleTimer;
 
     Player me;
+    Nodes nodes = null;
 
     IState activeState;
 
@@ -106,5 +110,14 @@ public class AIControlComponent extends InputComponent {
             jump = !jump;
         }
 
+    }
+
+    public void setAINodes(Nodes nodes) {
+        this.nodes = nodes;
+    }
+
+    @Override
+    public void draw(ShapeRenderer shapeRenderer) {
+        nodes.draw(shapeRenderer);
     }
 }
