@@ -135,7 +135,7 @@ public class MainMenuScreen implements Screen {
 
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.A)) {
             enterWasPressed = true;
-            SoundLibrary.GetSound("Select_confirm").play();
+            SoundLibrary.playSound("Select_confirm");
         } else if (enterWasPressed && !(InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.A))){
             switch (menuSelection) {
                 case 0:
@@ -151,7 +151,7 @@ public class MainMenuScreen implements Screen {
         }
 
         if (InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.LS_DOWN) && !downIsPressed) {
-            SoundLibrary.GetSound("Select_change").play();
+            SoundLibrary.playSound("Select_change");
             menuSelection = (menuSelection + 1) % 3;
             downIsPressed = true;
         } else if(!InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.LS_DOWN)){
@@ -159,7 +159,7 @@ public class MainMenuScreen implements Screen {
         }
 
         if (InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.LS_UP) && !upIsPressed) {
-            SoundLibrary.GetSound("Select_change").play();
+            SoundLibrary.playSound("Select_change");
             menuSelection -= 1;
             if (menuSelection < 0) {
                 menuSelection = 2;
