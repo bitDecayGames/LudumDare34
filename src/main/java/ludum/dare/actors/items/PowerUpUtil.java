@@ -1,28 +1,8 @@
 package ludum.dare.actors.items;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.bitdecay.jump.BitBody;
-import com.bitdecay.jump.level.LevelObject;
-import com.bitdecay.jump.leveleditor.example.game.GameObject;
-import ludum.dare.actors.player.Player;
-import ludum.dare.components.AnimationComponent;
-import ludum.dare.components.CollectableComponent;
-import ludum.dare.components.PhysicsComponent;
-import ludum.dare.components.PowerDownComponents.*;
-import ludum.dare.components.PowerUpComponents.*;
-import ludum.dare.interfaces.IComponent;
+public class PowerUpUtil {
 
-import java.util.List;
-
-/**
- * Created by jake on 12/11/2015.
- */
-public class PowerBlock extends GameObject {
-
-    private PhysicsComponent phys;
-    private CollectableComponent collect;
-
-    public String randomPowerGenerator(int playerRank){
+    public static String randomPowerGenerator(int playerRank){
         if(playerRank == 0){
             return playerZeroPicker();
         }else if (playerRank == 1){
@@ -35,7 +15,7 @@ public class PowerBlock extends GameObject {
         return "";
     }
 
-    public String playerZeroPicker(){
+    public static String playerZeroPicker(){
         double rand = Math.random();
         double pickRand = Math.random();
         if(rand <= .20){
@@ -56,7 +36,7 @@ public class PowerBlock extends GameObject {
         return "STEAL_COINS";
     }
 
-    public String playerOnePicker(){
+    public static String playerOnePicker(){
         double rand = Math.random();
         double pickRand = Math.random();
         if(rand <= .10){
@@ -83,7 +63,7 @@ public class PowerBlock extends GameObject {
         return "STEAL_COINS";
     }
 
-    public String playerTwoPicker(){
+    public static String playerTwoPicker(){
         double rand = Math.random();
         double pickRand = Math.random();
         if(rand <= .20){
@@ -112,7 +92,7 @@ public class PowerBlock extends GameObject {
         return"STEAL_COINS";
     }
 
-    public String playerThreePicker(){
+    public static String playerThreePicker(){
         double rand = Math.random();
         double pickRand = Math.random();
         if(rand <= .30){
@@ -139,20 +119,5 @@ public class PowerBlock extends GameObject {
             }
         }
         return "STEAL_COINS";
-    }
-
-    @Override
-    public List<BitBody> build(LevelObject template) {
-        return null;
-    }
-
-    @Override
-    public void update(float delta) {
-
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-
     }
 }

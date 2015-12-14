@@ -19,6 +19,7 @@ public class RacerGame extends Game {
         RacerGame.assetManager.load("packed/tiles.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/level.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/test.atlas", AnimagicTextureAtlas.class);
+        RacerGame.assetManager.load("packed/power.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/ui.atlas", AnimagicTextureAtlas.class);
         for (int i = 0; i < NUM_PLAYER_ASSETS; i++) {
             RacerGame.assetManager.load("packed/player" + i + ".atlas", AnimagicTextureAtlas.class);

@@ -1,7 +1,5 @@
 package ludum.dare.levelobject;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.BodyType;
@@ -11,16 +9,16 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 
 /**
- * Created by Admin on 12/13/2015.
+ * Created by Admin on 12/14/2015.
  */
-public class PowerupLevelObject extends RenderableLevelObject {
+public class LanternLevelObject extends RenderableLevelObject {
     private TextureRegion texture;
 
-    public PowerupLevelObject() {
+    public LanternLevelObject() {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        this.texture = atlas.findRegion("collect/chest/closed/1");
-        rect = new BitRectangle(0, 0, 28, 18);
+        this.texture = atlas.findRegion("lantern/1");
+        rect = new BitRectangle(0, 0, 33, 75);
     }
 
     @Override
@@ -40,6 +38,6 @@ public class PowerupLevelObject extends RenderableLevelObject {
 
     @Override
     public String name() {
-        return "Powerup";
+        return "Lantern";
     }
 }
