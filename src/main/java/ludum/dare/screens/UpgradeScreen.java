@@ -10,6 +10,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.interfaces.IProjectile;
 import ludum.dare.shop.UpgradeGroup;
 import ludum.dare.shop.UpgradeOption;
 import ludum.dare.util.Players;
@@ -41,6 +42,11 @@ public class UpgradeScreen implements Screen {
             MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
             MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
             MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
+            MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire"));
+            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison"));
+            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice"));
+            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web"));
+            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop"));
         }
     }
 
@@ -78,10 +84,17 @@ outer:  while (tries > 0) {
                     continue outer;
                 }
             }
-            if (!player.hasComponent(option.clazz)) {
+
+            Class checkClass = option.clazz;
+
+            if(option.clazz.isAssignableFrom(IProjectile.class)) {
+                checkClass = IProjectile.class;
+            }
+            if (!player.hasComponent(checkClass)) {
                 group.addChoice(option);
                 added++;
             }
+
             if (added >= 3) {
                 break;
             }

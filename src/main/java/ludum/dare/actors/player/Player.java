@@ -16,12 +16,16 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
+import ludum.dare.actors.items.PowerBlock;
 import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
+import ludum.dare.components.PowerDownComponents.*;
+import ludum.dare.components.PowerUpComponents.*;
 import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
+import ludum.dare.util.Players;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -52,6 +56,7 @@ public class Player extends StateMachine {
     private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
+        body.jumperProps.jumpCount = 1;
         body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
@@ -160,6 +165,16 @@ public class Player extends StateMachine {
             append(new SpeedComponent(phys));
         } else if (clazz.equals(WallJumpComponent.class)) {
             append(new WallJumpComponent(phys));
+        } else if (clazz.equals(EmptyUpgradeComponent.class)) {
+            append(new EmptyUpgradeComponent());
+        } else if (clazz.equals(FireProjectileComponent.class)) {
+            append(new FireProjectileComponent());
+        } else if (clazz.equals(IceProjectileComponent.class)) {
+            append(new IceProjectileComponent());
+        } else if (clazz.equals(WebProjectileComponent.class)) {
+            append(new WebProjectileComponent());
+        } else if (clazz.equals(PoisonProjectileComponent.class)) {
+            append(new PoisonProjectileComponent());
         } else {
             throw new RuntimeException("Could not instantiate " + clazz);
         }
@@ -167,5 +182,56 @@ public class Player extends StateMachine {
 
     public void achieveMoney(int amount) {
         this.wallet.getACoin(amount);
+    }
+
+    public void getPowerBlock(PowerBlock power){
+        String myPower = power.randomPowerGenerator(getRank());
+        if(myPower == "TEMP_SPEED"){
+            append(new TempSpeedComponent(phys));
+        }else if(myPower == "SLOW"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("SLOW");
+                }
+            }
+        }else if(myPower == "DOUBLE COINS"){
+            append(new DoubleCoinsComponent());
+        }else if(myPower == "LIGHTS_OFF"){
+//        TODO: add some shit here that lets this happen
+        }else if(myPower == "FORCE_HIGH_JUMP"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("FORCE_HIGH_JUMP");
+                }
+            }
+        }else if(myPower == "STEAL_COINS"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("STEAL_COINS");
+                }
+            }
+        }else if(myPower == "TEMP_FLY"){
+            append(new TempFlyComponent(phys));
+        }else if(myPower == "STUN"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("STUN");
+                }
+            }
+        }
+    }
+
+    public void takeAPowerDown(String powerDown){
+        if(powerDown == "SLOW"){
+            append(new SlowComponent(phys));
+        }else if(powerDown == "FORCE_HIGH_JUMP"){
+            append(new ForceHighJumpComponent(phys));
+        }else if(powerDown == "STUN"){
+            append(new StunComponent(phys));
+        }
+    }
+
+    public int getRank(){
+        return 0;
     }
 }

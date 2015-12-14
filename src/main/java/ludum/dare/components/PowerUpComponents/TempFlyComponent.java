@@ -11,6 +11,7 @@ public class TempFlyComponent extends TimedComponent{
 
     public TempFlyComponent(PhysicsComponent phys) {
         super(5);
+        this.phys = phys;
 //        Alter physics to make fly, dunno how do
     }
 
