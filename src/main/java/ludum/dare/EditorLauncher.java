@@ -27,6 +27,7 @@ public class EditorLauncher {
         new LwjglApplication(new Game() {
             @Override
             public void create() {
+                LevelEditor.TILE_SIZE = 32;
                 LevelEditor.setAssetsFolder("../../../../Jump/jump-leveleditor/assets");
                 RacerGame game = new RacerGame();
                 RacerGame.queueAssetsForLoad();
@@ -36,7 +37,7 @@ public class EditorLauncher {
                 Player playerInstance = new Player();
                 playerInstance.append(new KeyboardControlComponent());
                 players.add(playerInstance);
-                Players.intialize(players);
+                Players.initialize(players);
 
                 RaceScreen raceScreen = new RaceScreen(game);
                 raceScreen.show();

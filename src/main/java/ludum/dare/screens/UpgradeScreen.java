@@ -36,7 +36,7 @@ public class UpgradeScreen implements Screen {
         this.game = game;
         if (MASTER_LIST.size() == 0) {
             MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
-            MASTER_LIST.add(new UpgradeOption(JetPackComponent.class, "float"));
+            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float"));
             MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal"));
             MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
             MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
@@ -48,12 +48,15 @@ public class UpgradeScreen implements Screen {
     public void show() {
 
         music = SoundLibrary.GetMusic("a_journey_awaits");
-        music.play();
+
+        if(RacerGame.MUSIC_ON) {
+            music.play();
+        }
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
         batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
 
         spacePerGroup = Gdx.graphics.getHeight() / Players.list().size();
         for (Player player : Players.list()) {

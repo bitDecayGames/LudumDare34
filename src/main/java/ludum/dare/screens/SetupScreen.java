@@ -114,7 +114,7 @@ public class SetupScreen implements Screen {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.lookAt(0, 0, 0);
         batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
 
         setupPlayers();
 
@@ -128,7 +128,7 @@ public class SetupScreen implements Screen {
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
 
             // Set players globally with associated inputs.
-            Players.intialize(getResults());
+            Players.initialize(getResults());
             // Start race.
 
             SplashScreen.INTRO_MUSIC.stop();

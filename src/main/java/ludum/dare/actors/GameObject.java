@@ -1,9 +1,9 @@
 package ludum.dare.actors;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.level.LevelObject;
-import ludum.dare.components.upgradeComponents.IRemoveable;
+import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
+import ludum.dare.interfaces.IRemoveable;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IUpdate;
@@ -85,7 +85,7 @@ public class GameObject implements IUpdate, IDraw {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
+    public void draw(AnimagicSpriteBatch spriteBatch) {
         drawableComponents.forEach(c -> c.draw(spriteBatch));
     }
 }
