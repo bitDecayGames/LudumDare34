@@ -11,7 +11,7 @@ public class LightUtil {
         Vector3 lightPos = new Vector3(location, .1f);
         batch.setAmbientColor(Color.WHITE);
         batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(lightPos.x, lightPos.y, 0.1f, 0.9f, Color.WHITE);
+        batch.setNextLight(lightPos.x, lightPos.y, 0.1f, .8f, Color.WHITE);
     }
 
     public static void addBasicLight(AnimagicSpriteBatch batch) {
