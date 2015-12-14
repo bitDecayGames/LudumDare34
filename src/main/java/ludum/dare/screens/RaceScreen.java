@@ -67,6 +67,8 @@ public class RaceScreen implements Screen, EditorHook {
     GameObjects gameObjects = new GameObjects();
 
     FinishLineGameObject finishLine;
+    public FinishLineGameObject finishOverride;
+
     TextureRegion splitScreenSeparator;
     AnimagicTextureRegion background;
 
@@ -95,7 +97,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(3);
+        generateNextLevel(15);
     }
 
     public void generateNextLevel(int length) {
@@ -210,18 +212,31 @@ public class RaceScreen implements Screen, EditorHook {
         int screenWidth = Gdx.graphics.getWidth() / 2;
         int screenHeight = Gdx.graphics.getHeight() / 2;
 
-        Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
-        draw(cameras[3]);
-        Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
-        draw(cameras[2]);
-        Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
-        draw(cameras[1]);
-        Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
-        draw(cameras[0]);
+        if (cameras.length > 1) {
+            if (cameras.length > 3) {
+                Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
+                draw(cameras[3]);
+            }
+            if (cameras.length > 2) {
+                Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+                draw(cameras[2]);
+            }
+            if (cameras.length > 1) {
+                Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
+                draw(cameras[1]);
+            }
+            Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
+            draw(cameras[0]);
+        } else {
+            Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            draw(cameras[0]);
+        }
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         ui.begin();
-        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        if (cameras.length > 1) {
+            ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
         ui.end();
 
 //        worldRenderer.render(world, cameras[0]);
@@ -275,6 +290,9 @@ public class RaceScreen implements Screen, EditorHook {
         gameObjects.clear();
         world.removeAllBodies();
         finishLine = null;
+        if (finishOverride != null) {
+            finishLine = finishOverride;
+        }
 
         currentLevel = level;
         world.setTileSize(16);

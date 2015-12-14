@@ -12,7 +12,7 @@ public class Players {
 
     public static void initialize(List<Player> startingPlayers) {
         if (initialized) {
-            throw new RuntimeException("Players have already been initialized");
+//            throw new RuntimeException("Players have already been initialized");
         } else if (startingPlayers == null || startingPlayers.size() < 1) {
             throw new RuntimeException("No players were initialized");
         }
