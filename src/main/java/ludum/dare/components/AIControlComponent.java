@@ -1,24 +1,22 @@
 package ludum.dare.components;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bitdecay.jump.control.PlayerAction;
-import ludum.dare.actors.ai.AIRunAlongState;
+import ludum.dare.actors.ai.AIMoveState;
 import ludum.dare.actors.player.Player;
 import ludum.dare.control.InputAction;
+import ludum.dare.gameobject.AINodeGameObject;
 import ludum.dare.gameobject.FinishLineGameObject;
-import ludum.dare.interfaces.IShapeDraw;
 import ludum.dare.interfaces.IState;
-import ludum.dare.levels.ai.Node;
-import ludum.dare.levels.ai.Nodes;
 import ludum.dare.util.Players;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // TODO Mike implement for AI
-public class AIControlComponent extends InputComponent implements IShapeDraw {
+public class AIControlComponent extends InputComponent {
     Player me;
-    Nodes nodes = null;
+    List<AINodeGameObject> nodes = null;
 
     IState activeState;
 
@@ -31,21 +29,11 @@ public class AIControlComponent extends InputComponent implements IShapeDraw {
         super();
     }
 
-    private void discoverMe() {
+    public void discoverMe() {
         for (int i = 0; i < Players.list().size(); i++) {
             if (Players.list().get(i).getInputComponent() == this) {
                 me = Players.list().get(i);
             }
-        }
-
-        reset();
-    }
-
-    public void reset() {
-        if (me != null) {
-            Node n = nodes.closestContainingNode(me.getPosition());
-            activeState = new AIRunAlongState(me, this, nodes, n, finishLine.getPosition());
-            activeState.enter();
         }
     }
 
@@ -106,12 +94,10 @@ public class AIControlComponent extends InputComponent implements IShapeDraw {
         }
     }
 
-    public void setAINodes(Nodes nodes) {
+    public void setAINodes(List<AINodeGameObject> nodes) {
         this.nodes = nodes;
-    }
 
-    @Override
-    public void draw(ShapeRenderer shapeRenderer) {
-        nodes.draw(shapeRenderer);
+        activeState = new AIMoveState(me, this, this.nodes);
+        activeState.enter();
     }
 }

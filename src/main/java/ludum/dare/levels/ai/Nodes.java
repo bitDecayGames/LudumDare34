@@ -31,7 +31,7 @@ public class Nodes extends ArrayList<Node> implements IShapeDraw {
         if (xContainingNodes.size() > 0) {
             closestNode = xContainingNodes.get(0);
             for (Node node : xContainingNodes) {
-                if (pos.y < node.y && Math.abs(pos.y - node.y) < closestNodeDist) {
+                if (pos.y > node.y && Math.abs(pos.y - node.y) < closestNodeDist) {
                     closestNode = node;
                     closestNodeDist = Math.abs(pos.y - node.y);
                 }

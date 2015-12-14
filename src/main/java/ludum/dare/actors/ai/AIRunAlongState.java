@@ -16,13 +16,10 @@ public class AIRunAlongState implements IState {
     private Player me;
     private AIControlComponent input;
 
-
-    private float timeBeforeAttack = 2;
-    private final float timeBeforeNewTarget = (float) Math.random();
-    private float newTargetTimer = 0;
     private Vector2 target;
 
-    private List<Vector2> last3Targets = new ArrayList<>();
+    private int maxSize = 30;
+    private List<Vector2> lastPositions = new ArrayList<>();
 
     private Node node;
     private Nodes nodes;
@@ -51,12 +48,28 @@ public class AIRunAlongState implements IState {
         if (pos.x > target.x - 3 && pos.x < target.x + 3) {
             return new AIStopMovingState(me, input, nodes, target, 3);
         } else if (pos.x < target.x) {
-            if (node.equalsRight(pos.x)) return new AIJumpToNearest(me, input, nodes, node, target);
+            if (node.equalsRight(pos.x) || node.whereIsPointInNode(pos.x) > 1)
+                return new AIJumpToNearest(me, input, nodes, node, target);
             input.pressed(InputAction.RIGHT);
         } else if (pos.x > target.x) {
-            if (node.equalsLeft(pos.x)) return new AIJumpToNearest(me, input, nodes, node, target);
+            if (node.equalsLeft(pos.x) || node.whereIsPointInNode(pos.x) < 0)
+                return new AIJumpToNearest(me, input, nodes, node, target);
             input.pressed(InputAction.LEFT);
         }
+        lastPositions.add(pos);
+        if (lastPositions.size() > maxSize) lastPositions.remove(0);
+        if (lastPositions.size() == maxSize) {
+            if (aiIsStuck()) {
+                return new AIJumpToNearest(me, input, nodes, node, target);
+            }
+        }
         return null;
+    }
+
+    private boolean aiIsStuck() {
+        for (Vector2 lastPosition : lastPositions) {
+            if (lastPosition.dst(lastPositions.get(0)) > 5) return false;
+        }
+        return true;
     }
 }

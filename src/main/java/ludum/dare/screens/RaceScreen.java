@@ -46,7 +46,6 @@ import ludum.dare.gameobject.*;
 import ludum.dare.levelobject.*;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
-import ludum.dare.levels.ai.Nodes;
 import ludum.dare.util.Players;
 import ludum.dare.util.SoundLibrary;
 
@@ -113,17 +112,42 @@ public class RaceScreen implements Screen, EditorHook {
 
     public void generateNextLevel(int length) {
         LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
-        Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
+        List<Level> levels = generator.generateLevelSegments();
+
+        List<AINodeLevelObject> aiLevelNodes = new ArrayList<>();
+        for (Level level : levels) {
+            List<AINodeLevelObject> lvlNodes = new ArrayList<>();
+            for (LevelObject otherObject : level.otherObjects) {
+                if (otherObject instanceof AINodeLevelObject) {
+                    lvlNodes.add((AINodeLevelObject) otherObject);
+                }
+            }
+            lvlNodes.sort((a, b) -> a.nodeIndex - b.nodeIndex);
+            aiLevelNodes.addAll(lvlNodes);
+        }
+
+
+        Level raceLevel = LevelSegmentAggregator.assembleSegments(levels);
 
         levelChanged(raceLevel);
 
-        Nodes aiNodes = Nodes.generateNodesFromLevel(raceLevel);
+        List<AINodeGameObject> nodes = gameObjects.getAINodes();
+
+        List<AINodeGameObject> sortedNodes = new ArrayList<>();
+        aiLevelNodes.forEach(aiLevelNode -> {
+            for (AINodeGameObject node : nodes) {
+                if (node.levelObject == aiLevelNode) {
+                    sortedNodes.add(node);
+                    break;
+                }
+            }
+        });
+
         for (Player player : Players.list()) {
             if (player.getInputComponent() instanceof AIControlComponent) {
                 AIControlComponent input = (AIControlComponent) player.getInputComponent();
-                input.setAINodes(aiNodes);
-                input.finishLine = finishLine;
-                input.reset();
+                input.discoverMe();
+                input.setAINodes(sortedNodes);
             }
         }
     }
@@ -135,6 +159,7 @@ public class RaceScreen implements Screen, EditorHook {
         builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
         builderMap.put(LightLevelObject.class, LightGameObject.class);
         builderMap.put(LanternLevelObject.class, LanternGameObject.class);
+        builderMap.put(AINodeLevelObject.class, AINodeGameObject.class);
     }
 
     @Override
@@ -230,6 +255,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new PowerupLevelObject());
         exampleItems.add(new LightLevelObject());
         exampleItems.add(new LanternLevelObject());
+        exampleItems.add(new AINodeLevelObject());
         return exampleItems;
     }
 
@@ -282,7 +308,7 @@ public class RaceScreen implements Screen, EditorHook {
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
         batch.setAmbientIntensity(1f);
-//        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
+        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
         gameObjects.preDraw(batch);
 
         Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));

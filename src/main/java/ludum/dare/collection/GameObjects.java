@@ -3,6 +3,7 @@ package ludum.dare.collection;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.actors.GameObject;
+import ludum.dare.gameobject.AINodeGameObject;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IRemoveable;
 import ludum.dare.interfaces.IShapeDraw;
@@ -76,5 +77,13 @@ public class GameObjects implements IUpdate, IDraw, IShapeDraw {
 
     public void clear() {
         gameObjects.clear();
+    }
+
+    public List<AINodeGameObject> getAINodes() {
+        List<AINodeGameObject> nodes = new ArrayList<>();
+        gameObjects.forEach(obj -> {
+            if (obj instanceof AINodeGameObject) nodes.add((AINodeGameObject) obj);
+        });
+        return nodes;
     }
 }

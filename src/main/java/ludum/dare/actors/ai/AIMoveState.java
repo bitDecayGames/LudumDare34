@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.AIControlComponent;
 import ludum.dare.control.InputAction;
+import ludum.dare.gameobject.AINodeGameObject;
 import ludum.dare.interfaces.IState;
-import ludum.dare.levels.ai.Nodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,25 +15,24 @@ public class AIMoveState implements IState {
     private Player me;
     private AIControlComponent input;
 
+    private List<AINodeGameObject> nodes;
+    private List<AINodeGameObject> visited = new ArrayList<>();
+    private AINodeGameObject target = null;
 
-    private float timeBeforeAttack = 2;
-    private final float timeBeforeNewTarget = (float) Math.random();
-    private float newTargetTimer = 0;
-    private Vector2 target;
+    float waitToGo = 0;
 
-    private List<Vector2> last3Targets = new ArrayList<>();
-
-    private Nodes nodes;
-
-    public AIMoveState(Player me, AIControlComponent input, Nodes nodes) {
+    public AIMoveState(Player me, AIControlComponent input, List<AINodeGameObject> nodes) {
         this.me = me;
         this.input = input;
         this.nodes = nodes;
+        if (this.me == null) throw new RuntimeException("Cant have null ai player");
+        if (this.input == null) throw new RuntimeException("Cant have null ai input");
+        if (this.nodes == null) throw new RuntimeException("Cant have null ai nodes");
     }
 
     @Override
     public void enter() {
-        getNewTargetPosition(me.getPosition());
+        target = nextNode();
     }
 
     @Override
@@ -43,53 +42,40 @@ public class AIMoveState implements IState {
 
     @Override
     public IState update(float delta) {
-        timeBeforeAttack -= delta;
-        if (timeBeforeAttack < 0) {
-            // TODO: attack is available
-        }
-        newTargetTimer += delta;
-        if (newTargetTimer > timeBeforeNewTarget) {
-            getNewTargetPosition(me.getPosition());
-        }
+        waitToGo -= delta;
+        if (waitToGo < 0) {
+            if (isAtNode(target)) target = nextNode();
+            if (target == null) return null;
 
-        Vector2 pos = me.getPosition();
-
-        if (Math.abs(target.x - pos.x) < 5) {
-            // do nothing
-        } else if (target.x > pos.x) {
-            input.pressed(InputAction.RIGHT);
-        } else if (target.x < pos.x) {
-            input.pressed(InputAction.LEFT);
-        }
-
-        if (target.y > pos.y && !input.isJustPressed(InputAction.JUMP)) {
-            input.justPressed(InputAction.JUMP);
-        }
-
-        if (target.dst(pos.x, pos.y) < 16) {
-            getNewTargetPosition(pos);
-        }
-
-        if (last3Targets.size() == 3) {
-            Vector2 t1 = last3Targets.get(0);
-            Vector2 t2 = last3Targets.get(1);
-            Vector2 t3 = last3Targets.get(2);
-            if (t1.dst(t2) < 50 && t2.dst(t3) < 50) {
-                me.setPosition(target.x, pos.y + 10);
-            } else {
-                System.out.println(last3Targets);
+            Vector2 myPos = me.getPosition();
+            Vector2 targetPos = target.getPosition();
+            if (!isCenteredOnNode(target)) {
+                if (myPos.x < targetPos.x) input.pressed(InputAction.RIGHT);
+                if (myPos.x > targetPos.x) input.pressed(InputAction.LEFT);
             }
 
+            if (myPos.y < targetPos.y) input.justPressed(InputAction.JUMP);
         }
-
-
         return null;
     }
 
-    public void getNewTargetPosition(Vector2 myPos) {
-        newTargetTimer = 0;
-        target = new Vector2(myPos.x, myPos.y).add(100, 0);
-        last3Targets.add(target);
-        if (last3Targets.size() > 3) last3Targets.remove(last3Targets.size() - 1);
+    private boolean isAtNode(AINodeGameObject node) {
+        return node != null && me.getPosition().dst(node.getPosition()) < 16;
+    }
+
+    private boolean isCenteredOnNode(AINodeGameObject node) {
+        return node != null && me.getPosition().x < node.getPosition().x + 5 && me.getPosition().x > node.getPosition().x - 5;
+    }
+
+    private AINodeGameObject nextNode() {
+        if (target != null) visited.add(target);
+        for (int i = 0; i < nodes.size(); i++) {
+            if (!visited.contains(nodes.get(i))) {
+                nodes.get(i).isTargeted = true;
+                waitToGo = (float) Math.random() * 0.5f;
+                return nodes.get(i);
+            }
+        }
+        return null;
     }
 }
