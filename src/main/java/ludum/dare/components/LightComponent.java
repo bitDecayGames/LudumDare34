@@ -1,5 +1,6 @@
 package ludum.dare.components;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.interfaces.IComponent;
@@ -17,7 +18,6 @@ public class LightComponent implements IComponent, IDraw, IPreDraw {
 
     @Override
     public void draw(AnimagicSpriteBatch spriteBatch) {
-
     }
 
     @Override

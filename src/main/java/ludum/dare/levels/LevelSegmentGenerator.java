@@ -1,11 +1,13 @@
 package ludum.dare.levels;
 
 import com.bitdecay.jump.level.Level;
+import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.LevelUtilities;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class LevelSegmentGenerator {
     public static final boolean DEBUG = false;
@@ -34,7 +36,11 @@ public class LevelSegmentGenerator {
             if(DEBUG) {
                 System.out.println("The segment chosen was " + levelIndex);
             }
-            generatedListOfSegments.add(LevelUtilities.loadLevel(SEGMENT_DIR + "segment_" + levelIndex));
+            Level loadedLevel = LevelUtilities.loadLevel(SEGMENT_DIR + "segment_" + levelIndex);
+            for (LevelObject obj : loadedLevel.otherObjects) {
+                obj.uuid = UUID.randomUUID().toString();
+            }
+            generatedListOfSegments.add(loadedLevel);
         }
 
         generatedListOfSegments.add(LevelUtilities.loadLevel(SEGMENT_DIR + "segment_end"));

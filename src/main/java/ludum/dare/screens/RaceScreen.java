@@ -67,7 +67,10 @@ public class RaceScreen implements Screen, EditorHook {
     GameObjects gameObjects = new GameObjects();
 
     FinishLineGameObject finishLine;
+    public FinishLineGameObject finishOverride;
+
     TextureRegion splitScreenSeparator;
+    AnimagicTextureRegion background;
 
     float testZ = 0.1f;
     float testAtten = 0.9f;
@@ -90,10 +93,14 @@ public class RaceScreen implements Screen, EditorHook {
         atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
         splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
 
+        atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
+        background = atlas.findRegion("background");
+
+
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(2);
+        generateNextLevel(15);
     }
 
     public void generateNextLevel(int length) {
@@ -208,18 +215,31 @@ public class RaceScreen implements Screen, EditorHook {
         int screenWidth = Gdx.graphics.getWidth() / 2;
         int screenHeight = Gdx.graphics.getHeight() / 2;
 
-        Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
-        draw(cameras[3]);
-        Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
-        draw(cameras[2]);
-        Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
-        draw(cameras[1]);
-        Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
-        draw(cameras[0]);
+        if (cameras.length > 1) {
+            if (cameras.length > 3) {
+                Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
+                draw(cameras[3]);
+            }
+            if (cameras.length > 2) {
+                Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+                draw(cameras[2]);
+            }
+            if (cameras.length > 1) {
+                Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
+                draw(cameras[1]);
+            }
+            Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
+            draw(cameras[0]);
+        } else {
+            Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            draw(cameras[0]);
+        }
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         ui.begin();
-        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        if (cameras.length > 1) {
+            ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
         ui.end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) testZ *= 1.05f;
@@ -240,6 +260,20 @@ public class RaceScreen implements Screen, EditorHook {
         batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
         gameObjects.preDraw(batch);
 
+        Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));
+        int yLimit = (int) (bottomLeft.y + Gdx.graphics.getHeight());
+        int xLimit = (int) (bottomLeft.x + Gdx.graphics.getWidth());
+        int renderY = (int) bottomLeft.y;
+        while (renderY < yLimit) {
+            int renderX = (int) bottomLeft.x;
+            while (renderX < xLimit) {
+                batch.draw(background, renderX, renderY, background.getRegionWidth() * 4, background.getRegionHeight() * 4);
+                renderX += background.getRegionHeight() * 4;
+            }
+            renderY += background.getRegionWidth() * 4;
+        }
+//        batch.draw(background,bottomLeft.x, bottomLeft.y, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        batch.draw(background,0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         drawLevelEdit();
         gameObjects.draw(batch);
         batch.end();
@@ -265,6 +299,9 @@ public class RaceScreen implements Screen, EditorHook {
         gameObjects.clear();
         world.removeAllBodies();
         finishLine = null;
+        if (finishOverride != null) {
+            finishLine = finishOverride;
+        }
 
         currentLevel = level;
         world.setTileSize(16);

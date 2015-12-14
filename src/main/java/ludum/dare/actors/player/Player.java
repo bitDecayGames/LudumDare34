@@ -248,4 +248,8 @@ public class Player extends StateMachine {
     public void showWinner() {
         append(new LightComponent(pos));
     }
+
+    public int moneyCount() {
+        return this.wallet.currency;
+    }
 }

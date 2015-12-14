@@ -24,7 +24,7 @@ public class PowerupGameObject extends BasePlacedObject {
     public List<BitBody> build(LevelObject levelObject) {
         size = new SizeComponent(0, 0);
         pos = new PositionComponent(0, 0);
-        anim = new AnimationComponent("coin", pos, 1f, new Vector2(0, 0));
+        anim = new AnimationComponent("coin", pos, 1f, new Vector2(0, -6));
         setupAnimation();
 
         phys = new PhysicsComponent(levelObject.buildBody(), pos, size);

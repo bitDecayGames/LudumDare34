@@ -55,7 +55,7 @@ public class CoinGameObject extends BasePlacedObject implements ContactListener,
             if (bitBody.userObject instanceof Player) {
                 ((Player) bitBody.userObject).achieveMoney(1);
                 collected = true;
-                SoundLibrary.GetSound("Coin").play();
+                SoundLibrary.playSound("Coin");
             }
         }
     }

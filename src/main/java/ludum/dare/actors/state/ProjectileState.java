@@ -41,7 +41,7 @@ public class ProjectileState extends AbstractState {
     public void enter() {
         super.enter();
         int randomizer = (int) (Math.random() * 4) + 1;
-        SoundLibrary.GetSound("Punch" + randomizer).play();
+        SoundLibrary.playSound("Punch" + randomizer);
         Vector2 direction = new Vector2();
         if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) {

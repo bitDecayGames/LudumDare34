@@ -14,6 +14,10 @@ public class SoundLibrary {
     public static final HashMap<String, Music> hashMapMusicLibrary = new HashMap<>();
 
 
+    public static synchronized void playSound(String name){
+        GetSound(name).play();
+    }
+
     public static Sound GetSound(String name){
         Sound sound;
 
