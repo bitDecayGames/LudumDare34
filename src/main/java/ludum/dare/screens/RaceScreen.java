@@ -108,7 +108,8 @@ public class RaceScreen implements Screen, EditorHook {
             music.play();
         }
 
-        for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
+        for (int i = 0; i < cameras.length; i++)
+            cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         batch = new AnimagicSpriteBatch();
         batch.isShaderOn(true);
     }
@@ -186,23 +187,35 @@ public class RaceScreen implements Screen, EditorHook {
     private void draw(){
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        for (int i = 0; i < cameras.length; i++) {
-            Gdx.gl.glViewport(0, Gdx.graphics.getHeight() / cameras.length * i, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
-            OrthographicCamera cam = cameras[i];
-            batch.setCamera(cam);
-            batch.setProjectionMatrix(cameras[i].combined);
-            batch.begin();
-            Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            batch.setAmbientColor(Color.WHITE);
-            batch.setAmbientIntensity(0.01f);
-            batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
 
-            drawLevelEdit();
-            gameObjects.draw(batch);
-            batch.end();
-        }
+        int screenWidth = Gdx.graphics.getWidth() / 2;
+        int screenHeight = Gdx.graphics.getHeight() / 2;
+
+        Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+        draw(cameras[0]);
+        Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
+        draw(cameras[1]);
+        Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
+        draw(cameras[2]);
+        Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
+        draw(cameras[3]);
+
 
 //        worldRenderer.render(world, cameras[0]);
+    }
+
+    private void draw(Camera cam) {
+        batch.setCamera(cam);
+        batch.setProjectionMatrix(cam.combined);
+        batch.begin();
+        Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        batch.setAmbientColor(Color.WHITE);
+        batch.setAmbientIntensity(0.01f);
+        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
+
+        drawLevelEdit();
+        gameObjects.draw(batch);
+        batch.end();
     }
 
     private void drawLevelEdit() {
