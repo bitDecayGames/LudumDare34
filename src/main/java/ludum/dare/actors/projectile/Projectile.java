@@ -19,8 +19,8 @@ import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
 public class Projectile extends GameObject implements ContactListener, IRemoveable {
-    private final static float PROJECTILE_SPEED = 500;
-    private final static float PROJECTILE_TIME_TO_LIVE = 10;
+    protected float PROJECTILE_SPEED = 500;
+    protected float PROJECTILE_TIME_TO_LIVE = 10;
 
     private final SizeComponent size;
     private final PositionComponent pos;
@@ -50,7 +50,7 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
         append(size).append(pos).append(phys).append(anim).append(levelComponent).append(timedComponent);
     }
 
-    private PhysicsComponent createBody(Vector2 direction) {
+    protected PhysicsComponent createBody(Vector2 direction) {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
         body.bodyType = BodyType.DYNAMIC;
@@ -65,7 +65,7 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
         return new PhysicsComponent(body, pos, size);
     }
 
-    private void setupAnimation(Animator a) {
+    protected void setupAnimation(Animator a) {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player0.atlas", AnimagicTextureAtlas.class);
 
         a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
