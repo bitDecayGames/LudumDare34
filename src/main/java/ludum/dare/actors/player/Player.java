@@ -20,7 +20,6 @@ import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
 import ludum.dare.components.upgradeComponents.*;
-import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 
@@ -33,8 +32,10 @@ public class Player extends StateMachine {
     private final PlayerCurrencyComponent wallet;
     private final AttackComponent attack;
     private LevelInteractionComponent levelComponent;
+    private final int playerNum;
 
-    public Player() {
+    public Player(int playerNum) {
+        this.playerNum = playerNum;
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(0, 0);
         health = new HealthComponent(10, 10);
@@ -61,7 +62,7 @@ public class Player extends StateMachine {
     }
 
     private void setupAnimation(Animator a) {
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player.atlas", AnimagicTextureAtlas.class);
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player" + getPlayerNum() + ".atlas", AnimagicTextureAtlas.class);
 
         a.addAnimation(new Animation("run", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("run").toArray(AnimagicTextureRegion.class)));
         a.addAnimation(new Animation("jump", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), atlas.findRegions("jump").toArray(AnimagicTextureRegion.class)));
@@ -77,6 +78,10 @@ public class Player extends StateMachine {
         a.addAnimation(new Animation("wall", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("wall").toArray(AnimagicTextureRegion.class)));
 
         a.switchToAnimation("stand");
+    }
+
+    public int getPlayerNum() {
+        return playerNum;
     }
 
     @Override

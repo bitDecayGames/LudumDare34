@@ -34,7 +34,7 @@ public class EditorLauncher {
                 RacerGame.assetManager.finishLoading();
 
                 List<Player> players = new ArrayList<>();
-                Player playerInstance = new Player();
+                Player playerInstance = new Player(0);
                 playerInstance.append(new KeyboardControlComponent());
                 players.add(playerInstance);
                 Players.initialize(players);
