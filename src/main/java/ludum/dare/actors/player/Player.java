@@ -17,13 +17,17 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
+import ludum.dare.actors.items.PowerBlock;
 import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
+import ludum.dare.components.PowerDownComponents.*;
+import ludum.dare.components.PowerUpComponents.*;
 import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
+import ludum.dare.util.Players;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -161,4 +165,56 @@ public class Player extends StateMachine {
             throw new RuntimeException("Could not instantiate " + clazz);
         }
     }
+
+    public void getPowerBlock(PowerBlock power){
+        String myPower = power.randomPowerGenerator(getRank());
+        if(myPower == "TEMP_SPEED"){
+            append(new TempSpeedComponent(phys));
+        }else if(myPower == "SLOW"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("SLOW");
+                }
+            }
+        }else if(myPower == "DOUBLE COINS"){
+            append(new DoubleCoinsComponent());
+        }else if(myPower == "LIGHTS_OFF"){
+//        TODO: add some shit here that lets this happen
+        }else if(myPower == "FORCE_HIGH_JUMP"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("FORCE_HIGH_JUMP");
+                }
+            }
+        }else if(myPower == "STEAL_COINS"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("STEAL_COINS");
+                }
+            }
+        }else if(myPower == "TEMP_FLY"){
+            append(new TempFlyComponent(phys));
+        }else if(myPower == "STUN"){
+            for(Player p: Players.list()){
+                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
+                    p.takeAPowerDown("STUN");
+                }
+            }
+        }
+    }
+
+    public void takeAPowerDown(String powerDown){
+        if(powerDown == "SLOW"){
+            append(new SlowComponent(phys));
+        }else if(powerDown == "FORCE_HIGH_JUMP"){
+            append(new ForceHighJumpComponent(phys));
+        }else if(powerDown == "STUN"){
+            append(new StunComponent(phys));
+        }
+    }
+
+    public int getRank(){
+        return 0;
+    }
+
 }

@@ -10,6 +10,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.interfaces.IProjectile;
 import ludum.dare.shop.UpgradeGroup;
 import ludum.dare.shop.UpgradeOption;
 import ludum.dare.util.Players;
@@ -80,10 +81,17 @@ outer:  while (tries > 0) {
                     continue outer;
                 }
             }
-            if (!player.hasComponent(option.clazz)) {
+
+            Class checkClass = option.clazz;
+
+            if(option.clazz.isAssignableFrom(IProjectile.class)) {
+                checkClass = IProjectile.class;
+            }
+            if (!player.hasComponent(checkClass)) {
                 group.addChoice(option);
                 added++;
             }
+
             if (added >= 3) {
                 break;
             }
