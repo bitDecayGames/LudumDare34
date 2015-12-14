@@ -106,6 +106,7 @@ public class RaceScreen implements Screen, EditorHook {
 
         if(RacerGame.MUSIC_ON) {
             music.play();
+            music.setLooping(true);
         }
 
         for (int i = 0; i < cameras.length; i++)
