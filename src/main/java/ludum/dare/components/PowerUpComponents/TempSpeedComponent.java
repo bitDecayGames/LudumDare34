@@ -12,7 +12,7 @@ public class TempSpeedComponent extends TimedComponent {
     public TempSpeedComponent(PhysicsComponent phys){
         super(5);
         this.phys = phys;
-        this.phys.getBody().props.acceleration = this.phys.getBody().props.acceleration + 300;
+        this.phys.getBody().props.maxVoluntarySpeed = this.phys.getBody().props.maxVoluntarySpeed + 100;
     }
 
     @Override
@@ -22,6 +22,6 @@ public class TempSpeedComponent extends TimedComponent {
 
     @Override
     public void remove(){
-        phys.getBody().props.acceleration = phys.getBody().props.acceleration - 300;
+        phys.getBody().props.maxVoluntarySpeed = phys.getBody().props.maxVoluntarySpeed - 100;
     }
 }

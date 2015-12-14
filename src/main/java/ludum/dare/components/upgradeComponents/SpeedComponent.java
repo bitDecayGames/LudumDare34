@@ -10,6 +10,6 @@ public class SpeedComponent implements IComponent {
     public int cost = 0;
 
     public SpeedComponent(PhysicsComponent phys){
-        phys.getBody().props.acceleration = (int) (phys.getBody().props.acceleration * 1.25f);
+        phys.getBody().props.maxVoluntarySpeed = (int) (phys.getBody().props.maxVoluntarySpeed * 1.25f);
     }
 }

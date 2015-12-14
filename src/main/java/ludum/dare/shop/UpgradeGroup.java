@@ -101,7 +101,7 @@ public class UpgradeGroup {
 
     private void select() {
         active = false;
-        if (selectedIndex > choices.size()) {
+        if (choices.size() > 0) {
             Class clazz = choices.get(selectedIndex).clazz;
             player.addUpgrade(clazz);
         }

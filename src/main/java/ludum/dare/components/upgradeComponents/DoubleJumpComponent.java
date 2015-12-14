@@ -11,8 +11,6 @@ public class DoubleJumpComponent implements IComponent {
     public int cost = 0;
 
     public DoubleJumpComponent(PhysicsComponent phys){
-        if(phys.getBody() instanceof JumperBody) {
-            ((JumperBody) phys.getBody()).jumpsRemaining = 2;
-        }
+            ((JumperBody) phys.getBody()).jumperProps.jumpCount = 2;
     }
 }
