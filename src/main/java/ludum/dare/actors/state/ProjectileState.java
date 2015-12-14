@@ -2,9 +2,6 @@ package ludum.dare.actors.state;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bitdecay.jump.Facing;
-import com.bytebreakstudios.animagic.animation.Animation;
-import com.bytebreakstudios.animagic.animation.AnimationListener;
-import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
 import ludum.dare.actors.projectile.Projectile;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputAction;
@@ -14,13 +11,11 @@ import ludum.dare.util.SoundLibrary;
 
 import java.util.Set;
 
-public class PunchState extends AbstractState implements AnimationListener {
-    private Animation punchAnimation;
-    private boolean done = false;
+public class ProjectileState extends AbstractState {
 
     LevelInteractionComponent levelComponent;
 
-    public PunchState(Set<IComponent> components) {
+    public ProjectileState(Set<IComponent> components) {
         super(components);
 
         components.forEach(comp -> {
@@ -33,8 +28,8 @@ public class PunchState extends AbstractState implements AnimationListener {
     }
 
     public Boolean shouldRun(IState currentState) {
-        if (inputComponent.isJustPressed(InputAction.PUNCH)) {
-            if (!(currentState instanceof PunchState)) {
+        if (inputComponent.isJustPressed(InputAction.PROJECTILE)) {
+            if (!(currentState instanceof ProjectileState)) {
                 return true;
             }
         }
@@ -46,25 +41,20 @@ public class PunchState extends AbstractState implements AnimationListener {
     public void enter() {
         super.enter();
         int randomizer = (int) (Math.random() * 4) + 1;
-        SoundLibrary.GetSound("Punch"+randomizer).play();
+        SoundLibrary.GetSound("Punch" + randomizer).play();
         Vector2 direction = new Vector2();
         if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) {
-                switchToAnimation("punch/jumping/up");
                 direction.y = 1;
             } else if (inputComponent.isPressed(InputAction.DOWN)) {
-                switchToAnimation("punch/jumping/down");
                 direction.y = -1;
             } else {
-                switchToAnimation("punch/jumping/front");
                 direction.x = 1;
             }
         } else {
             if (inputComponent.isPressed(InputAction.UP)) {
-                switchToAnimation("punch/up");
                 direction.y = 1;
             } else {
-                switchToAnimation("punch/front");
                 direction.x = 1;
             }
         }
@@ -81,19 +71,9 @@ public class PunchState extends AbstractState implements AnimationListener {
                 throw new Error("Invalid facing set");
         }
 
-//        addProjectile(direction);
+        addProjectile(direction);
     }
 
-    private void switchToAnimation(String animationName) {
-        animationComponent.animator.switchToAnimation(animationName);
-        IFrameByFrameAnimation anim = animationComponent.animator.getAnimationByName(animationName);
-        if (anim != null && anim instanceof Animation) {
-            punchAnimation = (Animation) anim;
-            punchAnimation.listen(this);
-        }
-    }
-
-    // TODO Mike Logan this is where you'll do punch projectile stuff.
     private void addProjectile(Vector2 direction) {
         Projectile projectile = new Projectile(positionComponent, direction, levelComponent, physicsComponent);
         levelComponent.addToLevel(projectile, projectile.getPhysics());
@@ -102,16 +82,10 @@ public class PunchState extends AbstractState implements AnimationListener {
     @Override
     public void exit() {
         super.exit();
-        if (punchAnimation != null) punchAnimation.stopListening(this);
     }
 
     @Override
     public IState update(float delta) {
-        return done ? getJumpState() : null;
-    }
-
-    @Override
-    public void animationNotification(Animation animation, Animation.AnimationListenerState animationListenerState) {
-        if (animationListenerState == Animation.AnimationListenerState.FINISHED) done = true;
+        return getJumpState();
     }
 }

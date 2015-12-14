@@ -18,6 +18,7 @@ import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
 import ludum.dare.actors.items.PowerBlock;
 import ludum.dare.actors.state.HurtState;
+import ludum.dare.actors.state.ProjectileState;
 import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
@@ -109,9 +110,13 @@ public class Player extends StateMachine {
     private void checkForStateSwitch() {
         IState newState = null;
         PunchState punch = new PunchState(components);
+        ProjectileState projectile = new ProjectileState(components);
         if (punch.shouldRun(activeState)) {
             newState = punch;
+        } else if (projectile.shouldRun(activeState)) {
+            newState = projectile;
         }
+
         if (newState != null) {
             setActiveState(newState);
         }
