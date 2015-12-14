@@ -6,6 +6,7 @@ import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.AnimationListener;
 import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
 import ludum.dare.actors.projectile.Projectile;
+import ludum.dare.actors.projectile.Punch;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
@@ -81,7 +82,7 @@ public class PunchState extends AbstractState implements AnimationListener {
                 throw new Error("Invalid facing set");
         }
 
-//        addProjectile(direction);
+        addProjectile(direction);
     }
 
     private void switchToAnimation(String animationName) {
@@ -95,8 +96,8 @@ public class PunchState extends AbstractState implements AnimationListener {
 
     // TODO Mike Logan this is where you'll do punch projectile stuff.
     private void addProjectile(Vector2 direction) {
-        Projectile projectile = new Projectile(positionComponent, direction, levelComponent, physicsComponent);
-        levelComponent.addToLevel(projectile, projectile.getPhysics());
+        Punch punch = new Punch(positionComponent, direction, levelComponent, physicsComponent);
+        levelComponent.addToLevel(punch, punch.getPhysics());
     }
 
     @Override
