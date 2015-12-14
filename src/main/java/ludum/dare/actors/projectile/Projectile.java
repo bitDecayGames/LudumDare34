@@ -17,7 +17,9 @@ import ludum.dare.actors.StateMachine;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends StateMachine implements ContactListener, IRemoveable{
+public class Projectile extends StateMachine implements ContactListener, IRemoveable {
+    private final static float PROJECTILE_SPEED = 500;
+
     private final SizeComponent size;
     private final PositionComponent pos;
     private final PhysicsComponent phys;
@@ -27,7 +29,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source, LevelInteractionComponent levelComp) {
+    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp) {
         super();
 
         size = new SizeComponent(100, 100);
@@ -37,19 +39,18 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
         attack = new AttackComponent(10);
 
-        phys = createBody();
+        phys = createBody(direction);
         levelComponent = levelComp;
         append(size).append(pos).append(phys).append(anim).append(levelComponent);
     }
 
-    private PhysicsComponent createBody() {
+    private PhysicsComponent createBody(Vector2 direction) {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
-//        body.renderStateWatcher = new JumperRenderStateWatcher(); TODO do we need this?
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(pos.x, pos.y, 16, 32));
 
-        body.velocity.set(500, 0);
+        body.velocity.set(PROJECTILE_SPEED * direction.x, PROJECTILE_SPEED * direction.y);
         body.userObject = this;
         body.props.gravitational = false;
         body.addContactListener(this);
