@@ -2,6 +2,7 @@ package ludum.dare.levels;
 
 import com.bitdecay.jump.geom.BitPointInt;
 import com.bitdecay.jump.level.Level;
+import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.level.builder.LevelBuilder;
 
@@ -15,6 +16,16 @@ public class LevelSegmentAggregator {
 
 
     public static Level assembleSegments(List<Level> levelsRaw) {
+        if (levelsRaw.size() <= 0) {
+            throw new RuntimeException("Cannot aggregate empty chunks");
+        }
+        LevelSegmentAggregator.TILE_SIZE = levelsRaw.get(0).tileSize;
+        for (Level level : levelsRaw) {
+            if (level.tileSize != LevelSegmentAggregator.TILE_SIZE) {
+                throw new RuntimeException("Attempting to aggregate levels with different tile sizes");
+            }
+        }
+
         List<LevelWithAggData> levels = new ArrayList<>();
         levelsRaw.forEach(l -> levels.add(new LevelWithAggData(l)));
 
@@ -71,6 +82,10 @@ public class LevelSegmentAggregator {
                     }
                 }
             }
+            for (LevelObject ta : segmentB.level.otherObjects) {
+                ta.rect.xy.x += tileAdjustmentX + TILE_SIZE;
+                ta.rect.xy.y += tileAdjustmentY;
+            }
         }
 
         if(DEBUG) {
@@ -105,9 +120,13 @@ public class LevelSegmentAggregator {
             for (TileObject[] toa : level.level.gridObjects) {
                 for (TileObject to : toa) {
                     if (to != null) {
-                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) to.rect.xy.x + TILE_SIZE, (int) to.rect.xy.y + TILE_SIZE), to.oneway, to.material);
+                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) (to.rect.xy.x + to.rect.width), (int) (to.rect.xy.y + to.rect.height)), to.oneway, to.material);
                     }
                 }
+            }
+
+            for (LevelObject object : level.level.otherObjects) {
+                levelBuilder.createObject(object);
             }
         }
 //        LevelUtilities.saveLevel(levelBuilder, false);

@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bitdecay.jump.BitBody;
+import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.gdx.level.RenderableLevelObject;
 import com.bitdecay.jump.geom.BitRectangle;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
+import ludum.dare.RacerGame;
 
 /**
  * Created by Admin on 12/13/2015.
@@ -14,8 +17,10 @@ public class PowerupLevelObject extends RenderableLevelObject {
     private TextureRegion texture;
 
     public PowerupLevelObject() {
-        this.texture = new TextureRegion(new Texture(Gdx.files.internal("ui/button.9.png")));
-        rect = new BitRectangle(0, 0, 16 ,16);
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
+
+        this.texture = atlas.findRegion("collect/chest/closed");
+        rect = new BitRectangle(0, 0, 28, 18);
     }
 
     @Override
@@ -25,7 +30,12 @@ public class PowerupLevelObject extends RenderableLevelObject {
 
     @Override
     public BitBody buildBody() {
-        return null;
+        BitBody body = new BitBody();
+        body.props.gravitational = false;
+//        body.props.collides = false;
+        body.bodyType = BodyType.STATIC;
+        body.aabb.set(new BitRectangle(rect));
+        return body;
     }
 
     @Override

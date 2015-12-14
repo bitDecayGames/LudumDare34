@@ -4,6 +4,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.actors.GameObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GameObjects {
@@ -14,6 +15,10 @@ public class GameObjects {
     public GameObjects() {
         gameObjects = new ArrayList<>();
         pendingAdds = new ArrayList<>();
+    }
+
+    public Iterator getIter() {
+        return gameObjects.iterator();
     }
 
     // Will be added at start of next update loop.
