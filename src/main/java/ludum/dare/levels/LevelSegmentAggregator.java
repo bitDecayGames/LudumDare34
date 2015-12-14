@@ -1,6 +1,8 @@
 package ludum.dare.levels;
 
+import com.bitdecay.jump.geom.ArrayUtilities;
 import com.bitdecay.jump.geom.BitPointInt;
+import com.bitdecay.jump.level.Direction;
 import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
@@ -130,7 +132,73 @@ public class LevelSegmentAggregator {
             }
         }
 //        LevelUtilities.saveLevel(levelBuilder, false);
-        return levelBuilder.optimizeLevel();
+        Level optimizedLevel = levelBuilder.optimizeLevel();
+//        updateAllNeighborRenderValues(optimizedLevel);
+        return optimizedLevel;
+    }
+
+    public static void updateAllNeighborRenderValues(Level optimizedLevel) {
+        for (int x = 0; x < optimizedLevel.gridObjects.length; x++) {
+            for (int y = 0; y < optimizedLevel.gridObjects[0].length; y++) {
+                updateNeighbors(x, y, optimizedLevel.gridObjects);
+            }
+        }
+    }
+
+    private static void updateNeighbors(int x, int y, TileObject[][] grid) {
+        updateOwnNeighbors(x, y, grid);
+
+        updateOwnNeighbors(x+1, y, grid);
+        updateOwnNeighbors(x-1, y, grid);
+        updateOwnNeighbors(x, y+1, grid);
+        updateOwnNeighbors(x, y - 1, grid);
+    }
+
+    public static void updateOwnNeighbors(int x, int y, TileObject[][] grid) {
+        if (!ArrayUtilities.onGrid(grid, x, y) || grid[x][y] == null) {
+            return;
+        }
+
+        // check right
+        if (ArrayUtilities.onGrid(grid, x + 1, y) && grid[x + 1][y] != null) {
+            if (grid[x][y].material == grid[x+1][y].material) {
+                grid[x][y].renderNValue |= Direction.RIGHT;
+            } else {
+                grid[x][y].renderNValue &= Direction.NOT_RIGHT;
+            }
+        } else {
+            grid[x][y].renderNValue &= Direction.NOT_RIGHT;
+        }
+        // check left
+        if (ArrayUtilities.onGrid(grid, x - 1, y) && grid[x - 1][y] != null) {
+            if (grid[x][y].material == grid[x-1][y].material) {
+                grid[x][y].renderNValue |= Direction.LEFT;
+            } else {
+                grid[x][y].renderNValue &= Direction.NOT_LEFT;
+            }
+        } else {
+            grid[x][y].renderNValue &= Direction.NOT_LEFT;
+        }
+        // check up
+        if (ArrayUtilities.onGrid(grid, x, y + 1) && grid[x][y + 1] != null) {
+            if (grid[x][y].material == grid[x][y+1].material) {
+                grid[x][y].renderNValue |= Direction.UP;
+            } else {
+                grid[x][y].renderNValue &= Direction.NOT_UP;
+            }
+        } else {
+            grid[x][y].renderNValue &= Direction.NOT_UP;
+        }
+        // check down
+        if (ArrayUtilities.onGrid(grid, x, y - 1) && grid[x][y - 1] != null) {
+            if (grid[x][y].material == grid[x][y-1].material) {
+                grid[x][y].renderNValue |= Direction.DOWN;
+            } else {
+                grid[x][y].renderNValue &= Direction.NOT_DOWN;
+            }
+        } else {
+            grid[x][y].renderNValue &= Direction.NOT_DOWN;
+        }
     }
 
     public static void main(String args[]){

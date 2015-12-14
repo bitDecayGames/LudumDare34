@@ -12,7 +12,7 @@ public class SlowComponent extends TimedComponent{
     public SlowComponent(PhysicsComponent phys){
         super(5);
         this.phys = phys;
-        this.phys.getBody().props.maxVoluntarySpeed = this.phys.getBody().props.maxVoluntarySpeed - 100;
+        this.phys.getBody().props.maxVoluntarySpeed -= 100;
     }
 
     @Override
@@ -22,6 +22,6 @@ public class SlowComponent extends TimedComponent{
 
     @Override
     public void remove(){
-        this.phys.getBody().props.maxVoluntarySpeed = this.phys.getBody().props.maxVoluntarySpeed + 100;
+        this.phys.getBody().props.maxVoluntarySpeed += 100;
     }
 }
