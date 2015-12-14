@@ -58,27 +58,34 @@ public class Punch extends PunchProjectile implements IUpdate{
     public void update(float delta) {
         super.update(delta);
         if (facePunch.FacePunchingJupingUp) {
-            pos.x = source.x - 11;
-            pos.y = source.y + 28;
+            anim.offset = new Vector2(0, 2);
+            getPhysics().getBody().aabb.xy.x = source.x;
+            getPhysics().getBody().aabb.xy.y = source.y + 28;
         } else if (facePunch.FacePunchingDown){
-            pos.x = source.x - 7;
-            pos.y = source.y - 15;
+            getPhysics().getBody().aabb.xy.x = source.x;
+            getPhysics().getBody().aabb.xy.y = source.y - 15;
         } else {
             if(sourcePhysicsComponent.getBody().facing.equals(Facing.RIGHT)){
                 if (facePunch.FacePunchingUp) {
-                    pos.x = source.x + 6;
-                    pos.y = source.y + 20;
+                    anim.offset = new Vector2(0, -6);
+                    getPhysics().getBody().aabb.xy.x = source.x + 16;
+                    getPhysics().getBody().aabb.xy.y = source.y + 26;
                 } else {
-                    pos.x = source.x + 15;
-                    pos.y = source.y;
+                    anim.offset = new Vector2(-6, 0);
+                    getPhysics().getBody().aabb.xy.x = source.x + 16;
+                    getPhysics().getBody().aabb.xy.y = source.y + 4;
                 }
             } else {
                 if (facePunch.FacePunchingUp) {
-                    pos.x = source.x - 22;
-                    pos.y = source.y + 20;
+                    anim.setFlipVerticalAxis(true);
+                    anim.offset = new Vector2(17, -6);
+                    getPhysics().getBody().aabb.xy.x = source.x - 18;
+                    getPhysics().getBody().aabb.xy.y = source.y + 26;
                 } else {
-                    pos.x = source.x - 15;
-                    pos.y = source.y;
+                    anim.setFlipVerticalAxis(true);
+                    anim.offset = new Vector2(22, 0);
+                    getPhysics().getBody().aabb.xy.x = source.x - 16;
+                    getPhysics().getBody().aabb.xy.y = source.y + 4;
                 }
             }
         }

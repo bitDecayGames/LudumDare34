@@ -94,6 +94,8 @@ public class ProjectileState extends AbstractState {
                 levelComponent.addToLevel(webProjectile, webProjectile.getPhysics());
             }
         });
+        FireProjectile fireProjectile = new FireProjectile(positionComponent, direction, levelComponent, physicsComponent);
+        levelComponent.addToLevel(fireProjectile, fireProjectile.getPhysics());
     }
 
     @Override

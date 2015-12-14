@@ -40,7 +40,7 @@ public class PunchProjectile extends GameObject implements ContactListener, IRem
         PROJECTILE_TIME_TO_LIVE = timeToLive;
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(source.x, source.y);
-        anim = new AnimationComponent("projectiles", pos, 1f, new Vector2(8, 0));
+        anim = new AnimationComponent("projectiles", pos, 1f, new Vector2(0, 0));
         this.sourcePhysicsComponent = sourcePhysicsComponent;
         setupAnimation(anim.animator, facePunch);
 
@@ -56,7 +56,7 @@ public class PunchProjectile extends GameObject implements ContactListener, IRem
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
         body.bodyType = BodyType.DYNAMIC;
-        body.aabb.set(new BitRectangle(pos.x, pos.y, 16, 32));
+        body.aabb.set(new BitRectangle(pos.x, pos.y, 16, 16));
 
         body.velocity.set(PROJECTILE_SPEED * direction.x, PROJECTILE_SPEED * direction.y);
         body.userObject = this;
@@ -96,7 +96,7 @@ public class PunchProjectile extends GameObject implements ContactListener, IRem
     @Override
     public void remove() {
         // Remove ourselves from the physics world.
-        //levelComponent.getWorld().removeBody(phys.getBody());
+        levelComponent.getWorld().removeBody(phys.getBody());
     }
 
     @Override
