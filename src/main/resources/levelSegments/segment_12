@@ -2193,6 +2193,17 @@
       "height" : 18.0
     },
     "uuid" : "b64c34a4-187a-455a-ac3d-c4cabf340b64"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -352.0,
+        "y" : -32.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "dc2ac2fa-fedc-42f8-a64f-472812530f45",
+    "nodeIndex" : 0
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
@@ -2223,6 +2234,17 @@
       "height" : 7.0
     },
     "uuid" : "cf39ae4a-5f93-4fa1-b021-cffafabd7429"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 736.0,
+        "y" : -320.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "7808f779-b810-4b4d-bc9e-ffeff8c38a39",
+    "nodeIndex" : 1
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {

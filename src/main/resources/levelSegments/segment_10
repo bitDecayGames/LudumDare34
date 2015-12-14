@@ -2605,7 +2605,18 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, null, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.CoinLevelObject", {
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -352.0,
+        "y" : -32.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "f50bb52b-1782-43f3-b932-b996a1e35855",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
         "x" : 128.0,
@@ -2635,6 +2646,17 @@
       "height" : 7.0
     },
     "uuid" : "4c1305d0-4737-4149-805b-ae121b9df6d1"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 320.0,
+        "y" : -64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "4af14ae0-f8a2-45af-a360-ad807c452acd",
+    "nodeIndex" : 0
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
