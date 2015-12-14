@@ -40,7 +40,8 @@ public class TestStateScreen implements Screen {
         batch.isShaderOn(true);
 
         atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-        animation = new Animation("test", Animation.AnimationPlayState.REPEAT, FrameRate.total(5), atlas.findRegions("bridges").toArray(AnimagicTextureRegion.class));
+        animation = new Animation("test", Animation.AnimationPlayState.REPEAT, FrameRate.total(5),
+                new AnimagicTextureRegion[]{atlas.findRegions("crystal").get(14)});
     }
 
     @Override
