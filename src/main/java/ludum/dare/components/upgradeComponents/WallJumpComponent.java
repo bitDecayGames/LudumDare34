@@ -14,7 +14,8 @@ public class WallJumpComponent implements IComponent {
         if(phys.getBody() instanceof JumperBody){
             ((JumperBody) phys.getBody()).jumperProps.wallJumpEnabled = true;
             ((JumperBody) phys.getBody()).jumperProps.wallSlideEnabled = true;
-            ((JumperBody) phys.getBody()).jumperProps.wallMaxSlideSpeed = 200;
+            ((JumperBody) phys.getBody()).jumperProps.wallMaxSlideSpeed = 50;
+            ((JumperBody) phys.getBody()).jumperProps.wallJumpLaunchPower = 100;
         }
     }
 }
