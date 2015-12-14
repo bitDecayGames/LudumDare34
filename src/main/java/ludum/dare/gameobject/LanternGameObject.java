@@ -14,6 +14,7 @@ import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.LightComponent;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
+import ludum.dare.levelobject.LanternLevelObject;
 import ludum.dare.util.LightUtil;
 
 import java.util.Collections;
@@ -25,9 +26,14 @@ import java.util.List;
 public class LanternGameObject extends BasePlacedObject {
 
     LightComponent light;
+    float attenMod = 0;
+    float zMod = 0;
 
     @Override
     public List<BitBody> build(LevelObject levelObject) {
+
+        attenMod = ((LanternLevelObject)levelObject).attenuationModifier;
+        zMod = ((LanternLevelObject)levelObject).zModifier;
         size = new SizeComponent(1, 1);
         pos = new PositionComponent(levelObject.rect.xy.x, levelObject.rect.xy.y);
 
@@ -46,20 +52,20 @@ public class LanternGameObject extends BasePlacedObject {
         super.update(delta);
         switch ( anim.animator.getFrameIndex()) {
             case 0:
-                light.setAttenuation(1f);
-                light.setzAxis(.1f);
+                light.setAttenuation(1f + attenMod);
+                light.setzAxis(.1f + zMod);
                 break;
             case 1:
-                light.setAttenuation(1.2f);
-                light.setzAxis(.13f);
+                light.setAttenuation(1.2f + attenMod);
+                light.setzAxis(.13f + zMod);
                 break;
             case 2:
-                light.setAttenuation(1.05f);
-                light.setzAxis(.11f);
+                light.setAttenuation(1.05f + attenMod);
+                light.setzAxis(.11f + zMod);
                 break;
             default:
-                light.setAttenuation(.8f);
-                light.setzAxis(.07f);
+                light.setAttenuation(.8f + attenMod);
+                light.setzAxis(.07f + zMod);
         }
     }
 
