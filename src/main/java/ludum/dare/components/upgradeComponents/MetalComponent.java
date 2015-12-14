@@ -12,7 +12,7 @@ public class MetalComponent implements IComponent {
     public int cost = 0;
 
     public MetalComponent(PhysicsComponent phys, HealthComponent health, AttackComponent attack){
-        phys.getBody().props.acceleration = (int) (phys.getBody().props.acceleration * 0.9f);
+        phys.getBody().props.maxVoluntarySpeed = (int) (phys.getBody().props.maxVoluntarySpeed * 0.9f);
         phys.getBody().props.gravityModifier = phys.getBody().props.gravityModifier * 1.1f;
         health.max = health.max * 1.25f;
         attack.attack = attack.attack * 1.25f;
