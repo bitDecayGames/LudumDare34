@@ -1,5 +1,6 @@
 package ludum.dare.components.PowerUpComponents;
 
+import com.bitdecay.jump.JumperBody;
 import ludum.dare.components.PhysicsComponent;
 import ludum.dare.components.TimedComponent;
 
@@ -12,8 +13,10 @@ public class TempFlyComponent extends TimedComponent{
     public TempFlyComponent(PhysicsComponent phys) {
         super(5);
         this.phys = phys;
-//        Alter physics to make fly, dunno how do
+        ((JumperBody) phys.getBody()).jumperProps.jumpCount += 10000;
+
     }
+
 
     @Override
     public void update(float delta) {
@@ -22,6 +25,6 @@ public class TempFlyComponent extends TimedComponent{
 
     @Override
     public void remove() {
-//      Alter physics to remove fly, dunno how do
+        ((JumperBody) phys.getBody()).jumperProps.jumpCount -= 10000;
     }
 }

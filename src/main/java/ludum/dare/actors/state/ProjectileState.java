@@ -2,8 +2,12 @@ package ludum.dare.actors.state;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bitdecay.jump.Facing;
-import ludum.dare.actors.projectile.Projectile;
+import ludum.dare.actors.projectile.*;
 import ludum.dare.components.LevelInteractionComponent;
+import ludum.dare.components.upgradeComponents.FireProjectileComponent;
+import ludum.dare.components.upgradeComponents.IceProjectileComponent;
+import ludum.dare.components.upgradeComponents.PoisonProjectileComponent;
+import ludum.dare.components.upgradeComponents.WebProjectileComponent;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
@@ -75,8 +79,21 @@ public class ProjectileState extends AbstractState {
     }
 
     private void addProjectile(Vector2 direction) {
-        Projectile projectile = new Projectile(positionComponent, direction, levelComponent, physicsComponent);
-        levelComponent.addToLevel(projectile, projectile.getPhysics());
+        components.forEach(comp -> {
+            if (comp instanceof FireProjectileComponent){
+                FireProjectile fireProjectile = new FireProjectile(positionComponent, direction, levelComponent, physicsComponent);
+                levelComponent.addToLevel(fireProjectile, fireProjectile.getPhysics());
+            } else if (comp instanceof IceProjectileComponent){
+                IceProjectile iceProjectile = new IceProjectile(positionComponent, direction, levelComponent, physicsComponent);
+                levelComponent.addToLevel(iceProjectile, iceProjectile.getPhysics());
+            }else if (comp instanceof PoisonProjectileComponent){
+                PoisonProjectile poisonProjectile = new PoisonProjectile(positionComponent, direction, levelComponent, physicsComponent);
+                levelComponent.addToLevel(poisonProjectile, poisonProjectile.getPhysics());
+            }else if (comp instanceof WebProjectileComponent){
+                WebProjectile webProjectile = new WebProjectile(positionComponent, direction, levelComponent, physicsComponent);
+                levelComponent.addToLevel(webProjectile, webProjectile.getPhysics());
+            }
+        });
     }
 
     @Override
