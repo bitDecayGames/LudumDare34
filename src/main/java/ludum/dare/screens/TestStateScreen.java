@@ -35,7 +35,7 @@ public class TestStateScreen implements Screen {
         batch = new AnimagicSpriteBatch(camera);
         batch.isShaderOn(true);
 
-        player = new Player();
+        player = new Player(0);
     }
 
     @Override
