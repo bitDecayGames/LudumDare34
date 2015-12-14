@@ -19,6 +19,7 @@ import ludum.dare.interfaces.IRemoveable;
 
 public class Projectile extends StateMachine implements ContactListener, IRemoveable {
     private final static float PROJECTILE_SPEED = 500;
+    private final static float PROJECTILE_TIME_TO_LIVE = 10;
 
     private final SizeComponent size;
     private final PositionComponent pos;
@@ -26,6 +27,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     private final AnimationComponent anim;
     private final AttackComponent attack;
     private final LevelInteractionComponent levelComponent;
+    private final TimedComponent timedComponent;
 
     private Boolean shouldRemove = false;
 
@@ -41,7 +43,8 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
         phys = createBody(direction);
         levelComponent = levelComp;
-        append(size).append(pos).append(phys).append(anim).append(levelComponent);
+        timedComponent = new TimedComponent(PROJECTILE_TIME_TO_LIVE);
+        append(size).append(pos).append(phys).append(anim).append(levelComponent).append(timedComponent);
     }
 
     private PhysicsComponent createBody(Vector2 direction) {
@@ -70,6 +73,10 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        if (timedComponent.shouldRemove()) {
+            shouldRemove = true;
+        }
     }
 
     public PhysicsComponent getPhysics() {
