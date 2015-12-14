@@ -10,7 +10,7 @@ import ludum.dare.screens.SplashScreen;
 
 public class RacerGame extends Game {
 
-    public static boolean MUSIC_ON = false;
+    public static boolean MUSIC_ON = true;
     final static int NUM_PLAYER_ASSETS = 5;
 
     public static AssetManager assetManager = new AssetManager();

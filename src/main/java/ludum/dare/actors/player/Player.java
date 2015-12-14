@@ -180,6 +180,10 @@ public class Player extends StateMachine {
         }
     }
 
+    public void achieveMoney(int amount) {
+        this.wallet.getACoin(amount);
+    }
+
     public void getPowerBlock(PowerBlock power){
         String myPower = power.randomPowerGenerator(getRank());
         if(myPower == "TEMP_SPEED"){
@@ -230,5 +234,4 @@ public class Player extends StateMachine {
     public int getRank(){
         return 0;
     }
-
 }
