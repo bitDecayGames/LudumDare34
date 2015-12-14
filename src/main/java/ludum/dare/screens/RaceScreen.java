@@ -191,8 +191,8 @@ public class RaceScreen implements Screen, EditorHook {
             OrthographicCamera cam = cameras[i];
             batch.setCamera(cam);
             batch.begin();
-            LightUtil.addBasicLight(batch);
-            batch.setNextLight(1, 1, 0, 1f, Color.RED);
+//            LightUtil.addBasicLight(batch);
+//            batch.setNextLight(1, 1, 0, 1f, Color.RED);
             drawLevelEdit();
             gameObjects.draw(batch);
             batch.end();
