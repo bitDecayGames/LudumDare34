@@ -4,9 +4,11 @@ import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.Facing;
 import com.bitdecay.jump.common.RenderState;
 import com.bitdecay.jump.common.StateListener;
+import com.bitdecay.jump.render.JumperRenderState;
 import ludum.dare.components.AnimationComponent;
 import ludum.dare.components.InputComponent;
 import ludum.dare.components.PhysicsComponent;
+import ludum.dare.components.PositionComponent;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 
@@ -17,19 +19,21 @@ public abstract class AbstractState implements IState, StateListener {
     protected PhysicsComponent physicsComponent;
     protected AnimationComponent animationComponent;
     protected InputComponent inputComponent;
-    protected IState returnState = null;
+    protected PositionComponent positionComponent;
+
+    private IState jumpState = null;
 
     protected RenderState currentRenderState;
     protected RenderState previousRenderState;
 
-    public AbstractState(Set<IComponent> components, IState returnState) {
+    public AbstractState(Set<IComponent> components) {
         this.components = components;
         components.forEach(comp -> {
             if (comp instanceof PhysicsComponent) physicsComponent = (PhysicsComponent) comp;
             if (comp instanceof AnimationComponent) animationComponent = (AnimationComponent) comp;
             if (comp instanceof InputComponent) inputComponent = (InputComponent) comp;
+            if (comp instanceof PositionComponent) positionComponent = (PositionComponent) comp;
         });
-        this.returnState = returnState;
 
         checkValidData();
     }
@@ -37,8 +41,8 @@ public abstract class AbstractState implements IState, StateListener {
     @Override
     public void enter() {
         BitBody body = physicsComponent.getBody();
-        currentRenderState = body.renderStateWatcher.getState();
         body.renderStateWatcher.addListener(this);
+        stateChanged(body.renderStateWatcher.getState());
     }
 
     @Override
@@ -47,11 +51,62 @@ public abstract class AbstractState implements IState, StateListener {
     }
 
     @Override
+    public IState update(float delta) {
+        IState internalState = internalUpdate(delta);
+        return internalState != null ? internalState : jumpState;
+    }
+
+    protected IState internalUpdate(float delta) {
+        return null;
+    }
+
+    @Override
     public void stateChanged(RenderState state) {
         previousRenderState = currentRenderState;
         currentRenderState = state;
 
         updateFacing();
+
+        switch ((JumperRenderState) state) {
+            case RIGHT_STANDING:
+            case LEFT_STANDING:
+                jumpState = new StandState(components);
+                break;
+            case RIGHT_RUNNING:
+            case LEFT_RUNNING:
+                jumpState = new RunState(components);
+                break;
+            case RIGHT_JUMPING:
+            case LEFT_JUMPING:
+                jumpState = new JumpState(components);
+                break;
+            case RIGHT_APEX:
+            case LEFT_APEX:
+                jumpState = new ApexState(components);
+                break;
+            case RIGHT_FALLING:
+            case LEFT_FALLING:
+                jumpState = new FallState(components);
+                break;
+            case RIGHT_AIR_AGAINST_WALL:
+            case LEFT_AIR_AGAINST_WALL:
+                jumpState = new AirWallState(components);
+                break;
+            case RIGHT_GROUNDED_AGAINST_WALL:
+            case LEFT_GROUNDED_AGAINST_WALL:
+                jumpState = new GroundWallState(components);
+                break;
+            case RIGHT_PUSHED:
+            case LEFT_PUSHED:
+                jumpState = new PushState(components);
+                break;
+            default:
+                jumpState = null;
+        }
+    }
+
+    protected IState getJumpState() {
+        return jumpState;
     }
 
     private void checkValidData() {
@@ -65,6 +120,9 @@ public abstract class AbstractState implements IState, StateListener {
         }
         if (inputComponent == null) {
             throw createDataError(InputComponent.class);
+        }
+        if (positionComponent == null) {
+            throw createDataError(PositionComponent.class);
         }
     }
 

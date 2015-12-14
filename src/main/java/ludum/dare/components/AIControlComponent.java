@@ -1,7 +1,6 @@
 package ludum.dare.components;
 
 import com.bitdecay.jump.control.PlayerAction;
-import ludum.dare.components.upgradeComponents.TimedComponent;
 import ludum.dare.control.InputAction;
 
 // TODO Mike implement for AI
@@ -25,11 +24,13 @@ public class AIControlComponent extends InputComponent {
         }
 
         if (action.equals(PlayerAction.RIGHT)) {
-            return true;
+//            return true;
+            return false;
         }
 
         if (action.equals(PlayerAction.JUMP)) {
-            return jump;
+//            return jump;
+            return false;
         }
 
         return false;

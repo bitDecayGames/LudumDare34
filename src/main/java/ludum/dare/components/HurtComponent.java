@@ -1,8 +1,7 @@
 package ludum.dare.components;
 
 import com.badlogic.gdx.math.Vector2;
-import ludum.dare.components.upgradeComponents.IRemoveable;
-import ludum.dare.components.upgradeComponents.TimedComponent;
+import ludum.dare.interfaces.IRemoveable;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IUpdate;
 

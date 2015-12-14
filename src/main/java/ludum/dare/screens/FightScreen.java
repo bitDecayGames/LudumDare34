@@ -86,7 +86,7 @@ public class FightScreen implements Screen, EditorHook {
         camera.zoom = 0.7f;
 
         batch = new AnimagicSpriteBatch();
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
         batch.setCamera(camera);
     }
 
@@ -187,10 +187,10 @@ public class FightScreen implements Screen, EditorHook {
 
         for (Player player : Players.list()) {
             player.activateControls();
-            player.addToWorld(world);
+            // TODO fix/consolidate this.
+//            player.addToScreen(new LevelInteractionComponent(world, gameObjects));
             // TODO handle spawn points.
             player.setPosition(0, 0);
-            gameObjects.add(player);
         }
 
         if (level.debugSpawn != null) {

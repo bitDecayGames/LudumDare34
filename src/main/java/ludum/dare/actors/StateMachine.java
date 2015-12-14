@@ -14,22 +14,30 @@ public class StateMachine extends GameObject {
         super(components);
     }
 
+    public void setActiveState(IState value) {
+        if (activeState != null) {
+            activeState.exit();
+        }
+
+        activeState = value;
+
+        if (activeState != null) {
+            activeState.enter();
+        }
+    }
 
     @Override
     public void update(float delta) {
         if (activeState != null) {
             IState newState = activeState.update(delta);
             if (newState != null) {
-                // Transition to new state
-                activeState.exit();
-                newState.enter();
-                activeState = newState;
+                setActiveState(newState);
             }
         }
         super.update(delta);
     }
 
     private void logStateTransition(IState currentState, IState newState) {
-        System.out.println(currentState.getClass() + " -> " + newState.getClass());
+        System.out.println(currentState != null ? currentState.getClass() : "Nothing" + " -> " + newState != null ? newState.getClass() : "Nothing");
     }
 }

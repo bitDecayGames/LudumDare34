@@ -10,5 +10,13 @@
   "2" : {
     "originX" : 15,
     "originY" : 0
-  }
+  },
+  "3" : {
+    "originX" : 15,
+    "originY" : 0
+  },
+  "4" : {
+      "originX" : 15,
+      "originY" : 0
+    }
 }

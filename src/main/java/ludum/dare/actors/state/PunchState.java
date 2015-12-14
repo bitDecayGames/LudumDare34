@@ -3,6 +3,8 @@ package ludum.dare.actors.state;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.AnimationListener;
 import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
+import ludum.dare.actors.projectile.Projectile;
+import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
@@ -13,12 +15,33 @@ public class PunchState extends AbstractState implements AnimationListener {
     private Animation punchAnimation;
     private boolean done = false;
 
-    public PunchState(Set<IComponent> components, IState returnState) {
-        super(components, returnState);
+    LevelInteractionComponent levelComponent;
+
+    public PunchState(Set<IComponent> components) {
+        super(components);
+
+        components.forEach(comp -> {
+            if (comp instanceof LevelInteractionComponent) levelComponent = (LevelInteractionComponent) comp;
+        });
+
+        if (levelComponent == null || levelComponent.getObjects() == null || levelComponent.getWorld() == null) {
+            throw new RuntimeException(LevelInteractionComponent.class + " with valid data expected");
+        }
+    }
+
+    public Boolean shouldRun(IState currentState) {
+        if (inputComponent.isJustPressed(InputAction.PUNCH)) {
+            if (!(currentState instanceof PunchState)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void enter() {
         super.enter();
+
         if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/jumping/up");
             else if (inputComponent.isPressed(InputAction.DOWN)) switchToAnimation("punch/jumping/down");
@@ -27,6 +50,8 @@ public class PunchState extends AbstractState implements AnimationListener {
             if (inputComponent.isPressed(InputAction.UP)) switchToAnimation("punch/up");
             else switchToAnimation("punch/front");
         }
+
+        addProjectile();
     }
 
     private void switchToAnimation(String animationName) {
@@ -38,14 +63,19 @@ public class PunchState extends AbstractState implements AnimationListener {
         }
     }
 
+    private void addProjectile() {
+        Projectile projectile = new Projectile(positionComponent);
+        levelComponent.addToLevel(projectile, projectile.getPhysics());
+    }
+
     public void exit() {
         super.exit();
         if (punchAnimation != null) punchAnimation.stopListening(this);
     }
 
+    @Override
     public IState update(float delta) {
-        if (done) return returnState;
-        return null;
+        return done ? getJumpState() : null;
     }
 
     @Override

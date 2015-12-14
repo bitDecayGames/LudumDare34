@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -50,8 +51,8 @@ public class CreditsScreen implements Screen {
         upIsPressed = false;
         escWasPressed = false;
 
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", AnimagicTextureAtlas.class);
-        Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas.atlas);
+        TextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", TextureAtlas.class);
+        Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas);
 
         background = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/credits.png"))));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
