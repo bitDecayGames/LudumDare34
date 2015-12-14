@@ -54,6 +54,9 @@ public class RaceScreen implements Screen, EditorHook {
 
     private Music music;
 
+    public static final int CRYSTAL_MATERIAL = 0;
+    public static final int WOOD_MATERIAL = 1;
+
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
     SpriteBatch ui;
@@ -116,6 +119,7 @@ public class RaceScreen implements Screen, EditorHook {
         builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
         builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
         builderMap.put(LightLevelObject.class, LightGameObject.class);
+        builderMap.put(LanternLevelObject.class, LanternGameObject.class);
     }
 
     @Override
@@ -206,6 +210,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new FinishLineLevelObject());
         exampleItems.add(new PowerupLevelObject());
         exampleItems.add(new LightLevelObject());
+        exampleItems.add(new LanternLevelObject());
         return exampleItems;
     }
 
@@ -258,7 +263,7 @@ public class RaceScreen implements Screen, EditorHook {
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
         batch.setAmbientIntensity(1f);
-        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
+//        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
         gameObjects.preDraw(batch);
 
         Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));
