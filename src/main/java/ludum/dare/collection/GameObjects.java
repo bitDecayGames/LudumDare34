@@ -31,8 +31,7 @@ public class GameObjects {
 
     public void update(float delta) {
         // Add pending objects.
-        gameObjects.addAll(pendingAdds);
-        pendingAdds.clear();
+        doAdds();
 
         gameObjects.forEach(obj -> {
             obj.update(delta);
@@ -42,6 +41,15 @@ public class GameObjects {
             }
         });
 
+        doRemoves();
+    }
+
+    public void doAdds() {
+        gameObjects.addAll(pendingAdds);
+        pendingAdds.clear();
+    }
+
+    public void doRemoves() {
         // Remove any object that has flagged itself for removal during the loop.
         gameObjects.removeAll(pendingRemoves);
         // Make sure to let it know it was removed.
