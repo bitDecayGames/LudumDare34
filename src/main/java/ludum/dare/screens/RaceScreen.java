@@ -238,9 +238,10 @@ public class RaceScreen implements Screen, EditorHook {
         batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
         batch.setAmbientIntensity(1f);
         batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
+        gameObjects.preDraw(batch);
 
-        gameObjects.draw(batch);
         drawLevelEdit();
+        gameObjects.draw(batch);
         batch.end();
     }
 

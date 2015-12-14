@@ -4,12 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
+import ludum.dare.interfaces.IPreDraw;
 import ludum.dare.util.LightUtil;
 
-/**
- * Created by Admin on 12/13/2015.
- */
-public class LightComponent implements IComponent, IDraw {
+public class LightComponent implements IComponent, IDraw, IPreDraw {
 
     private final PositionComponent pos;
 
@@ -19,6 +17,11 @@ public class LightComponent implements IComponent, IDraw {
 
     @Override
     public void draw(AnimagicSpriteBatch spriteBatch) {
+
+    }
+
+    @Override
+    public void preDraw(AnimagicSpriteBatch spriteBatch) {
         LightUtil.addLocatedLight(spriteBatch, new Vector2(pos.x, pos.y));
     }
 }

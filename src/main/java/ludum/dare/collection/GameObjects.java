@@ -57,6 +57,10 @@ public class GameObjects {
         pendingRemoves.clear();
     }
 
+    public void preDraw(AnimagicSpriteBatch batch) {
+        gameObjects.forEach(obj -> obj.preDraw(batch));
+    }
+
     public void draw(AnimagicSpriteBatch batch) {
         gameObjects.forEach(obj -> obj.draw(batch));
     }
