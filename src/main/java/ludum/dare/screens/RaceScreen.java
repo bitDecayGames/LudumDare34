@@ -69,6 +69,9 @@ public class RaceScreen implements Screen, EditorHook {
     FinishLineGameObject finishLine;
     TextureRegion splitScreenSeparator;
 
+    float testZ = 0.1f;
+    float testAtten = 0.9f;
+
     public RaceScreen(RacerGame game) {
         if (game == null) {
             throw new Error("No game provided");
@@ -90,7 +93,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(3);
+        generateNextLevel(2);
     }
 
     public void generateNextLevel(int length) {
@@ -219,6 +222,11 @@ public class RaceScreen implements Screen, EditorHook {
         ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         ui.end();
 
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) testZ *= 1.05f;
+        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) testZ *= 0.95f;
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) testAtten *= 1.1f;
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) testAtten *= 0.95f;
+
 //        worldRenderer.render(world, cameras[0]);
     }
 
@@ -227,12 +235,12 @@ public class RaceScreen implements Screen, EditorHook {
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        batch.setAmbientColor(Color.WHITE);
-        batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
+        batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
+        batch.setAmbientIntensity(1f);
+        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
 
-        drawLevelEdit();
         gameObjects.draw(batch);
+        drawLevelEdit();
         batch.end();
     }
 

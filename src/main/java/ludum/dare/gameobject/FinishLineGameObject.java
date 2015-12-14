@@ -1,26 +1,21 @@
 package ludum.dare.gameobject;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.bitdecay.jump.BitBody;
 import com.bitdecay.jump.collision.ContactListener;
 import com.bitdecay.jump.level.LevelObject;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.FrameRate;
-import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
-import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.*;
-import ludum.dare.util.LightUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Admin on 12/13/2015.
- */
 public class FinishLineGameObject extends BasePlacedObject implements ContactListener {
 
     public boolean raceOver = false;
@@ -44,8 +39,9 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
     private void setupAnimation() {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        anim.animator.addAnimation(new Animation("ongoing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish/1").toArray(AnimagicTextureRegion.class)));
-        anim.animator.addAnimation(new Animation("finished", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish/2").toArray(AnimagicTextureRegion.class)));
+        Array<AnimagicTextureRegion> textures = atlas.findRegions("collect/finish");
+        anim.animator.addAnimation(new Animation("ongoing", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), new AnimagicTextureRegion[]{textures.get(0)}));
+        anim.animator.addAnimation(new Animation("finished", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), new AnimagicTextureRegion[]{textures.get(1)}));
         anim.animator.switchToAnimation("ongoing");
     }
 
