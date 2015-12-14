@@ -3,9 +3,9 @@ package ludum.dare.actors.ai;
 import com.badlogic.gdx.math.Vector2;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.AIControlComponent;
-import ludum.dare.components.PositionComponent;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IState;
+import ludum.dare.levels.ai.Nodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,12 @@ public class AIMoveState implements IState {
 
     private List<Vector2> last3Targets = new ArrayList<>();
 
-    public AIMoveState(Player me, AIControlComponent input, PositionComponent pos) {
+    private Nodes nodes;
+
+    public AIMoveState(Player me, AIControlComponent input, Nodes nodes) {
         this.me = me;
         this.input = input;
+        this.nodes = nodes;
     }
 
     @Override

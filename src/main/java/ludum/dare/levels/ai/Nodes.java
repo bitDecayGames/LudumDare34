@@ -9,7 +9,9 @@ import com.bitdecay.jump.level.TileObject;
 import ludum.dare.interfaces.IShapeDraw;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Nodes extends ArrayList<Node> implements IShapeDraw {
 
@@ -41,32 +43,37 @@ public class Nodes extends ArrayList<Node> implements IShapeDraw {
     @Override
     public void draw(final ShapeRenderer shapeRenderer) {
         forEach(node -> {
-            shapeRenderer.setColor(Color.CYAN);
+            if (node.debugSelected) shapeRenderer.setColor(Color.RED);
+            else shapeRenderer.setColor(Color.CYAN);
             shapeRenderer.rectLine(node.left, node.y, node.right, node.y, 5);
+//            shapeRenderer.circle(node.left, node.y, 5);
+//            shapeRenderer.setColor(Color.RED);
+//            shapeRenderer.rect(node.right, node.y, 5, 5);
         });
     }
 
     public static Nodes generateNodesFromLevel(Level level) {
         Nodes nodes = new Nodes();
 
-        List<TileObject> visited = new ArrayList<>();
+        Set<TileObject> visited = new HashSet<>();
 
         for (int col = 0; col < level.gridObjects.length; col++) {
             for (int row = 0; row < level.gridObjects[row].length; row++) {
                 TileObject current = level.gridObjects[col][row];
                 if (current != null && !visited.contains(current) && (current.collideNValue & Direction.UP) == 0) {
-                    float y = (row) * level.tileSize;
-                    float left = col * level.tileSize;
+                    visited.add(current);
+                    float y = (row + level.gridOffset.y) * level.tileSize + level.tileSize;
+                    float left = (col + level.gridOffset.x) * level.tileSize;
                     float right = Integer.MIN_VALUE;
-                    TileObject last = null;
+
                     for (int subCol = col + 1; subCol < level.gridObjects.length; subCol++) {
-                        TileObject next = level.gridObjects[col][row];
-                        if (next != null && !visited.contains(next) && (current.collideNValue & Direction.UP) == 0) {
+                        TileObject next = level.gridObjects[subCol][row];
+                        if (next != null && !visited.contains(next) && (next.collideNValue & Direction.UP) == 0) {
                             visited.add(next);
                             continue;
                         }
                         if (next != null) visited.add(next);
-                        right = subCol * level.tileSize;
+                        right = (subCol + level.gridOffset.x) * level.tileSize;
                         break;
                     }
                     if (right == Integer.MIN_VALUE) {

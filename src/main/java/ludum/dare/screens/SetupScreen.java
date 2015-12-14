@@ -10,6 +10,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
+import ludum.dare.components.KeyboardControlComponent;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.components.SizeComponent;
 import ludum.dare.control.ControllerScreenObject;
@@ -128,7 +129,12 @@ public class SetupScreen implements Screen {
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
 
             // Set players globally with associated inputs.
-            Players.initialize(getResults());
+            //Players.initialize(getResults());
+            List<Player> players = new ArrayList<>();
+            Player playerInstance = new Player(0);
+            playerInstance.append(new KeyboardControlComponent());
+            players.add(playerInstance);
+            Players.initialize(players);
             // Start race.
 
             SplashScreen.INTRO_MUSIC.stop();

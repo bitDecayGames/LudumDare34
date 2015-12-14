@@ -1,13 +1,14 @@
 package ludum.dare.components;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.bitdecay.jump.control.PlayerAction;
-import ludum.dare.actors.ai.AIMoveState;
+import ludum.dare.actors.ai.AIRunAlongState;
 import ludum.dare.actors.player.Player;
 import ludum.dare.control.InputAction;
+import ludum.dare.gameobject.FinishLineGameObject;
 import ludum.dare.interfaces.IShapeDraw;
 import ludum.dare.interfaces.IState;
+import ludum.dare.levels.ai.Node;
 import ludum.dare.levels.ai.Nodes;
 import ludum.dare.util.Players;
 
@@ -16,12 +17,6 @@ import java.util.Set;
 
 // TODO Mike implement for AI
 public class AIControlComponent extends InputComponent implements IShapeDraw {
-
-    private final static float JUMP_CYCLE_TIME = 1;
-    Boolean jump = false;
-
-    TimedComponent jumpCycleTimer;
-
     Player me;
     Nodes nodes = null;
 
@@ -30,10 +25,10 @@ public class AIControlComponent extends InputComponent implements IShapeDraw {
     Set<InputAction> currentActions = new HashSet<>();
     Set<InputAction> previousActions = new HashSet<>();
 
+    public FinishLineGameObject finishLine;
+
     public AIControlComponent() {
         super();
-
-        jumpCycleTimer = new TimedComponent(JUMP_CYCLE_TIME);
     }
 
     private void discoverMe() {
@@ -43,9 +38,15 @@ public class AIControlComponent extends InputComponent implements IShapeDraw {
             }
         }
 
-        Vector2 v = me.getPosition();
-        activeState = new AIMoveState(me, this, new PositionComponent(v.x, v.y));
-        activeState.enter();
+        reset();
+    }
+
+    public void reset() {
+        if (me != null) {
+            Node n = nodes.closestContainingNode(me.getPosition());
+            activeState = new AIRunAlongState(me, this, nodes, n, finishLine.getPosition());
+            activeState.enter();
+        }
     }
 
     @Override
@@ -94,7 +95,7 @@ public class AIControlComponent extends InputComponent implements IShapeDraw {
     public void update(float delta) {
         previousActions.addAll(currentActions);
         currentActions.clear();
-        if (me == null && Players.isInitialized()) discoverMe();
+        if (me == null && Players.isInitialized() && nodes != null) discoverMe();
         else if (me != null && activeState != null) {
             IState newState = activeState.update(delta);
             if (newState != null) {
@@ -103,13 +104,6 @@ public class AIControlComponent extends InputComponent implements IShapeDraw {
                 activeState = newState;
             }
         }
-        jumpCycleTimer.update(delta);
-
-        if (jumpCycleTimer.shouldRemove()) {
-            jumpCycleTimer.reset();
-            jump = !jump;
-        }
-
     }
 
     public void setAINodes(Nodes nodes) {

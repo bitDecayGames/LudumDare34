@@ -98,21 +98,24 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(2);
+        generateNextLevel(10);
     }
 
     public void generateNextLevel(int length) {
         LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
 
+        levelChanged(raceLevel);
+
         Nodes aiNodes = Nodes.generateNodesFromLevel(raceLevel);
         for (Player player : Players.list()) {
             if (player.getInputComponent() instanceof AIControlComponent) {
-                ((AIControlComponent) player.getInputComponent()).setAINodes(aiNodes);
+                AIControlComponent input = (AIControlComponent) player.getInputComponent();
+                input.setAINodes(aiNodes);
+                input.finishLine = finishLine;
+                input.reset();
             }
         }
-
-        levelChanged(raceLevel);
     }
 
     private void constructBuilderMap() {
@@ -133,8 +136,10 @@ public class RaceScreen implements Screen, EditorHook {
             music.setLooping(true);
         }
 
-        for (int i = 0; i < cameras.length; i++)
+        for (int i = 0; i < cameras.length; i++) {
             cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+            cameras[i].zoom = 2f;
+        }
         batch = new AnimagicSpriteBatch();
         batch.isShaderOn(true);
 
