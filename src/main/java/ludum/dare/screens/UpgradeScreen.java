@@ -54,12 +54,15 @@ public class UpgradeScreen implements Screen {
     public void show() {
 
         music = SoundLibrary.GetMusic("a_journey_awaits");
-        music.play();
+
+        if(RacerGame.MUSIC_ON) {
+            music.play();
+        }
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
         batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
 
         spacePerGroup = Gdx.graphics.getHeight() / Players.list().size();
         for (Player player : Players.list()) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,7 +24,9 @@ import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
+import com.bitdecay.jump.leveleditor.Launcher;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
+import com.bitdecay.jump.leveleditor.render.LibGDXWorldRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
@@ -31,8 +34,13 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
+import ludum.dare.collection.GameObjects;
+import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
+import ludum.dare.gameobject.CoinGameObject;
+import ludum.dare.gameobject.FinishLineGameObject;
+import ludum.dare.gameobject.PowerupGameObject;
 import ludum.dare.gameobject.SpawnGameObject;
 import ludum.dare.levelobject.CoinLevelObject;
 import ludum.dare.levelobject.FinishLineLevelObject;
@@ -55,44 +63,60 @@ public class RaceScreen implements Screen, EditorHook {
 
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
+    LibGDXWorldRenderer worldRenderer = new LibGDXWorldRenderer();
 
     Map<Class, Class> builderMap = new HashMap<>();
 
     Map<Integer, TextureRegion[]> tilesetMap = new HashMap<>();
 
-    List<GameObject> gameObjects = new ArrayList<>();
-
     BitWorld world = new BitWorld();
     Level currentLevel = new Level();
+    GameObjects gameObjects = new GameObjects();
 
     public RaceScreen(RacerGame game) {
         if (game == null) {
             throw new Error("No game provided");
         }
 
+        constructBuilderMap();
+
         world.setGravity(0, -700);
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-        fallbackTileTexture = atlas.findRegion("fallbacktileset");
-        tilesetMap.put(0, fallbackTileTexture.split(16, 16)[0]);
+        fallbackTileTexture = atlas.findRegion("crystal");
+        tilesetMap.put(0, fallbackTileTexture.split(fallbackTileTexture.getRegionWidth() / 16, fallbackTileTexture.getRegionHeight())[0]);
 
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        LevelSegmentGenerator generator = new LevelSegmentGenerator(10);
+        generateNextLevel(10);
+    }
+
+    public void generateNextLevel(int length) {
+        LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
         Level raceLevel = LevelSegmentAggregator.assembleSegments(generator.generateLevelSegments());
         levelChanged(raceLevel);
+    }
+
+    private void constructBuilderMap() {
+        builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
+        builderMap.put(CoinLevelObject.class, CoinGameObject.class);
+        builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
+        builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
     }
 
     @Override
     public void show() {
 
         music = SoundLibrary.GetMusic("fight");
-        music.play();
+
+        if(RacerGame.MUSIC_ON) {
+            music.play();
+        }
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
-        batch.isShaderOn(false);
+        batch.isShaderOn(true);
     }
 
     @Override
@@ -104,7 +128,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     public void update(float delta){
         world.step(delta);
-        gameObjects.forEach(obj -> obj.update(delta));
+        gameObjects.update(delta);
 
         updateCameras(delta);
 
@@ -126,7 +150,16 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void render(OrthographicCamera cam) {
+        for(OrthographicCamera playerCam : cameras) {
+            playerCam.position.set(cam.position);
+            playerCam.zoom = cam.zoom;
+            playerCam.viewportWidth = cam.viewportWidth;
+            playerCam.viewportHeight = cam.viewportHeight;
+            playerCam.projection.set(cam.projection);
 
+            playerCam.update();
+        }
+        draw();
     }
 
     @Override
@@ -146,10 +179,6 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<RenderableLevelObject> getCustomObjects() {
-        builderMap.put(SpawnLevelObject.class, SpawnGameObject.class);
-        builderMap.put(CoinLevelObject.class, SpawnGameObject.class);
-        builderMap.put(FinishLineLevelObject.class, SpawnGameObject.class);
-        builderMap.put(PowerupLevelObject.class, SpawnGameObject.class);
         List<RenderableLevelObject> exampleItems = new ArrayList<>();
         exampleItems.add(new SpawnLevelObject());
         exampleItems.add(new CoinLevelObject());
@@ -159,7 +188,7 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     private void draw(){
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         for (int i = 0; i < cameras.length; i++) {
             Gdx.gl.glViewport(0, Gdx.graphics.getHeight() / cameras.length * i, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
@@ -167,10 +196,13 @@ public class RaceScreen implements Screen, EditorHook {
             batch.setCamera(cam);
             batch.begin();
             LightUtil.addBasicLight(batch);
+            batch.setNextLight(1, 1, 0, 1f, Color.RED);
             drawLevelEdit();
-            gameObjects.forEach(obj -> obj.draw(batch));
+            gameObjects.draw(batch);
             batch.end();
         }
+
+//        worldRenderer.render(world, cameras[0]);
     }
 
     private void drawLevelEdit() {
@@ -200,22 +232,28 @@ public class RaceScreen implements Screen, EditorHook {
         world.setObjects(buildBodies(level.otherObjects));
         world.resetTimePassed();
 
-//        for (GameObject gameObj : gameObjects) {
-//            if (gameObj instanceof SpawnGameObject) {
-//                SpawnGameObject spawn = (SpawnGameObject) gameObj;
-//                for (Player player : Players.list()) {
-//                    player.setPosition(spawn.pos.x, spawn.pos.y);
-//                    player.addToWorld(world);
-//                }
-//            }
-//        }
+        boolean spawnFound = false;
+        Iterator<GameObject> iter = gameObjects.getIter();
+        GameObject object;
+        while (iter.hasNext()) {
+            object = iter.next();
+            if (object instanceof SpawnGameObject) {
+                spawnFound = true;
+                SpawnGameObject spawn = (SpawnGameObject) object;
+                for (Player player : Players.list()) {
+                    player.addToScreen(new LevelInteractionComponent(world, gameObjects));
+                    player.setPosition(spawn.pos.x, spawn.pos.y);
+                }
+            }
+        }
 
-        for (Player player : Players.list()) {
-            player.activateControls();
-            player.addToWorld(world);
-            // TODO handle spawn points.
-            player.setPosition(0, 0);
-            gameObjects.add(player);
+        if (!spawnFound) {
+            for (Player player : Players.list()) {
+                player.activateControls();
+                player.addToScreen(new LevelInteractionComponent(world, gameObjects));
+                // TODO handle spawn points.
+                player.setPosition(0, 0);
+            }
         }
 
         if (level.debugSpawn != null) {
@@ -258,7 +296,7 @@ public class RaceScreen implements Screen, EditorHook {
                     bodies.addAll(newObject.build(levelObject));
                     gameObjects.add(newObject);
                 } else {
-                    bodies.add(levelObject.buildBody());
+                    throw new RuntimeException("Found object that doesn't have mapping: " + levelObject);
                 }
             }
             return bodies;

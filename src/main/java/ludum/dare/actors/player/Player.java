@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
-import com.bitdecay.jump.collision.BitWorld;
 import com.bitdecay.jump.control.ControlMap;
 import com.bitdecay.jump.control.PlayerInputController;
 import com.bitdecay.jump.geom.BitRectangle;
@@ -37,12 +36,13 @@ public class Player extends StateMachine {
     private final AnimationComponent anim;
     private final PlayerCurrencyComponent wallet;
     private final AttackComponent attack;
+    private LevelInteractionComponent levelComponent;
 
     public Player() {
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(0, 0);
         health = new HealthComponent(10, 10);
-        anim = new AnimationComponent("player", pos, 1f, new Vector2(8, 0));
+        anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
         setupAnimation(anim.animator);
 
@@ -58,6 +58,7 @@ public class Player extends StateMachine {
         body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
+        body.userObject = this;
 
         setupAnimation(anim.animator);
         return new PhysicsComponent(body, pos, size);
@@ -68,6 +69,8 @@ public class Player extends StateMachine {
 
         a.addAnimation(new Animation("run", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("run").toArray(AnimagicTextureRegion.class)));
         a.addAnimation(new Animation("jump", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), atlas.findRegions("jump").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("apex", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), atlas.findRegions("apex").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("fall", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.1f), atlas.findRegions("fall").toArray(AnimagicTextureRegion.class)));
         a.addAnimation(new Animation("knockback", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("knockback").toArray(AnimagicTextureRegion.class)));
         a.addAnimation(new Animation("punch/front", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.05f), atlas.findRegions("punch/front").toArray(AnimagicTextureRegion.class)));
         a.addAnimation(new Animation("punch/jumping/down", Animation.AnimationPlayState.ONCE, FrameRate.perFrame(0.05f), atlas.findRegions("punch/jumping/down").toArray(AnimagicTextureRegion.class)));
@@ -84,9 +87,9 @@ public class Player extends StateMachine {
     public void update(float delta) {
         // Reset for now
         // TODO do this somewhere else?
-        if (pos.y < -1000) {
-            setPosition(0, 0);
-        }
+//        if (pos.y < -1000) {
+//            setPosition(0, 0);
+//        }
 
         checkForStateSwitch();
 
@@ -105,7 +108,6 @@ public class Player extends StateMachine {
     }
 
     public void setPosition(float x, float y) {
-        // TODO: doesn't this need to set the PositionComponent?
         phys.getBody().velocity.set(0, 0);
         phys.getBody().aabb.xy.set(x, y);
     }
@@ -123,8 +125,14 @@ public class Player extends StateMachine {
         return new Vector3(pos.x, pos.y, 0);
     }
 
-    public void addToWorld(BitWorld world) {
-        world.addBody(phys.getBody());
+    public void addToScreen(LevelInteractionComponent levelComp) {
+        // Remove any existing level components.
+        remove(LevelInteractionComponent.class);
+
+        levelComponent = levelComp;
+        append(levelComponent);
+
+        levelComponent.addToLevel(this, phys);
     }
 
     public void activateControls() {
