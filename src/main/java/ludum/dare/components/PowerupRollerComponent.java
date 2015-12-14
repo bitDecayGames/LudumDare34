@@ -12,6 +12,7 @@ import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IDraw;
 import ludum.dare.interfaces.IRemoveable;
 import ludum.dare.interfaces.IUpdate;
+import ludum.dare.util.SoundLibrary;
 
 /**
  * Created by Admin on 12/14/2015.
@@ -30,6 +31,8 @@ public class PowerupRollerComponent implements IComponent, IDraw, IUpdate, IRemo
         pos = new PositionComponent(sourcePos.x, sourcePos.y);
         anim = new AnimationComponent("spinner", pos, 1, new Vector2(-20, 30));
         timer = new TimedComponent(3);
+
+        SoundLibrary.playSound("slotMachine");
 
         setupAnimation();
     }
@@ -51,9 +54,13 @@ public class PowerupRollerComponent implements IComponent, IDraw, IUpdate, IRemo
     @Override
     public void update(float delta) {
         timer.update(delta);
-        anim.animator.update(delta);
-        pos.x = sourcePos.x;
-        pos.y = sourcePos.y;
+        if (timer.shouldRemove()) {
+            player.getPowerBlock();
+        } else {
+            anim.animator.update(delta);
+            pos.x = sourcePos.x;
+            pos.y = sourcePos.y;
+        }
     }
 
     @Override
@@ -63,6 +70,6 @@ public class PowerupRollerComponent implements IComponent, IDraw, IUpdate, IRemo
 
     @Override
     public void remove() {
-        player.getPowerBlock();
+
     }
 }
