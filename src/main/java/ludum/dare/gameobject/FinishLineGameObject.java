@@ -32,7 +32,7 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
 
         phys = new PhysicsComponent(levelObject.buildBody(), pos, size);
         phys.getBody().addContactListener(this);
-        append(size).append(pos).append(phys).append(anim).append(light);
+        append(size).append(pos).append(phys).append(anim);
         return Arrays.asList(phys.getBody());
     }
 

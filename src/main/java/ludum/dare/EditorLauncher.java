@@ -7,11 +7,13 @@ import com.bitdecay.jump.leveleditor.render.LevelEditor;
 import com.bytebreakstudios.animagic.texture.AnimagicTexturePacker;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.KeyboardControlComponent;
+import ludum.dare.gameobject.FinishLineGameObject;
 import ludum.dare.screens.RaceScreen;
 import ludum.dare.util.Players;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,9 +39,13 @@ public class EditorLauncher {
                 Player playerInstance = new Player(0);
                 playerInstance.append(new KeyboardControlComponent());
                 players.add(playerInstance);
+//                players.add(playerInstance);
+//                players.add(playerInstance);
+//                players.add(playerInstance);
                 Players.initialize(players);
 
                 RaceScreen raceScreen = new RaceScreen(game);
+                raceScreen.finishOverride = new FinishLineGameObject();
                 raceScreen.show();
                 setScreen(new LevelEditor(raceScreen));
             }
