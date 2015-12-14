@@ -19,7 +19,7 @@ public class PowerupLevelObject extends RenderableLevelObject {
     public PowerupLevelObject() {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        this.texture = atlas.findRegion("collect/chest/closed");
+        this.texture = atlas.findRegion("collect/chest/closed/1");
         rect = new BitRectangle(0, 0, 28, 18);
     }
 
@@ -32,7 +32,7 @@ public class PowerupLevelObject extends RenderableLevelObject {
     public BitBody buildBody() {
         BitBody body = new BitBody();
         body.props.gravitational = false;
-//        body.props.collides = false;
+        body.props.collides = false;
         body.bodyType = BodyType.STATIC;
         body.aabb.set(new BitRectangle(rect));
         return body;

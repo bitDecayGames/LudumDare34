@@ -54,6 +54,9 @@ public class RaceScreen implements Screen, EditorHook {
 
     private Music music;
 
+    public static final int CRYSTAL_MATERIAL = 0;
+    public static final int WOOD_MATERIAL = 1;
+
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
     SpriteBatch ui;
@@ -101,7 +104,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(15);
+        generateNextLevel(2);
     }
 
     public void generateNextLevel(int length) {

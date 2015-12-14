@@ -16,7 +16,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.StateMachine;
-import ludum.dare.actors.items.PowerBlock;
+import ludum.dare.actors.items.PowerUpUtil;
 import ludum.dare.actors.state.HurtState;
 import ludum.dare.actors.state.ProjectileState;
 import ludum.dare.actors.state.PunchState;
@@ -194,8 +194,12 @@ public class Player extends StateMachine {
         this.wallet.getACoin(amount);
     }
 
-    public void getPowerBlock(PowerBlock power){
-        String myPower = power.randomPowerGenerator(getRank());
+    public void spinPowerBlock() {
+        append(new PowerupRollerComponent(this, pos));
+    }
+
+    public void getPowerBlock(){
+        String myPower = PowerUpUtil.randomPowerGenerator(getRank());
         if(myPower == "TEMP_SPEED"){
             append(new TempSpeedComponent(phys));
         }else if(myPower == "SLOW"){
