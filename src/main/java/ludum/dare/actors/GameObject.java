@@ -80,6 +80,7 @@ public class GameObject implements IUpdate, IDraw, IPreDraw, IShapeDraw {
         });
         components.removeAll(pendingRemoves);
         updateableComponents.removeAll(pendingRemoves);
+        drawableComponents.removeAll(pendingRemoves);
     }
 
     @Override
