@@ -57,6 +57,7 @@ public class Player extends StateMachine {
     private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
+        body.jumperProps.jumpCount = 1;
         body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
@@ -164,7 +165,7 @@ public class Player extends StateMachine {
         } else if (clazz.equals(MetalComponent.class)) {
             append(new MetalComponent(phys, health, attack));
         } else if (clazz.equals(MysteryBagComponent.class)) {
-            append(new MysteryBagComponent(this));
+            append(new MysteryBagComponent(this, phys, health, attack));
         } else if (clazz.equals(SpeedComponent.class)) {
             append(new SpeedComponent(phys));
         } else if (clazz.equals(WallJumpComponent.class)) {
