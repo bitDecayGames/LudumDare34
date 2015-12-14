@@ -100,11 +100,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-<<<<<<< HEAD
         generateNextLevel(15);
-=======
-        generateNextLevel(2);
->>>>>>> 4b28b0cf06def318ac5a0383f60017384bb6ae86
     }
 
     public void generateNextLevel(int length) {
