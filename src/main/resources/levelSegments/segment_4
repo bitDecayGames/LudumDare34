@@ -725,7 +725,7 @@
     },
     "uuid" : "d0952e60-2768-4c5d-bf95-9fe8c58a02a1",
     "material" : 0,
-    "renderNValue" : 15,
+    "renderNValue" : 13,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -823,7 +823,7 @@
     },
     "uuid" : "7cf9aec1-db10-42f8-8794-72c73412b5b1",
     "material" : 1,
-    "renderNValue" : 11,
+    "renderNValue" : 2,
     "collideNValue" : 11,
     "oneway" : false
   }, {
@@ -837,7 +837,7 @@
     },
     "uuid" : "9b6361bb-7ff4-4ba4-a793-74dc000d61bd",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ {
@@ -907,7 +907,7 @@
     },
     "uuid" : "57428ca6-bd4e-41ed-8cf6-ca86ca4b95f6",
     "material" : 1,
-    "renderNValue" : 15,
+    "renderNValue" : 14,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -921,7 +921,7 @@
     },
     "uuid" : "269d5695-087f-4c8f-b7d9-5aa6fcf518f6",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ {
@@ -991,7 +991,7 @@
     },
     "uuid" : "c18ecd3c-16c5-4ded-80ee-10e4a417b807",
     "material" : 1,
-    "renderNValue" : 15,
+    "renderNValue" : 14,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -1005,7 +1005,7 @@
     },
     "uuid" : "e9c517b6-c3ef-4ed2-81fd-37f022497af0",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ {
@@ -1061,7 +1061,7 @@
     },
     "uuid" : "b8933260-8420-4aa9-9fb6-6b48cd84e650",
     "material" : 1,
-    "renderNValue" : 15,
+    "renderNValue" : 14,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -1075,7 +1075,7 @@
     },
     "uuid" : "7f9c1736-2b04-4780-a4f5-f41e58698e33",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ {
@@ -1117,7 +1117,7 @@
     },
     "uuid" : "ad5bd543-6560-4fb4-8b8b-5c9bc333f8de",
     "material" : 1,
-    "renderNValue" : 11,
+    "renderNValue" : 10,
     "collideNValue" : 11,
     "oneway" : false
   }, {
@@ -1131,7 +1131,7 @@
     },
     "uuid" : "970b13c7-a5c1-4c3d-80f0-d841ddac9d5c",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ {
@@ -1173,7 +1173,7 @@
     },
     "uuid" : "aec02f71-b491-4b88-841a-07e687f4eccd",
     "material" : 1,
-    "renderNValue" : 9,
+    "renderNValue" : 8,
     "collideNValue" : 9,
     "oneway" : false
   }, {
@@ -1187,7 +1187,7 @@
     },
     "uuid" : "9849ee52-883e-46a4-8df6-117a47d5b9b9",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ {
@@ -1257,10 +1257,24 @@
     },
     "uuid" : "68c4f12e-d5f9-4ad4-8760-640153ff5ff9",
     "material" : 0,
-    "renderNValue" : 10,
-    "collideNValue" : 10,
+    "renderNValue" : 11,
+    "collideNValue" : 11,
     "oneway" : false
-  }, null, null ], [ {
+  }, {
+    "rect" : {
+      "xy" : {
+        "x" : -192.0,
+        "y" : -128.0
+      },
+      "width" : 32.0,
+      "height" : 32.0
+    },
+    "uuid" : "1157d10c-cf92-41e1-adc0-ed6b1ec2dca3",
+    "material" : 0,
+    "renderNValue" : 6,
+    "collideNValue" : 6,
+    "oneway" : false
+  }, null ], [ {
     "rect" : {
       "xy" : {
         "x" : -160.0,
@@ -1383,8 +1397,8 @@
     },
     "uuid" : "db41e0bf-6066-42f5-b7a0-8e07e92f3e6b",
     "material" : 0,
-    "renderNValue" : 6,
-    "collideNValue" : 6,
+    "renderNValue" : 12,
+    "collideNValue" : 14,
     "oneway" : false
   }, null ], [ null, {
     "rect" : {
@@ -1495,7 +1509,7 @@
     },
     "uuid" : "7a9f52ad-e4d4-4834-bcd2-53882bc97855",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 2,
     "collideNValue" : 10,
     "oneway" : false
   }, null ], [ null, {
@@ -1761,7 +1775,7 @@
     },
     "uuid" : "913d2186-92c2-4b36-b310-7a3c08eea8b5",
     "material" : 1,
-    "renderNValue" : 15,
+    "renderNValue" : 13,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -1775,7 +1789,7 @@
     },
     "uuid" : "417fa394-f2ef-4f6e-87f6-3f09e8ec651c",
     "material" : 1,
-    "renderNValue" : 14,
+    "renderNValue" : 12,
     "collideNValue" : 14,
     "oneway" : false
   }, null ], [ null, {
@@ -1817,7 +1831,7 @@
     },
     "uuid" : "38520bdc-3d38-48ba-9562-1cd6de33a993",
     "material" : 1,
-    "renderNValue" : 11,
+    "renderNValue" : 10,
     "collideNValue" : 11,
     "oneway" : false
   }, {
@@ -1831,7 +1845,7 @@
     },
     "uuid" : "98edf036-fdb7-4edb-9fc0-4545086de4b9",
     "material" : 0,
-    "renderNValue" : 15,
+    "renderNValue" : 3,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -1845,7 +1859,7 @@
     },
     "uuid" : "a709a389-6ab9-441d-a4cc-e6623caa71d9",
     "material" : 0,
-    "renderNValue" : 12,
+    "renderNValue" : 4,
     "collideNValue" : 12,
     "oneway" : false
   }, null ], [ null, {
@@ -1887,7 +1901,7 @@
     },
     "uuid" : "1a71fad1-0486-4a93-a444-3a8553945b44",
     "material" : 1,
-    "renderNValue" : 11,
+    "renderNValue" : 10,
     "collideNValue" : 11,
     "oneway" : false
   }, {
@@ -1901,7 +1915,7 @@
     },
     "uuid" : "19b4c026-f6f7-4cf4-983f-67118bef86ae",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ null, {
@@ -1929,7 +1943,7 @@
     },
     "uuid" : "012d1f57-ee68-472b-8a0e-4fc0ca13b774",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 12,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, {
@@ -1943,7 +1957,7 @@
     },
     "uuid" : "b881e221-187a-4bd7-8980-7b208a256421",
     "material" : 1,
-    "renderNValue" : 11,
+    "renderNValue" : 10,
     "collideNValue" : 11,
     "oneway" : false
   }, {
@@ -1957,7 +1971,7 @@
     },
     "uuid" : "0b2ae3d2-1c82-41fb-877c-58641e89b5f3",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 10,
     "collideNValue" : 14,
     "oneway" : false
   }, null, null ], [ null, null, {
@@ -1971,7 +1985,7 @@
     },
     "uuid" : "f74d9d44-1e79-4b13-9d23-309e9c53616c",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 2,
     "collideNValue" : 10,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, {
@@ -1985,7 +1999,7 @@
     },
     "uuid" : "a6da1974-4dba-48af-8c71-1c385f8b8e75",
     "material" : 1,
-    "renderNValue" : 11,
+    "renderNValue" : 8,
     "collideNValue" : 11,
     "oneway" : false
   }, {
@@ -1999,7 +2013,7 @@
     },
     "uuid" : "b1affd5a-9fed-4059-8037-3cd5228aeda8",
     "material" : 0,
-    "renderNValue" : 15,
+    "renderNValue" : 11,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -2069,7 +2083,7 @@
     },
     "uuid" : "ee9708a6-25e9-4b6e-8c89-7ceef8fa08ff",
     "material" : 0,
-    "renderNValue" : 13,
+    "renderNValue" : 5,
     "collideNValue" : 13,
     "oneway" : false
   }, {
@@ -2083,7 +2097,7 @@
     },
     "uuid" : "2bae41b8-acbe-48c0-bcd9-085d11b3b8f3",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 12,
     "collideNValue" : 12,
     "oneway" : false
   }, null, null ], [ null, null, {
@@ -2111,7 +2125,7 @@
     },
     "uuid" : "bbffeada-f9cb-4bf0-8b4c-67cdaf6eb5fe",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 2,
     "collideNValue" : 8,
     "oneway" : true
   }, null, null ], [ null, null, {
@@ -2181,7 +2195,7 @@
     },
     "uuid" : "a803aea5-5550-4860-bd21-7f926a970882",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 8,
     "collideNValue" : 10,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, null, {
@@ -2223,7 +2237,7 @@
     },
     "uuid" : "57bc51c5-a504-4ea6-bb5d-561bb75e3ce5",
     "material" : 0,
-    "renderNValue" : 15,
+    "renderNValue" : 7,
     "collideNValue" : 15,
     "oneway" : false
   }, {
@@ -2335,7 +2349,7 @@
     },
     "uuid" : "45ef9747-991b-494f-8c6b-69618b23306e",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 8,
     "collideNValue" : 2,
     "oneway" : true
   }, null, null ], [ null, {
@@ -2405,7 +2419,7 @@
     },
     "uuid" : "e6556ec9-e22c-4ba3-b76d-bbd6c301d79d",
     "material" : 0,
-    "renderNValue" : 10,
+    "renderNValue" : 2,
     "collideNValue" : 2,
     "oneway" : false
   }, null, null ], [ null, {
@@ -2657,7 +2671,7 @@
     },
     "uuid" : "b21e11b8-bae8-4c91-b53d-bcf00894382a",
     "material" : 0,
-    "renderNValue" : 11,
+    "renderNValue" : 9,
     "collideNValue" : 9,
     "oneway" : false
   }, {
@@ -2699,7 +2713,7 @@
     },
     "uuid" : "732a804b-42f0-4a61-b09c-a57d66f78c6f",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 12,
     "collideNValue" : 12,
     "oneway" : false
   }, null, null ], [ null, null, null, {
@@ -2769,7 +2783,7 @@
     },
     "uuid" : "3b202bca-da87-479e-a2de-b6c68654d1c4",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 2,
     "collideNValue" : 8,
     "oneway" : true
   }, null, null, {
@@ -2783,7 +2797,7 @@
     },
     "uuid" : "81635379-f88e-49cd-b5e2-e5ea4deb6c99",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 2,
     "collideNValue" : 8,
     "oneway" : true
   }, null, null ], [ null, null, null, null, null, {
@@ -2895,7 +2909,7 @@
     },
     "uuid" : "4ed32e38-b5ef-41f0-aee9-77b64e0b2cdb",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 8,
     "collideNValue" : 2,
     "oneway" : true
   }, null, null, {
@@ -2979,7 +2993,7 @@
     },
     "uuid" : "c262f955-61e6-45f5-b105-06a56dd85d9d",
     "material" : 0,
-    "renderNValue" : 12,
+    "renderNValue" : 4,
     "collideNValue" : 4,
     "oneway" : false
   }, null, null, {
@@ -3301,7 +3315,7 @@
     },
     "uuid" : "3cdcc532-bdfb-49c2-be40-320f46ef5b8f",
     "material" : 1,
-    "renderNValue" : 10,
+    "renderNValue" : 8,
     "collideNValue" : 2,
     "oneway" : true
   }, null, null ], [ null, null, null, null, null, null, null, {
@@ -3413,7 +3427,7 @@
     },
     "uuid" : "438c7756-1b69-413a-9a20-e06790f2d79e",
     "material" : 0,
-    "renderNValue" : 14,
+    "renderNValue" : 6,
     "collideNValue" : 6,
     "oneway" : false
   }, null, null ], [ null, null, null, null, null, null, {
@@ -3585,7 +3599,157 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ ] ],
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 512.0,
+        "y" : 32.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "c9091e89-0a86-4a9c-9e1c-edb0c11eec9f"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 384.0,
+        "y" : 64.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "6c8e99b6-9070-49fc-ad95-8a929075e516"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 448.0,
+        "y" : 64.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "4b55cfe9-a82c-49ef-b5d9-9113011ac0a2"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -480.0,
+        "y" : -416.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "88220037-4292-40bc-831e-ec4d96e784cc"
+  } ], [ "ludum.dare.levelobject.PowerupLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 384.0,
+        "y" : -128.0
+      },
+      "width" : 28.0,
+      "height" : 18.0
+    },
+    "uuid" : "46e21b3c-dc15-4d9c-9bdf-0b41026df892"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -416.0,
+        "y" : 32.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "5a6b3feb-86d7-4037-97fb-a26026b994ff"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 288.0,
+        "y" : 32.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "403eb025-9c01-4e44-8a0e-d59dddc63e41"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -512.0,
+        "y" : -288.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "4879f863-787c-44e1-918f-38881d98d853"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 288.0,
+        "y" : -480.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "2bdfeb57-9ed3-450a-bdbb-8989d11ebdd8"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 96.0,
+        "y" : -416.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "6f9e45a5-ebe0-4254-a70c-bc586fd9aaa4"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -544.0,
+        "y" : 0.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "45a46551-6a32-46eb-a12a-ab38a3dbaafc"
+  } ], [ "ludum.dare.levelobject.PowerupLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -192.0,
+        "y" : -288.0
+      },
+      "width" : 28.0,
+      "height" : 18.0
+    },
+    "uuid" : "795087ea-2622-4457-8db5-b7894e53e452"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 224.0,
+        "y" : 0.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "dcf262e4-4fa4-4a8e-97c4-39725af8cbfe"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -320.0,
+        "y" : 0.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "aac64a2f-6a79-47d0-a016-11ded6045767"
+  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -512.0,
+        "y" : -160.0
+      },
+      "width" : 7.0,
+      "height" : 7.0
+    },
+    "uuid" : "d2f3d837-cf75-4079-903e-6e71145e7021"
+  } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {
     "x" : -21,
