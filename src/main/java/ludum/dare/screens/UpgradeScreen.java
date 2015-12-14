@@ -56,7 +56,7 @@ public class UpgradeScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
         batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(true);
+        batch.isShaderOn(false);
 
         spacePerGroup = Gdx.graphics.getHeight() / Players.list().size();
         for (Player player : Players.list()) {

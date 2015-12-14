@@ -164,4 +164,8 @@ public class Player extends StateMachine {
             throw new RuntimeException("Could not instantiate " + clazz);
         }
     }
+
+    public void achieveMoney(int amount) {
+        this.wallet.getACoin(amount);
+    }
 }
