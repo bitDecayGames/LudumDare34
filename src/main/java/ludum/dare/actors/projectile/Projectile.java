@@ -17,16 +17,22 @@ import ludum.dare.actors.StateMachine;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends StateMachine implements ContactListener, IRemoveable{
+public class Projectile extends StateMachine implements ContactListener, IRemoveable {
+    private final static float PROJECTILE_SPEED = 500;
+    private final static float PROJECTILE_TIME_TO_LIVE = 10;
+
     private final SizeComponent size;
     private final PositionComponent pos;
     private final PhysicsComponent phys;
+    private final PhysicsComponent sourcePhysicsComponent;
     private final AnimationComponent anim;
     private final AttackComponent attack;
+    private final LevelInteractionComponent levelComponent;
+    private final TimedComponent timedComponent;
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source) {
+    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent) {
         super();
 
         size = new SizeComponent(100, 100);
@@ -36,18 +42,20 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
         attack = new AttackComponent(10);
 
-        phys = createBody();
-        append(size).append(pos).append(phys).append(anim);
+        phys = createBody(direction);
+        levelComponent = levelComp;
+        timedComponent = new TimedComponent(PROJECTILE_TIME_TO_LIVE);
+        this.sourcePhysicsComponent = sourcePhysicsComponent;
+        append(size).append(pos).append(phys).append(anim).append(levelComponent).append(timedComponent);
     }
 
-    private PhysicsComponent createBody() {
+    private PhysicsComponent createBody(Vector2 direction) {
         JumperBody body = new JumperBody();
         body.jumperProps = new JumperProperties();
-//        body.renderStateWatcher = new JumperRenderStateWatcher(); TODO do we need this?
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(pos.x, pos.y, 16, 32));
 
-        body.velocity.set(500, 0);
+        body.velocity.set(PROJECTILE_SPEED * direction.x, PROJECTILE_SPEED * direction.y);
         body.userObject = this;
         body.props.gravitational = false;
         body.addContactListener(this);
@@ -67,6 +75,10 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        if (timedComponent.shouldRemove()) {
+            shouldRemove = true;
+        }
     }
 
     public PhysicsComponent getPhysics() {
@@ -80,10 +92,16 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
     @Override
     public void remove() {
+        // Remove ourselves from the physics world.
+        levelComponent.getWorld().removeBody(phys.getBody());
     }
 
     @Override
     public void contactStarted(BitBody bitBody) {
+        // Not allowed to hit source.
+        if (bitBody.equals(sourcePhysicsComponent.getBody())) {
+            return;
+        }
         // TODO Add more logic for damage here if we hit a player.
         shouldRemove = true;
     }
