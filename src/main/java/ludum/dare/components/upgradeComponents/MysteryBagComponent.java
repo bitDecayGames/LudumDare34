@@ -1,5 +1,6 @@
 package ludum.dare.components.upgradeComponents;
 
+import ludum.dare.actors.player.Player;
 import ludum.dare.interfaces.IComponent;
 
 /**
@@ -8,7 +9,7 @@ import ludum.dare.interfaces.IComponent;
 public class MysteryBagComponent implements IComponent{
     public int cost = 0;
 
-    public MysteryBagComponent(){
+    public MysteryBagComponent(Player me){
 
     }
 }

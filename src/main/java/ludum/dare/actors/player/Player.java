@@ -164,7 +164,7 @@ public class Player extends StateMachine {
         } else if (clazz.equals(MetalComponent.class)) {
             append(new MetalComponent(phys, health, attack));
         } else if (clazz.equals(MysteryBagComponent.class)) {
-            append(new MysteryBagComponent());
+            append(new MysteryBagComponent(this));
         } else if (clazz.equals(SpeedComponent.class)) {
             append(new SpeedComponent(phys));
         } else if (clazz.equals(WallJumpComponent.class)) {
