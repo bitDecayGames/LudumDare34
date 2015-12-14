@@ -11,6 +11,7 @@ import ludum.dare.components.PhysicsComponent;
 import ludum.dare.components.PositionComponent;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
+import ludum.dare.util.SoundLibrary;
 
 import java.util.Set;
 
@@ -78,6 +79,8 @@ public abstract class AbstractState implements IState, StateListener {
                 break;
             case RIGHT_JUMPING:
             case LEFT_JUMPING:
+                int randomizer = (int) (Math.random() * 4) + 1;
+                SoundLibrary.GetSound("Jump" + randomizer).play();
                 jumpState = new JumpState(components);
                 break;
             case RIGHT_APEX:

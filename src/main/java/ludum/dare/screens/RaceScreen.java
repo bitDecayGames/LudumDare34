@@ -291,6 +291,7 @@ public class RaceScreen implements Screen, EditorHook {
                     GameObject newObject;
                     newObject = ((GameObject) builderMap.get(levelObject.getClass()).newInstance());
                     bodies.addAll(newObject.build(levelObject));
+                    newObject.append(new LevelInteractionComponent(world, gameObjects));
                     gameObjects.add(newObject);
                 } else {
                     throw new RuntimeException("Found object that doesn't have mapping: " + levelObject);

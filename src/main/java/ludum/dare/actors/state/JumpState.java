@@ -1,6 +1,7 @@
 package ludum.dare.actors.state;
 
 import ludum.dare.interfaces.IComponent;
+import ludum.dare.util.SoundLibrary;
 
 import java.util.Set;
 
