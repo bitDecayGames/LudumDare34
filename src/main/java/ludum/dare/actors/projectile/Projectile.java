@@ -23,10 +23,11 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     private final PhysicsComponent phys;
     private final AnimationComponent anim;
     private final AttackComponent attack;
+    private final LevelInteractionComponent levelComponent;
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source) {
+    public Projectile(PositionComponent source, LevelInteractionComponent levelComp) {
         super();
 
         size = new SizeComponent(100, 100);
@@ -37,7 +38,8 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
         attack = new AttackComponent(10);
 
         phys = createBody();
-        append(size).append(pos).append(phys).append(anim);
+        levelComponent = levelComp;
+        append(size).append(pos).append(phys).append(anim).append(levelComponent);
     }
 
     private PhysicsComponent createBody() {
@@ -80,6 +82,8 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
     @Override
     public void remove() {
+        // Remove ourselves from the physics world.
+        levelComponent.getWorld().removeBody(phys.getBody());
     }
 
     @Override

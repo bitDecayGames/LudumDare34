@@ -64,7 +64,7 @@ public class PunchState extends AbstractState implements AnimationListener {
     }
 
     private void addProjectile() {
-        Projectile projectile = new Projectile(positionComponent);
+        Projectile projectile = new Projectile(positionComponent, levelComponent);
         levelComponent.addToLevel(projectile, projectile.getPhysics());
     }
 
