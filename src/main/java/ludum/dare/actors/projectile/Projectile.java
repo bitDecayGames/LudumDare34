@@ -24,6 +24,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     private final SizeComponent size;
     private final PositionComponent pos;
     private final PhysicsComponent phys;
+    private final PhysicsComponent sourcePhysicsComponent;
     private final AnimationComponent anim;
     private final AttackComponent attack;
     private final LevelInteractionComponent levelComponent;
@@ -31,7 +32,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp) {
+    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent) {
         super();
 
         size = new SizeComponent(100, 100);
@@ -44,6 +45,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
         phys = createBody(direction);
         levelComponent = levelComp;
         timedComponent = new TimedComponent(PROJECTILE_TIME_TO_LIVE);
+        this.sourcePhysicsComponent = sourcePhysicsComponent;
         append(size).append(pos).append(phys).append(anim).append(levelComponent).append(timedComponent);
     }
 
@@ -96,6 +98,10 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
 
     @Override
     public void contactStarted(BitBody bitBody) {
+        // Not allowed to hit source.
+        if (bitBody.equals(sourcePhysicsComponent.getBody())) {
+            return;
+        }
         // TODO Add more logic for damage here if we hit a player.
         shouldRemove = true;
     }
