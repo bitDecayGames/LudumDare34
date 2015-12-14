@@ -7,6 +7,7 @@ import com.bytebreakstudios.animagic.animation.AnimationListener;
 import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
 import ludum.dare.actors.projectile.Projectile;
 import ludum.dare.actors.projectile.Punch;
+import ludum.dare.components.FacePunchingComponent;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputAction;
 import ludum.dare.interfaces.IComponent;
@@ -18,6 +19,7 @@ import java.util.Set;
 public class PunchState extends AbstractState implements AnimationListener {
     private Animation punchAnimation;
     private boolean done = false;
+    protected FacePunchingComponent facePunch;
 
     LevelInteractionComponent levelComponent;
 
@@ -26,6 +28,9 @@ public class PunchState extends AbstractState implements AnimationListener {
 
         components.forEach(comp -> {
             if (comp instanceof LevelInteractionComponent) levelComponent = (LevelInteractionComponent) comp;
+        });
+        components.forEach(comp -> {
+            if (comp instanceof FacePunchingComponent) facePunch = (FacePunchingComponent) comp;
         });
 
         if (levelComponent == null || levelComponent.getObjects() == null || levelComponent.getWorld() == null) {
@@ -52,9 +57,11 @@ public class PunchState extends AbstractState implements AnimationListener {
         if (!physicsComponent.getBody().grounded) {
             if (inputComponent.isPressed(InputAction.UP)) {
                 switchToAnimation("punch/jumping/up");
+                facePunch.FacePunchingJupingUp = true;
                 direction.y = 1;
             } else if (inputComponent.isPressed(InputAction.DOWN)) {
                 switchToAnimation("punch/jumping/down");
+                facePunch.FacePunchingDown = true;
                 direction.y = -1;
             } else {
                 switchToAnimation("punch/jumping/front");
@@ -63,6 +70,7 @@ public class PunchState extends AbstractState implements AnimationListener {
         } else {
             if (inputComponent.isPressed(InputAction.UP)) {
                 switchToAnimation("punch/up");
+                facePunch.FacePunchingUp = true;
                 direction.y = 1;
             } else {
                 switchToAnimation("punch/front");
@@ -96,7 +104,7 @@ public class PunchState extends AbstractState implements AnimationListener {
 
     // TODO Mike Logan this is where you'll do punch projectile stuff.
     private void addProjectile(Vector2 direction) {
-        Punch punch = new Punch(positionComponent, direction, levelComponent, physicsComponent);
+        Punch punch = new Punch(positionComponent, direction, levelComponent, physicsComponent, facePunch);
         levelComponent.addToLevel(punch, punch.getPhysics());
     }
 
@@ -104,6 +112,9 @@ public class PunchState extends AbstractState implements AnimationListener {
     public void exit() {
         super.exit();
         if (punchAnimation != null) punchAnimation.stopListening(this);
+        facePunch.FacePunchingDown = false;
+        facePunch.FacePunchingUp = false;
+        facePunch.FacePunchingJupingUp = false;
     }
 
     @Override

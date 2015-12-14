@@ -1,19 +1,24 @@
 package ludum.dare.actors.projectile;
 
 import com.badlogic.gdx.math.Vector2;
+import com.bitdecay.jump.Facing;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.Animator;
 import com.bytebreakstudios.animagic.animation.FrameRate;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
-import ludum.dare.components.LevelInteractionComponent;
-import ludum.dare.components.PhysicsComponent;
-import ludum.dare.components.PositionComponent;
+import ludum.dare.components.*;
+import ludum.dare.interfaces.IUpdate;
 
-public class Punch extends Projectile {
-    public Punch(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent) {
-        super(source, direction, levelComp, sourcePhysicsComponent);
+public class Punch extends Projectile implements IUpdate{
+    private PositionComponent source;
+    private FacePunchingComponent facePunch;
+
+    public Punch(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent, FacePunchingComponent facePunch) {
+        super(source, direction, levelComp, sourcePhysicsComponent, .15f);
+        this.source = source;
+        this.facePunch = facePunch;
     }
 
     @Override
@@ -27,9 +32,33 @@ public class Punch extends Projectile {
     @Override
     protected void setupAnimation(Animator a) {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player0.atlas", AnimagicTextureAtlas.class);
-
-        a.addAnimation(new Animation("forward", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("waves/forward").toArray(AnimagicTextureRegion.class)));
-
-        a.switchToAnimation("forward");
+        if(facePunch.FacePunchingUp){
+            a.addAnimation(new Animation("up", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("waves/up").toArray(AnimagicTextureRegion.class)));
+            a.switchToAnimation("up");
+        }else if (facePunch.FacePunchingDown){
+            a.addAnimation(new Animation("jumpingDown", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("waves/jumpingDown").toArray(AnimagicTextureRegion.class)));
+            a.switchToAnimation("jumpingDown");
+        }else if (facePunch.FacePunchingJupingUp){
+            a.addAnimation(new Animation("jumpingUp", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("waves/jumpingUp").toArray(AnimagicTextureRegion.class)));
+            a.switchToAnimation("jumpingUp");
+        } else {
+            a.addAnimation(new Animation("forward", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("waves/forward").toArray(AnimagicTextureRegion.class)));
+            a.switchToAnimation("forward");
+            if (sourcePhysicsComponent.getBody().facing.equals(Facing.LEFT)) {
+                anim.setFlipVerticalAxis(true);
+            }
+        }
     }
+
+    @Override
+    public void update(float delta){
+        super.update(delta);
+        if(sourcePhysicsComponent.getBody().facing.equals(Facing.RIGHT)){
+            pos.x = source.x + 15;
+        } else {
+            pos.x = source.x - 15;
+        }
+        pos.y = source.y;
+    }
+
 }

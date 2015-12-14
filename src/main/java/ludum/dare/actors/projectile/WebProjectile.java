@@ -18,28 +18,27 @@ import ludum.dare.actors.player.Player;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends GameObject implements ContactListener, IRemoveable {
+public class WebProjectile extends GameObject implements ContactListener, IRemoveable {
     protected float PROJECTILE_SPEED = 500;
-    protected float PROJECTILE_TIME_TO_LIVE;
+    protected float PROJECTILE_TIME_TO_LIVE = 10;
 
     private final SizeComponent size;
-    protected final PositionComponent pos;
+    private final PositionComponent pos;
     private final PhysicsComponent phys;
-    protected final PhysicsComponent sourcePhysicsComponent;
-    protected final AnimationComponent anim;
+    private final PhysicsComponent sourcePhysicsComponent;
+    private final AnimationComponent anim;
     private final AttackComponent attackComponent;
     private final LevelInteractionComponent levelComponent;
     private final TimedComponent timedComponent;
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent, float timeToLive) {
+    public WebProjectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent) {
         super();
-        PROJECTILE_TIME_TO_LIVE = timeToLive;
+
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(source.x, source.y);
         anim = new AnimationComponent("projectiles", pos, 1f, new Vector2(8, 0));
-        this.sourcePhysicsComponent = sourcePhysicsComponent;
         setupAnimation(anim.animator);
 
         attackComponent = new AttackComponent(10);
@@ -47,6 +46,7 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
         phys = createBody(direction);
         levelComponent = levelComp;
         timedComponent = new TimedComponent(PROJECTILE_TIME_TO_LIVE);
+        this.sourcePhysicsComponent = sourcePhysicsComponent;
         append(size).append(pos).append(phys).append(anim).append(levelComponent).append(timedComponent);
     }
 
@@ -68,9 +68,9 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
     protected void setupAnimation(Animator a) {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player0.atlas", AnimagicTextureAtlas.class);
 
-        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("web", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/web").toArray(AnimagicTextureRegion.class)));
 
-        a.switchToAnimation("fire");
+        a.switchToAnimation("web");
     }
 
     @Override
