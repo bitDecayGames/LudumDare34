@@ -5731,6 +5731,16 @@
       "height" : 7.0
     },
     "uuid" : "ef1b00cb-b512-499a-aa0c-bc6dd940e35c"
+  } ], [ "ludum.dare.levelobject.LanternLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 288.0,
+        "y" : 320.0
+      },
+      "width" : 33.0,
+      "height" : 75.0
+    },
+    "uuid" : "2f552697-f9ad-4c62-b3b3-8e949bc9bc38"
   } ], [ "ludum.dare.levelobject.PowerupLevelObject", {
     "rect" : {
       "xy" : {
