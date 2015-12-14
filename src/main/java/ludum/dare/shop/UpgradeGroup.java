@@ -3,6 +3,8 @@ package ludum.dare.shop;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
@@ -32,6 +34,8 @@ public class UpgradeGroup {
     boolean active = true;
     private boolean ready;
 
+    private BitmapFont font = new BitmapFont();
+
     //TODO: we will need to replace this argument with a player object once we have one.
 
     /**
@@ -39,6 +43,9 @@ public class UpgradeGroup {
      * @param player
      */
     public void initialize(Player player) {
+        font.getData().setScale(5);
+        font.setColor(Color.BLACK);
+
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/upgrades.atlas", AnimagicTextureAtlas.class);
         selectionTexture = atlas.findRegion("selection");
         this.player = player;
@@ -103,11 +110,14 @@ public class UpgradeGroup {
         active = false;
         if (selectedIndex > choices.size()) {
             Class clazz = choices.get(selectedIndex).clazz;
-            player.addUpgrade(clazz);
+            if (player.moneyCount() >= 10) {
+                player.addUpgrade(clazz);
+                player.achieveMoney(-10);
+            }
         }
     }
 
-    public void render(AnimagicSpriteBatch batch, int yTop, int yBottom) {
+    public void render(SpriteBatch batch, int yTop, int yBottom) {
         int workingSpace = Math.abs(yTop - yBottom);
         int middle = (yTop + yBottom) / 2;
         int renderSize = (int) (workingSpace *.9f);
@@ -115,7 +125,7 @@ public class UpgradeGroup {
         int buffer = 20;
 
         int neededTotalWidth = choices.size() * (renderSize + buffer);
-        int edgeSpace = (int) ((batch.getCamera().viewportWidth - neededTotalWidth) / 2);
+        int edgeSpace = (Gdx.graphics.getWidth() - neededTotalWidth) / 2;
 
         int renderX = edgeSpace;
         if (active) {
@@ -124,11 +134,14 @@ public class UpgradeGroup {
             batch.setColor(Color.DARK_GRAY);
         }
         for (int i = 0; i < choices.size(); i ++) {
-            // do shit plox.
+            batch.setColor(Color.WHITE);
             batch.draw(choices.get(i).animation.getFrame(), renderX, middle - renderSize / 2, renderSize, renderSize);
             if (selectedIndex == i) {
                 batch.draw(selectionTexture, renderX, middle - renderSize / 2, renderSize, renderSize);
             }
+            batch.setColor(Color.BLACK);
+            font.draw(batch, "$" + player.moneyCount(), 30, 800);
+            font.draw(batch, "$10", renderX + 50, 150);
             renderX += renderSize + buffer;
         }
     }

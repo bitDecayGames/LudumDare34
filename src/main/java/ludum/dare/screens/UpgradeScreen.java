@@ -31,7 +31,7 @@ public class UpgradeScreen implements Screen {
     private static ArrayList<UpgradeOption> MASTER_LIST = new ArrayList<>();
 
     OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    AnimagicSpriteBatch batch;
+    SpriteBatch batch;
 
     List<UpgradeGroup> groups = new ArrayList<>();
 
@@ -69,8 +69,7 @@ public class UpgradeScreen implements Screen {
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
-        batch = new AnimagicSpriteBatch(camera);
-        batch.isShaderOn(false);
+        batch = new SpriteBatch();
 
         spacePerGroup = Gdx.graphics.getHeight() / Players.list().size();
         for (Player player : Players.list()) {
@@ -150,7 +149,6 @@ outer:  while (tries > 0) {
     }
 
     private void draw(UpgradeGroup group) {
-        batch.setCamera(camera);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         group.render(batch, 600, 200);

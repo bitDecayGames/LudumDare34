@@ -68,6 +68,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     FinishLineGameObject finishLine;
     TextureRegion splitScreenSeparator;
+    AnimagicTextureRegion background;
 
     public RaceScreen(RacerGame game) {
         if (game == null) {
@@ -86,6 +87,10 @@ public class RaceScreen implements Screen, EditorHook {
 
         atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
         splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
+
+        atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
+        background = atlas.findRegion("background");
+
 
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
@@ -231,6 +236,20 @@ public class RaceScreen implements Screen, EditorHook {
         batch.setAmbientIntensity(0.01f);
         batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
 
+        Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));
+        int yLimit = (int) (bottomLeft.y + Gdx.graphics.getHeight());
+        int xLimit = (int) (bottomLeft.x + Gdx.graphics.getWidth());
+        int renderY = (int) bottomLeft.y;
+        while (renderY < yLimit) {
+            int renderX = (int) bottomLeft.x;
+            while (renderX < xLimit) {
+                batch.draw(background, renderX, renderY, background.getRegionWidth() * 4, background.getRegionHeight() * 4);
+                renderX += background.getRegionHeight() * 4;
+            }
+            renderY += background.getRegionWidth() * 4;
+        }
+//        batch.draw(background,bottomLeft.x, bottomLeft.y, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        batch.draw(background,0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         drawLevelEdit();
         gameObjects.draw(batch);
         batch.end();

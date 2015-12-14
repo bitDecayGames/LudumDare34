@@ -37,15 +37,15 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
 
         phys = new PhysicsComponent(levelObject.buildBody(), pos, size);
         phys.getBody().addContactListener(this);
-        append(size).append(pos).append(phys).append(anim).append(light);
+        append(size).append(pos).append(phys).append(anim);
         return Arrays.asList(phys.getBody());
     }
 
     private void setupAnimation() {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
 
-        anim.animator.addAnimation(new Animation("ongoing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish").toArray(AnimagicTextureRegion.class)));
-        anim.animator.addAnimation(new Animation("finished", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish2").toArray(AnimagicTextureRegion.class)));
+        anim.animator.addAnimation(new Animation("ongoing", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish/1").toArray(AnimagicTextureRegion.class)));
+        anim.animator.addAnimation(new Animation("finished", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/finish/2").toArray(AnimagicTextureRegion.class)));
         anim.animator.switchToAnimation("ongoing");
     }
 
