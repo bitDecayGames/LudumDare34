@@ -13,7 +13,7 @@ public class AnimationComponent implements IComponent, IUpdate, IDraw {
     public final Animator animator;
     private final PositionComponent position;
     private final float scale;
-    private final Vector2 offset;
+    public Vector2 offset;
     private boolean flipVerticalAxis = false;
 
     public AnimationComponent(String name, PositionComponent position, float scale, Vector2 offset) {
