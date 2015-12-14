@@ -9,9 +9,7 @@ public class LightUtil {
 
     public static void addLocatedLight(AnimagicSpriteBatch batch, Vector2 location) {
         Vector3 lightPos = new Vector3(location, .1f);
-        batch.setAmbientColor(Color.WHITE);
-        batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(lightPos.x, lightPos.y, 0.8f, .8f, Color.WHITE);
+        batch.setNextLight(lightPos.x, lightPos.y, 0.8f, 5f, Color.WHITE);
     }
 
     public static void addBasicLight(AnimagicSpriteBatch batch) {
