@@ -54,6 +54,7 @@ public class Player extends StateMachine {
         body.renderStateWatcher = new JumperRenderStateWatcher();
         body.bodyType = BodyType.DYNAMIC;
         body.aabb.set(new BitRectangle(0, 0, 16, 32));
+        body.userObject = this;
 
         setupAnimation(anim.animator);
         return new PhysicsComponent(body, pos, size);
@@ -82,9 +83,9 @@ public class Player extends StateMachine {
     public void update(float delta) {
         // Reset for now
         // TODO do this somewhere else?
-        if (pos.y < -1000) {
-            setPosition(0, 0);
-        }
+//        if (pos.y < -1000) {
+//            setPosition(0, 0);
+//        }
 
         checkForStateSwitch();
 
