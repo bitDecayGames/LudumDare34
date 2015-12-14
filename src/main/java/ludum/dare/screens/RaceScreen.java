@@ -22,6 +22,7 @@ import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bitdecay.jump.gdx.level.EditorIdentifierObject;
 import com.bitdecay.jump.gdx.level.RenderableLevelObject;
 import com.bitdecay.jump.geom.BitRectangle;
+import com.bitdecay.jump.level.Direction;
 import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
@@ -296,6 +297,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void levelChanged(Level level) {
+        LevelSegmentAggregator.updateAllNeighborRenderValues(level);
         gameObjects.clear();
         world.removeAllBodies();
         finishLine = null;
