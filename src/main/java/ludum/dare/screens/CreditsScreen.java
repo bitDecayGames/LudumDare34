@@ -80,7 +80,7 @@ public class CreditsScreen implements Screen {
         lblCredits.setFontScale(6);
         lblCredits.setFillParent(true);
         lblCredits.setAlignment(Align.center);
-        lblCredits.setColor(Color.BLACK);
+        lblCredits.setColor(Color.DARK_GRAY);
 
 
         stage.addActor(background);
