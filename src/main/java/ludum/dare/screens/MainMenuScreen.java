@@ -3,21 +3,19 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import ludum.dare.RacerGame;
-import ludum.dare.control.InputAction;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
+import org.lwjgl.Sys;
 
 
 /**
@@ -31,16 +29,25 @@ public class MainMenuScreen implements Screen {
     private Table menu;
     private Image background;
     private Label title;
-    private TextButton playBtn;
-    private TextButton creditsBtn;
-    private TextButton quitBtn;
+    private Label startLbl;
+    private Label creditsLbl;
+    private Label quitLbl;
 
-    private Music music;
+    private int menuSelection;
+    private boolean downIsPressed;
+    private boolean upIsPressed;
+    private boolean enterWasPressed;
+
 
     boolean active = true;
 
     public MainMenuScreen(final RacerGame game) {
         this.game = game;
+
+        menuSelection = 0;
+        downIsPressed = false;
+        upIsPressed = false;
+        enterWasPressed = false;
 
         TextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", TextureAtlas.class);
         Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas);
@@ -48,55 +55,32 @@ public class MainMenuScreen implements Screen {
         background = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/splash.png"))));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        title = new Label("Scabs", skin);
-        title.setFontScale(2);
+        title = new Label("Crystal", skin);
+        title.setFontScale(15);
         title.setAlignment(Align.top);
         title.setFillParent(true);
+        title.setColor(Color.WHITE);
 
-        playBtn = new TextButton("Play", skin, "button");
-        playBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-//                AtlasManager.instance.finishLoading();
+        startLbl = new Label("Start", skin);
+        startLbl.setFontScale(8);
+        startLbl.setColor(Color.WHITE);
 
-                active = false;
-            }
-        });
-        creditsBtn = new TextButton("Credits", skin, "button");
-        creditsBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                int seconds = 1;
-                int moveOff = Gdx.graphics.getWidth();
-                menu.addAction(Actions.sequence(
-                        Actions.moveBy(moveOff, 0, seconds),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                System.out.println("CREDITS BUTTON PUSHED");
-//                                game.setScreen(new CreditsScreen(game));
-                            }
-                        })
-                ));
-            }
-        });
-        quitBtn = new TextButton("Exit", skin, "button");
-        quitBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
+        creditsLbl = new Label("Credits", skin);
+        creditsLbl.setFontScale(8);
+        creditsLbl.setColor(Color.WHITE);
 
+        quitLbl = new Label("Quit", skin);
+        quitLbl.setFontScale(8);
+        quitLbl.setColor(Color.WHITE);
 
         menu = new Table();
-        menu.add(playBtn).height(60).padBottom(20).padTop(150).row();
-        menu.add(creditsBtn).height(60).padBottom(20).row();
-        menu.add(quitBtn).height(60).padBottom(20).row();
-        menu.align(Align.center);
         menu.setFillParent(true);
+        menu.add(startLbl).height(60).padBottom(20).padTop(150).row();
+        menu.add(creditsLbl).height(60).padBottom(20).row();
+        menu.add(quitLbl).height(60).padBottom(20).row();
+        menu.align(Align.center);
 
-        stage.addActor(background);
+//        stage.addActor(background);
         stage.addActor(title);
         stage.addActor(menu);
 
@@ -106,9 +90,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 //         animate the main menu when entering
-        int seconds = 1;
-        int moveOff = Gdx.graphics.getWidth();
         menu.addAction(Actions.alpha(0));
+        title.addAction(Actions.alpha(0));
         background.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.delay(0.25f),
@@ -116,6 +99,9 @@ public class MainMenuScreen implements Screen {
 
         ));
         menu.addAction(Actions.sequence(
+                Actions.fadeIn(3.5f)
+        ));
+        title.addAction(Actions.sequence(
                 Actions.fadeIn(3.5f)
         ));
     }
@@ -145,8 +131,65 @@ public class MainMenuScreen implements Screen {
 
 
     public void update(float delta){
-        if(InputUtil.checkInputs(Input.Keys.SPACE, Xbox360Pad.START)){
-            game.setScreen(new SetupScreen(game));
+
+        if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START)) {
+            enterWasPressed = true;
+        } else if (enterWasPressed && !(InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.START))){
+            switch (menuSelection) {
+                case 0:
+                    game.setScreen(new SetupScreen(game));
+                    break;
+                case 1:
+                    game.setScreen(new CreditsScreen(game));
+                    break;
+                case 2:
+                    Gdx.app.exit();
+                    break;
+            }
+        }
+
+        if (InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.DOWN) && !downIsPressed) {
+            menuSelection = (menuSelection + 1) % 3;
+            downIsPressed = true;
+        } else if(!InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.DOWN)){
+            downIsPressed = false;
+        }
+
+        if (InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.UP) && !upIsPressed) {
+            menuSelection -= 1;
+            if (menuSelection < 0) {
+                menuSelection = 2;
+            }
+            upIsPressed = true;
+        } else if(!InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.UP)){
+            upIsPressed = false;
+        }
+
+            updateMenuSelection();
+    }
+
+    private void updateMenuSelection(){
+        switch(menuSelection){
+            case 0:
+                // start selected
+                startLbl.setColor(Color.YELLOW);
+                creditsLbl.setColor(Color.WHITE);
+                quitLbl.setColor(Color.WHITE);
+                break;
+
+            case 1:
+                // credits selected
+                startLbl.setColor(Color.WHITE);
+                creditsLbl.setColor(Color.YELLOW);
+                quitLbl.setColor(Color.WHITE);
+                break;
+
+            case 2:
+                // exit selected
+                startLbl.setColor(Color.WHITE);
+                creditsLbl.setColor(Color.WHITE);
+                quitLbl.setColor(Color.YELLOW);
+                break;
         }
     }
 

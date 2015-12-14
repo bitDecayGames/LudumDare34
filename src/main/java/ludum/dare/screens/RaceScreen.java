@@ -24,6 +24,7 @@ import com.bitdecay.jump.level.Level;
 import com.bitdecay.jump.level.LevelObject;
 import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
+import com.bitdecay.jump.leveleditor.Launcher;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
 import com.bitdecay.jump.leveleditor.render.LibGDXWorldRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
@@ -108,7 +109,10 @@ public class RaceScreen implements Screen, EditorHook {
     public void show() {
 
         music = SoundLibrary.GetMusic("fight");
-        music.play();
+
+        if(RacerGame.MUSIC_ON) {
+            music.play();
+        }
 
         for (int i = 0; i < cameras.length; i++) cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / cameras.length);
         batch = new AnimagicSpriteBatch();
