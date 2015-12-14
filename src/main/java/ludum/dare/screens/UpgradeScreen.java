@@ -3,10 +3,15 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.upgradeComponents.*;
@@ -32,6 +37,9 @@ public class UpgradeScreen implements Screen {
 
     private int spacePerGroup;
     private RacerGame game;
+
+    SpriteBatch ui;
+    TextureRegion splitScreenSeparator;
 
     public UpgradeScreen(RacerGame game) {
         this.game = game;
@@ -69,6 +77,12 @@ public class UpgradeScreen implements Screen {
             UpgradeGroup upgradeGroup = buildPlayerOptions(player);
             groups.add(upgradeGroup);
         }
+
+        ui = new SpriteBatch();
+
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
+        splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
+
     }
 
     private UpgradeGroup buildPlayerOptions(Player player) {
@@ -117,19 +131,30 @@ outer:  while (tries > 0) {
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        int screenWidth = Gdx.graphics.getWidth() / 2;
+        int screenHeight = Gdx.graphics.getHeight() / 2;
+        Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
+        draw(groups.get(3));
+        Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+        draw(groups.get(2));
+        Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
+        draw(groups.get(1));
+        Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
+        draw(groups.get(0));
+
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.begin();
+        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.end();
+    }
+
+    private void draw(UpgradeGroup group) {
+        batch.setCamera(camera);
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.setAmbientColor(Color.WHITE);
-        batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(0, 0, 0.1f, 0.9f, Color.RED);
-
-        for (int i = 0; i < groups.size(); i++) {
-            UpgradeGroup group = groups.get(i);
-            int yTop = (groups.size() - i) * spacePerGroup;
-            int yBottom = yTop - spacePerGroup;
-            group.render(batch, yTop, yBottom);
-        }
+        group.render(batch, 600, 200);
         batch.end();
-
     }
 
     @Override
