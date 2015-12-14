@@ -13,11 +13,12 @@ import com.bytebreakstudios.animagic.animation.FrameRate;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
-import ludum.dare.actors.StateMachine;
+import ludum.dare.actors.GameObject;
+import ludum.dare.actors.player.Player;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends StateMachine implements ContactListener, IRemoveable {
+public class Projectile extends GameObject implements ContactListener, IRemoveable {
     private final static float PROJECTILE_SPEED = 500;
     private final static float PROJECTILE_TIME_TO_LIVE = 10;
 
@@ -26,7 +27,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     private final PhysicsComponent phys;
     private final PhysicsComponent sourcePhysicsComponent;
     private final AnimationComponent anim;
-    private final AttackComponent attack;
+    private final AttackComponent attackComponent;
     private final LevelInteractionComponent levelComponent;
     private final TimedComponent timedComponent;
 
@@ -40,7 +41,7 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
         anim = new AnimationComponent("projectiles", pos, 1f, new Vector2(8, 0));
         setupAnimation(anim.animator);
 
-        attack = new AttackComponent(10);
+        attackComponent = new AttackComponent(10);
 
         phys = createBody(direction);
         levelComponent = levelComp;
@@ -65,9 +66,9 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
     }
 
     private void setupAnimation(Animator a) {
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player0.atlas", AnimagicTextureAtlas.class);
 
-        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("collect/coin").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
 
         a.switchToAnimation("fire");
     }
@@ -101,6 +102,10 @@ public class Projectile extends StateMachine implements ContactListener, IRemove
         // Not allowed to hit source.
         if (bitBody.equals(sourcePhysicsComponent.getBody())) {
             return;
+        }
+        // If we hit another player, set them to their hurt state.
+        if (bitBody.userObject instanceof Player) {
+            ((Player) bitBody.userObject).hit(attackComponent);
         }
         // TODO Add more logic for damage here if we hit a player.
         shouldRemove = true;

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import ludum.dare.RacerGame;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
+import ludum.dare.util.SoundLibrary;
 import org.lwjgl.Sys;
 
 
@@ -134,6 +135,7 @@ public class MainMenuScreen implements Screen {
 
         if (InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.A)) {
             enterWasPressed = true;
+            SoundLibrary.GetSound("Select_confirm").play();
         } else if (enterWasPressed && !(InputUtil.checkInputs(Input.Keys.ENTER, Xbox360Pad.A))){
             switch (menuSelection) {
                 case 0:
@@ -148,20 +150,22 @@ public class MainMenuScreen implements Screen {
             }
         }
 
-        if (InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.DOWN) && !downIsPressed) {
+        if (InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.LS_DOWN) && !downIsPressed) {
+            SoundLibrary.GetSound("Select_change").play();
             menuSelection = (menuSelection + 1) % 3;
             downIsPressed = true;
-        } else if(!InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.DOWN)){
+        } else if(!InputUtil.checkInputs(Input.Keys.DOWN, Xbox360Pad.LS_DOWN)){
             downIsPressed = false;
         }
 
-        if (InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.UP) && !upIsPressed) {
+        if (InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.LS_UP) && !upIsPressed) {
+            SoundLibrary.GetSound("Select_change").play();
             menuSelection -= 1;
             if (menuSelection < 0) {
                 menuSelection = 2;
             }
             upIsPressed = true;
-        } else if(!InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.UP)){
+        } else if(!InputUtil.checkInputs(Input.Keys.UP, Xbox360Pad.LS_UP)){
             upIsPressed = false;
         }
 

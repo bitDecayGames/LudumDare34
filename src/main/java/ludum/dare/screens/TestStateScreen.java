@@ -6,10 +6,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
+import com.bytebreakstudios.animagic.animation.Animation;
+import com.bytebreakstudios.animagic.animation.FrameRate;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
-import ludum.dare.actors.player.Player;
 
 /**
  * THIS CLASS IS FOR DEBUGGING THE PLAYER, SHOULD NOT BE USED!!!!!!!!!
@@ -19,7 +22,8 @@ public class TestStateScreen implements Screen {
     OrthographicCamera camera;
     AnimagicSpriteBatch batch;
 
-    Player player;
+    Animation animation;
+    AnimagicTextureAtlas atlas;
 
     public TestStateScreen(Game game) {
         super();
@@ -35,14 +39,17 @@ public class TestStateScreen implements Screen {
         batch = new AnimagicSpriteBatch(camera);
         batch.isShaderOn(true);
 
-        player = new Player(0);
+        atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
+        animation = new Animation("test", Animation.AnimationPlayState.REPEAT, FrameRate.total(5), atlas.findRegions("bridges").toArray(AnimagicTextureRegion.class));
     }
 
     @Override
     public void render(float delta) {
-        player.update(delta);
+        animation.update(delta);
 
         camera.update();
+
+        Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         Gdx.gl.glClearColor(0, 0.1f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -51,9 +58,9 @@ public class TestStateScreen implements Screen {
         batch.begin();
         batch.setAmbientColor(Color.WHITE);
         batch.setAmbientIntensity(0.01f);
-        batch.setNextLight(0, 0, 0.1f, 0.9f, Color.WHITE);
+        batch.setNextLight(mousePos.x, mousePos.y, 0.1f, 0.9f, Color.WHITE);
 
-        player.draw(batch);
+        batch.draw(animation.getFrame(), -200, -200, 400, 400);
 
         batch.end();
     }
