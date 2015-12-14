@@ -659,7 +659,17 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.FinishLineLevelObject", {
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.LightLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 96.0,
+        "y" : -96.0
+      },
+      "width" : 32.0,
+      "height" : 32.0
+    },
+    "uuid" : "6051e4f6-a3f9-46d9-b900-4756b133ee01"
+  } ], [ "ludum.dare.levelobject.FinishLineLevelObject", {
     "rect" : {
       "xy" : {
         "x" : 96.0,
@@ -668,7 +678,17 @@
       "width" : 42.0,
       "height" : 38.0
     },
-    "uuid" : "cff1c0c8-16bf-48c2-adf1-cddf656a5309"
+    "uuid" : "dfa32daa-5e19-4ad4-abbf-a9f4cdd041e9"
+  } ], [ "ludum.dare.levelobject.LightLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 320.0,
+        "y" : 128.0
+      },
+      "width" : 32.0,
+      "height" : 32.0
+    },
+    "uuid" : "4ca52135-35d3-4258-a56b-d09f6b32013f"
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {

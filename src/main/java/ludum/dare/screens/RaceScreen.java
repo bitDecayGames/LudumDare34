@@ -37,14 +37,8 @@ import ludum.dare.collection.GameObjects;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
-import ludum.dare.gameobject.CoinGameObject;
-import ludum.dare.gameobject.FinishLineGameObject;
-import ludum.dare.gameobject.PowerupGameObject;
-import ludum.dare.gameobject.SpawnGameObject;
-import ludum.dare.levelobject.CoinLevelObject;
-import ludum.dare.levelobject.FinishLineLevelObject;
-import ludum.dare.levelobject.PowerupLevelObject;
-import ludum.dare.levelobject.SpawnLevelObject;
+import ludum.dare.gameobject.*;
+import ludum.dare.levelobject.*;
 import ludum.dare.levels.LevelSegmentAggregator;
 import ludum.dare.levels.LevelSegmentGenerator;
 import ludum.dare.util.LightUtil;
@@ -102,6 +96,7 @@ public class RaceScreen implements Screen, EditorHook {
         builderMap.put(CoinLevelObject.class, CoinGameObject.class);
         builderMap.put(FinishLineLevelObject.class, FinishLineGameObject.class);
         builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
+        builderMap.put(LightLevelObject.class, LightGameObject.class);
     }
 
     @Override
@@ -180,6 +175,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new CoinLevelObject());
         exampleItems.add(new FinishLineLevelObject());
         exampleItems.add(new PowerupLevelObject());
+        exampleItems.add(new LightLevelObject());
         return exampleItems;
     }
 
@@ -219,6 +215,7 @@ public class RaceScreen implements Screen, EditorHook {
     @Override
     public void levelChanged(Level level) {
         gameObjects.clear();
+        world.removeAllBodies();
 
         currentLevel = level;
         world.setTileSize(16);
