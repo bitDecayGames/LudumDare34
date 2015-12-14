@@ -174,7 +174,6 @@ public class RaceScreen implements Screen, EditorHook {
 
         for (int i = 0; i < cameras.length; i++) {
             cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-            cameras[i].zoom = 2f;
         }
         batch = new AnimagicSpriteBatch();
         batch.isShaderOn(true);

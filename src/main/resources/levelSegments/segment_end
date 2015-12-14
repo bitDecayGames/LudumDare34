@@ -9490,12 +9490,12 @@
     "rect" : {
       "xy" : {
         "x" : -608.0,
-        "y" : 32.0
+        "y" : 64.0
       },
       "width" : 20.0,
       "height" : 20.0
     },
-    "uuid" : "91c25d49-46b4-4da3-bdc5-487f81e4bac1",
+    "uuid" : "d353a985-75eb-4936-a53c-26377e6e97bb",
     "nodeIndex" : 4
   } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
     "rect" : {

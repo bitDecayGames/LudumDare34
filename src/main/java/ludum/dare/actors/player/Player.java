@@ -1,6 +1,5 @@
 package ludum.dare.actors.player;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.bitdecay.jump.BodyType;
@@ -263,8 +262,8 @@ public class Player extends StateMachine {
     }
 
     public void draw(ShapeRenderer shapeRenderer) {
-        super.draw(shapeRenderer);
-        shapeRenderer.setColor(Color.GOLD);
-        shapeRenderer.rect(pos.x, pos.y, size.w, size.h);
+//        super.draw(shapeRenderer);
+//        shapeRenderer.setColor(Color.GOLD);
+//        shapeRenderer.rect(pos.x, pos.y, size.w, size.h);
     }
 }
