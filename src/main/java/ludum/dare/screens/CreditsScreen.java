@@ -81,7 +81,13 @@ public class CreditsScreen implements Screen {
                 "Ville Nousiainen Xythe mutkanto - Fight" + SPACE_AFTER_NAME +
                 "Matthew Pablo - Riverside Ride" + SPACE_AFTER_NAME +
                 "Trevor Lentz - Hero Immortal" + SPACE_AFTER_NAME +
-                "lemon42 - A Journey Awaits",
+                "lemon42 - A Journey Awaits" + SPACE_AFTER_NAME +
+                "pierrecartoons1979 - Slot Machine Sounds" + SPACE_AFTER_NAME +
+                "Setuniman - High Jump Sound" + SPACE_AFTER_NAME +
+                "dobroide - Slow down sound" + SPACE_AFTER_NAME +
+                "VyckRo - Stun gun sound" + SPACE_AFTER_NAME +
+                "Chriddof - Speed up sound" + SPACE_AFTER_NAME +
+                "tyops - Space ship sound",
                 skin);
         lblCredits.setFontScale(6);
         lblCredits.setFillParent(true);

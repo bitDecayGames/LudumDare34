@@ -8,6 +8,8 @@ import ludum.dare.interfaces.*;
 import java.util.*;
 
 public class GameObject implements IUpdate, IDraw, IPreDraw {
+    private final Set<IComponent> pendingAdds = new HashSet<>();
+
     protected final Set<IComponent> components = new HashSet<>();
     protected final Set<IUpdate> updateableComponents = new HashSet<>();
     protected final Set<IDraw> drawableComponents = new HashSet<>();
@@ -18,6 +20,10 @@ public class GameObject implements IUpdate, IDraw, IPreDraw {
         for(IComponent c : componenets){
             this.append(c);
         }
+    }
+
+    public void queueAdd(IComponent component) {
+        pendingAdds.add(component);
     }
 
     public GameObject append(IComponent component) {
@@ -67,11 +73,16 @@ public class GameObject implements IUpdate, IDraw, IPreDraw {
 
     @Override
     public void update(float delta) {
+        for (IComponent component : pendingAdds) {
+            append(component);
+        }
+        pendingAdds.clear();
+
         List<IComponent> pendingRemoves = new ArrayList<>();
         updateableComponents.forEach(c -> {
             c.update(delta);
             if (c instanceof IRemoveable) {
-                if(((IRemoveable) c).shouldRemove()){
+                if (((IRemoveable) c).shouldRemove()) {
                     ((IRemoveable) c).remove();
                     pendingRemoves.add((IComponent) c);
                 }
