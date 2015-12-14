@@ -11,6 +11,7 @@ import ludum.dare.screens.SplashScreen;
 public class RacerGame extends Game {
 
     public static boolean MUSIC_ON = false;
+    final static int NUM_PLAYER_ASSETS = 5;
 
     public static AssetManager assetManager = new AssetManager();
     public static void queueAssetsForLoad() {
@@ -19,7 +20,9 @@ public class RacerGame extends Game {
         RacerGame.assetManager.load("packed/level.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/test.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("packed/ui.atlas", AnimagicTextureAtlas.class);
-        RacerGame.assetManager.load("packed/player.atlas", AnimagicTextureAtlas.class);
+        for (int i = 0; i < NUM_PLAYER_ASSETS; i++) {
+            RacerGame.assetManager.load("packed/player" + i + ".atlas", AnimagicTextureAtlas.class);
+        }
         RacerGame.assetManager.load("packed/upgrades.atlas", AnimagicTextureAtlas.class);
         RacerGame.assetManager.load("skins/ui.atlas", TextureAtlas.class);
     }
