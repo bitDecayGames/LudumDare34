@@ -238,4 +238,8 @@ public class Player extends StateMachine {
     public int getRank(){
         return 0;
     }
+
+    public void showWinner() {
+        append(new LightComponent(pos));
+    }
 }
