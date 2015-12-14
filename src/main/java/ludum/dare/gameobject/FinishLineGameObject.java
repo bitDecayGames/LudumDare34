@@ -27,7 +27,7 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
         size = new SizeComponent(0, 0);
         pos = new PositionComponent(0, 0);
         anim = new AnimationComponent("finish", pos, 1f, new Vector2(0, -8));
-        light = new LightComponent(pos);
+        light = new LightComponent(pos, new Vector2());
         setupAnimation();
 
         phys = new PhysicsComponent(levelObject.buildBody(), pos, size);

@@ -250,7 +250,7 @@ public class Player extends StateMachine {
     }
 
     public void showWinner() {
-        append(new LightComponent(pos));
+        append(new LightComponent(pos, new Vector2()));
     }
 
     public int moneyCount() {
