@@ -39,7 +39,6 @@ public class Player extends StateMachine {
     private final AttackComponent attack;
     private LevelInteractionComponent levelComponent;
     private final int playerNum;
-    public FacePunchingComponent facePunch;
 
     public Player(int playerNum) {
         this.playerNum = playerNum;

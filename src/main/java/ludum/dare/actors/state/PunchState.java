@@ -5,7 +5,6 @@ import com.bitdecay.jump.Facing;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.AnimationListener;
 import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
-import ludum.dare.actors.projectile.Projectile;
 import ludum.dare.actors.projectile.Punch;
 import ludum.dare.components.FacePunchingComponent;
 import ludum.dare.components.LevelInteractionComponent;
@@ -19,7 +18,7 @@ import java.util.Set;
 public class PunchState extends AbstractState implements AnimationListener {
     private Animation punchAnimation;
     private boolean done = false;
-    protected FacePunchingComponent facePunch;
+    protected FacePunchingComponent facePunch = new FacePunchingComponent();
 
     LevelInteractionComponent levelComponent;
 
@@ -28,9 +27,6 @@ public class PunchState extends AbstractState implements AnimationListener {
 
         components.forEach(comp -> {
             if (comp instanceof LevelInteractionComponent) levelComponent = (LevelInteractionComponent) comp;
-        });
-        components.forEach(comp -> {
-            if (comp instanceof FacePunchingComponent) facePunch = (FacePunchingComponent) comp;
         });
 
         if (levelComponent == null || levelComponent.getObjects() == null || levelComponent.getWorld() == null) {
@@ -112,9 +108,11 @@ public class PunchState extends AbstractState implements AnimationListener {
     public void exit() {
         super.exit();
         if (punchAnimation != null) punchAnimation.stopListening(this);
-        facePunch.FacePunchingDown = false;
-        facePunch.FacePunchingUp = false;
-        facePunch.FacePunchingJupingUp = false;
+        if(facePunch != null) {
+            facePunch.FacePunchingDown = false;
+            facePunch.FacePunchingUp = false;
+            facePunch.FacePunchingJupingUp = false;
+        }
     }
 
     @Override

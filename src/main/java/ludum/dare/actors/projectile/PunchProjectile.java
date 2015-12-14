@@ -18,7 +18,7 @@ import ludum.dare.actors.player.Player;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends GameObject implements ContactListener, IRemoveable {
+public class PunchProjectile extends GameObject implements ContactListener, IRemoveable {
     protected float PROJECTILE_SPEED = 500;
     protected float PROJECTILE_TIME_TO_LIVE;
 
@@ -30,17 +30,19 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
     private final AttackComponent attackComponent;
     private final LevelInteractionComponent levelComponent;
     private final TimedComponent timedComponent;
+    private FacePunchingComponent facePunch;
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent, float timeToLive) {
+    public PunchProjectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent, float timeToLive, FacePunchingComponent facePunch) {
         super();
+        this.facePunch = facePunch;
         PROJECTILE_TIME_TO_LIVE = timeToLive;
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(source.x, source.y);
         anim = new AnimationComponent("projectiles", pos, 1f, new Vector2(8, 0));
         this.sourcePhysicsComponent = sourcePhysicsComponent;
-        setupAnimation(anim.animator);
+        setupAnimation(anim.animator, facePunch);
 
         attackComponent = new AttackComponent(10);
 
@@ -61,11 +63,11 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
         body.props.gravitational = false;
         body.addContactListener(this);
 
-        setupAnimation(anim.animator);
+        setupAnimation(anim.animator, facePunch);
         return new PhysicsComponent(body, pos, size);
     }
 
-    protected void setupAnimation(Animator a) {
+    protected void setupAnimation(Animator a, FacePunchingComponent facePunch) {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player0.atlas", AnimagicTextureAtlas.class);
 
         a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
@@ -94,7 +96,7 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
     @Override
     public void remove() {
         // Remove ourselves from the physics world.
-        levelComponent.getWorld().removeBody(phys.getBody());
+        //levelComponent.getWorld().removeBody(phys.getBody());
     }
 
     @Override

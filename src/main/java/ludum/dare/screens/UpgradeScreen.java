@@ -44,17 +44,17 @@ public class UpgradeScreen implements Screen {
     public UpgradeScreen(RacerGame game) {
         this.game = game;
         if (MASTER_LIST.size() == 0) {
-            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
-            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float"));
-            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal"));
-            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
-            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
-            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
+//            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
+//            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float"));
+//            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal"));
+//            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
+//            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
+//            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
             MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire"));
-            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison"));
-            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice"));
-            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web"));
-            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop"));
+//            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison"));
+//            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice"));
+//            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web"));
+//            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop"));
         }
     }
 
