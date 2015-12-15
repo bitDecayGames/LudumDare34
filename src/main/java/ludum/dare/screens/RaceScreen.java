@@ -202,7 +202,7 @@ public class RaceScreen implements Screen, EditorHook {
             if (RacerGame.MUSIC_ON && music.isPlaying()) {
                 music.stop();
             }
-            game.setScreen(new UpgradeScreen(game));
+            game.setScreen(new WaitingScreen(game));
         }
         gameObjects.update(delta);
 
