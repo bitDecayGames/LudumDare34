@@ -48,6 +48,8 @@ public class Player extends StateMachine {
     private LevelInteractionComponent levelComponent;
     private final int playerNum;
 
+    public boolean winner;
+
     public Player(int playerNum) {
         this.playerNum = playerNum;
         size = new SizeComponent(100, 100);
@@ -254,10 +256,6 @@ public class Player extends StateMachine {
 
     public int getRank(){
         return 0;
-    }
-
-    public void showWinner() {
-        append(new LightComponent(pos, new Vector2()));
     }
 
     public int moneyCount() {
