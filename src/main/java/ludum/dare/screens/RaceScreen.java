@@ -107,7 +107,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(10);
+        generateNextLevel(5);
     }
 
     public void generateNextLevel(int length) {
@@ -313,7 +313,7 @@ public class RaceScreen implements Screen, EditorHook {
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
+        batch.setAmbientColor(new Color(0.0f, 0.0f, 0.0f, 1));
         batch.setAmbientIntensity(1f);
 //        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
         gameObjects.preDraw(batch);

@@ -1818,7 +1818,7 @@
     "uuid" : "a6404196-e403-4fdd-be6f-0b412a82db0c",
     "material" : 1,
     "renderNValue" : 2,
-    "collideNValue" : 2,
+    "collideNValue" : 0,
     "oneway" : true
   }, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {
     "rect" : {
@@ -1941,11 +1941,11 @@
       "width" : 32.0,
       "height" : 32.0
     },
-    "uuid" : "604abfb2-d77e-4c72-bfa5-ebd18df7fe3c",
+    "uuid" : "f5aa141e-e7a6-48a5-8634-7c4e7447af26",
     "material" : 1,
     "renderNValue" : 0,
     "collideNValue" : 0,
-    "oneway" : false
+    "oneway" : true
   }, null, {
     "rect" : {
       "xy" : {
@@ -1955,26 +1955,12 @@
       "width" : 32.0,
       "height" : 32.0
     },
-    "uuid" : "2c881f6a-cdf3-4147-92ef-617a256f5ed0",
+    "uuid" : "26a5e4af-9df8-483c-8b0e-c3ff3bef0f10",
     "material" : 1,
     "renderNValue" : 0,
     "collideNValue" : 0,
-    "oneway" : false
-  }, null, {
-    "rect" : {
-      "xy" : {
-        "x" : 64.0,
-        "y" : -512.0
-      },
-      "width" : 32.0,
-      "height" : 32.0
-    },
-    "uuid" : "09409a78-060e-43f7-a88f-c443e4470e40",
-    "material" : 1,
-    "renderNValue" : 3,
-    "collideNValue" : 3,
-    "oneway" : false
-  }, {
+    "oneway" : true
+  }, null, null, {
     "rect" : {
       "xy" : {
         "x" : 64.0,
@@ -1983,11 +1969,11 @@
       "width" : 32.0,
       "height" : 32.0
     },
-    "uuid" : "20856926-6229-4c90-a14d-fa9a71da7c54",
+    "uuid" : "3d75c1a1-4081-4cc0-bd3e-eccb05e9c1e3",
     "material" : 1,
-    "renderNValue" : 14,
-    "collideNValue" : 6,
-    "oneway" : false
+    "renderNValue" : 10,
+    "collideNValue" : 2,
+    "oneway" : true
   }, null, null, {
     "rect" : {
       "xy" : {
@@ -1997,11 +1983,11 @@
       "width" : 32.0,
       "height" : 32.0
     },
-    "uuid" : "6df7f4fa-9c6c-411e-84db-c0540fbb1711",
+    "uuid" : "60befa2b-cf26-464d-84d7-164014ed5d34",
     "material" : 1,
     "renderNValue" : 0,
     "collideNValue" : 0,
-    "oneway" : false
+    "oneway" : true
   }, null, null, {
     "rect" : {
       "xy" : {
@@ -2025,11 +2011,11 @@
       "width" : 32.0,
       "height" : 32.0
     },
-    "uuid" : "632866cd-c40d-47af-bbe0-262a02029655",
+    "uuid" : "d79adb63-484d-4646-90a7-0b448d1f022a",
     "material" : 1,
     "renderNValue" : 2,
     "collideNValue" : 2,
-    "oneway" : false
+    "oneway" : true
   }, null, null, null, null, null, null, null, null, null, null, null, null, {
     "rect" : {
       "xy" : {
@@ -2125,8 +2111,8 @@
     },
     "uuid" : "9539c566-caf1-4d51-a24e-38660d87ba41",
     "material" : 1,
-    "renderNValue" : 11,
-    "collideNValue" : 15,
+    "renderNValue" : 7,
+    "collideNValue" : 7,
     "oneway" : false
   }, {
     "rect" : {
@@ -2140,7 +2126,7 @@
     "uuid" : "a3ff91a7-482d-4666-9966-11d53fa43b8e",
     "material" : 1,
     "renderNValue" : 14,
-    "collideNValue" : 14,
+    "collideNValue" : 6,
     "oneway" : false
   }, null, null, null, null, null, {
     "rect" : {
@@ -2196,7 +2182,7 @@
     "uuid" : "52407d00-81dc-48eb-8889-d6cc3f822903",
     "material" : 0,
     "renderNValue" : 6,
-    "collideNValue" : 14,
+    "collideNValue" : 6,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ], [ {
     "rect" : {
@@ -3521,6 +3507,18 @@
       "height" : 7.0
     },
     "uuid" : "778eb8dd-a7c5-4d45-8746-bd77d50a2b14"
+  } ], [ "ludum.dare.levelobject.LanternLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 64.0,
+        "y" : -352.0
+      },
+      "width" : 33.0,
+      "height" : 75.0
+    },
+    "uuid" : "679bd323-4a2b-4937-921a-2903a1947529",
+    "attenuationModifier" : 0.0,
+    "zModifier" : 0.0
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {

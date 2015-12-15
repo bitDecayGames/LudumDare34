@@ -5937,7 +5937,19 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.AINodeLevelObject", {
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.LanternLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 64.0,
+        "y" : 0.0
+      },
+      "width" : 33.0,
+      "height" : 75.0
+    },
+    "uuid" : "a7faf142-8455-4488-bd43-f1c6018fb0cf",
+    "attenuationModifier" : 0.0,
+    "zModifier" : 0.0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
     "rect" : {
       "xy" : {
         "x" : -320.0,

@@ -22,10 +22,8 @@ import ludum.dare.actors.state.ProjectileState;
 import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
-import ludum.dare.components.PowerDownComponents.ForceHighJumpComponent;
 import ludum.dare.components.PowerDownComponents.SlowComponent;
 import ludum.dare.components.PowerDownComponents.StunComponent;
-import ludum.dare.components.PowerUpComponents.DoubleCoinsComponent;
 import ludum.dare.components.PowerUpComponents.TempFlyComponent;
 import ludum.dare.components.PowerUpComponents.TempSpeedComponent;
 import ludum.dare.components.upgradeComponents.*;
@@ -58,12 +56,13 @@ public class Player extends StateMachine {
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
         light = new LightComponent(pos, new Vector2(8, 16));
+        light.setAttenuation(7);
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
 
         phys = createBody();
-        append(size).append(pos).append(phys).append(health).append(anim).append(light);
+        append(size).append(pos).append(phys).append(health).append(anim).append(light); // TODO: trying without the light on the players
     }
 
     private PhysicsComponent createBody() {
