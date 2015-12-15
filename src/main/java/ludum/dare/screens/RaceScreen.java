@@ -83,35 +83,31 @@ public class RaceScreen implements Screen, EditorHook {
     float testAtten = 0.9f;
 
     public RaceScreen(RacerGame game) {
-        try {
-            if (game == null) {
-                throw new Error("No game provided");
-            }
-
-            constructBuilderMap();
-
-            world.setGravity(0, -700);
-
-            AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-            Array<AnimagicTextureRegion> crystalTileTextures = atlas.findRegions("crystal");
-            Array<AnimagicTextureRegion> bridgesTileTextures = atlas.findRegions("bridges");
-            tilesetMap.put(0, crystalTileTextures.toArray(TextureRegion.class));
-            tilesetMap.put(1, bridgesTileTextures.toArray(TextureRegion.class));
-
-            atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
-            splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
-
-            atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
-            background = atlas.findRegion("background");
-
-
-            this.game = game;
-            cameras = new OrthographicCamera[Players.list().size()];
-
-            generateNextLevel(2);
-        } catch (Exception e) {
-            game.setScreen(new ErrorScreen(game, e));
+        if (game == null) {
+            throw new Error("No game provided");
         }
+
+        constructBuilderMap();
+
+        world.setGravity(0, -700);
+
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
+        Array<AnimagicTextureRegion> crystalTileTextures = atlas.findRegions("crystal");
+        Array<AnimagicTextureRegion> bridgesTileTextures = atlas.findRegions("bridges");
+        tilesetMap.put(0, crystalTileTextures.toArray(TextureRegion.class));
+        tilesetMap.put(1, bridgesTileTextures.toArray(TextureRegion.class));
+
+        atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
+        splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
+
+        atlas = RacerGame.assetManager.get("packed/level.atlas", AnimagicTextureAtlas.class);
+        background = atlas.findRegion("background");
+
+
+        this.game = game;
+        cameras = new OrthographicCamera[Players.list().size()];
+
+        generateNextLevel(10);
     }
 
     public void generateNextLevel(int length) {
