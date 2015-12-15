@@ -3,14 +3,10 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
-import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
@@ -126,7 +122,7 @@ outer:  while (tries > 0) {
         }
         if (allReady) {
             music.stop();
-            game.setScreen(new RaceScreen(game));
+            game.setScreen(new LoadingScreen(game));
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
