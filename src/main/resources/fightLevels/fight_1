@@ -6007,7 +6007,73 @@
     "collideNValue" : 12,
     "oneway" : false
   }, null, null, null, null, null, null, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.PowerupLevelObject", {
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -288.0,
+        "y" : -64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "51444b15-cdd6-4da8-aeb1-e0224bd83cfe",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -32.0,
+        "y" : 32.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "c2240664-5be6-4435-80ab-af755c132ef6",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -224.0,
+        "y" : 224.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "c08f6280-e9a4-44e9-80ea-2be15571a938",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 544.0,
+        "y" : -256.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "cd8842ee-bb1f-4269-9d7d-2c6b95ff252b",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -448.0,
+        "y" : 128.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "f8f3d19a-6b7f-48d0-bee8-0d5d5f51e8ad",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -640.0,
+        "y" : -64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "dc5bcaf7-bfcd-43c6-b38b-906417cd77ec",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.PowerupLevelObject", {
     "rect" : {
       "xy" : {
         "x" : -32.0,
@@ -6017,6 +6083,17 @@
       "height" : 18.0
     },
     "uuid" : "164d8f48-1777-4d6c-ab87-62e586a85219"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 576.0,
+        "y" : -64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "68bbf37e-c163-4954-9029-e74fec081a91",
+    "nodeIndex" : 0
   } ], [ "ludum.dare.levelobject.LanternLevelObject", {
     "rect" : {
       "xy" : {
@@ -6029,6 +6106,61 @@
     "uuid" : "17aff0a4-731b-4b9c-a2e7-2c1a53445ad3",
     "attenuationModifier" : 0.0,
     "zModifier" : 0.0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 256.0,
+        "y" : -64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "8eeae214-b3a0-41b2-8c8a-12f42fa56395",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -608.0,
+        "y" : -256.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "8e8c53b0-196c-4109-984d-96ecca37efda",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 0.0,
+        "y" : -160.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "1e57fd2b-b6d7-4046-bfc6-b6f05656e4cc",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 384.0,
+        "y" : 128.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "1661c0b9-0d8b-461f-ac49-6e731f14b53c",
+    "nodeIndex" : 0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 192.0,
+        "y" : 224.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "a6f296e3-29bf-444b-a7cc-4273db0060a3",
+    "nodeIndex" : 0
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {

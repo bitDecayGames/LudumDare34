@@ -2,6 +2,7 @@ package ludum.dare.levels.ai;
 
 import com.badlogic.gdx.math.Vector2;
 
+@Deprecated
 public class Node {
     private static final float Y_FUZZY = 8;
     private static final float X_FUZZY = 16;

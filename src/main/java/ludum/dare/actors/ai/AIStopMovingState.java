@@ -6,6 +6,7 @@ import ludum.dare.components.AIControlComponent;
 import ludum.dare.interfaces.IState;
 import ludum.dare.levels.ai.Nodes;
 
+@Deprecated
 public class AIStopMovingState implements IState {
 
     private Player me;
