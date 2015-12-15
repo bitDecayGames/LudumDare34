@@ -11,6 +11,7 @@ import ludum.dare.levels.ai.Nodes;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class AIRunAlongState implements IState {
 
     private Player me;
