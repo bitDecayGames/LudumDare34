@@ -72,4 +72,8 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
     public void crushed() {
 
     }
+
+    public Vector2 getPosition() {
+        return new Vector2(pos.x, pos.y);
+    }
 }

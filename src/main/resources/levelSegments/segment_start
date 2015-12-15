@@ -3879,18 +3879,50 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.LanternLevelObject", {
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.AINodeLevelObject", {
     "rect" : {
       "xy" : {
-        "x" : 288.0,
-        "y" : 96.0
+        "x" : 608.0,
+        "y" : 0.0
       },
-      "width" : 33.0,
-      "height" : 75.0
+      "width" : 20.0,
+      "height" : 20.0
     },
-    "uuid" : "a418f183-d1b1-4029-8a47-fd77742cb9e8",
-    "attenuationModifier" : 0.76,
-    "zModifier" : 0.07
+    "uuid" : "ad1c3b5a-4b79-43ad-a899-4e5d5cfd7a97",
+    "nodeIndex" : 3
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 512.0,
+        "y" : 0.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "fa7798fc-8a4b-44f5-aa6a-2a3d817f5e00",
+    "nodeIndex" : 2
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 416.0,
+        "y" : -96.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "0ad8125d-0a0e-42a0-b52e-df4237e0e948",
+    "nodeIndex" : 1
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 0.0,
+        "y" : -64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "e9625537-3ebf-48d9-839d-dc136e3ba235",
+    "nodeIndex" : 0
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {

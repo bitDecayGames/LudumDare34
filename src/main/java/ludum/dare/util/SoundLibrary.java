@@ -6,9 +6,6 @@ import com.badlogic.gdx.audio.Sound;
 
 import java.util.HashMap;
 
-/**
- * Created by Admin on 8/23/2015.
- */
 public class SoundLibrary {
     public static final HashMap<String, Sound> hashMapSoundLibrary = new HashMap<>();
     public static final HashMap<String, Music> hashMapMusicLibrary = new HashMap<>();

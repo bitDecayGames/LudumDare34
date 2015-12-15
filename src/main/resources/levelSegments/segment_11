@@ -1949,6 +1949,17 @@
       "height" : 7.0
     },
     "uuid" : "b97c906d-47ca-415b-8b2a-a3f684236c68"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 480.0,
+        "y" : -288.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "f7420280-fe2a-4505-98c7-18e10327a55e",
+    "nodeIndex" : 2
   } ], [ "ludum.dare.levelobject.PowerupLevelObject", {
     "rect" : {
       "xy" : {
@@ -1959,6 +1970,17 @@
       "height" : 18.0
     },
     "uuid" : "1439e4ad-15ff-4a0c-a239-f73f35483058"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 64.0,
+        "y" : 64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "20d9049e-9328-4f3a-b0c2-189d271db438",
+    "nodeIndex" : 1
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
