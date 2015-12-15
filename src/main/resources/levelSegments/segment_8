@@ -10035,13 +10035,25 @@
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
-        "x" : 96.0,
-        "y" : -192.0
+        "x" : 864.0,
+        "y" : -544.0
       },
       "width" : 7.0,
       "height" : 7.0
     },
     "uuid" : "9c003958-c544-4cb2-96e6-891b7df21953"
+  } ], [ "ludum.dare.levelobject.LanternLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 960.0,
+        "y" : -672.0
+      },
+      "width" : 33.0,
+      "height" : 75.0
+    },
+    "uuid" : "99f40d24-4793-4b88-8567-1bf09e82bc4c",
+    "attenuationModifier" : 0.76,
+    "zModifier" : 0.07
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
@@ -10083,28 +10095,6 @@
       "height" : 7.0
     },
     "uuid" : "16d5ef1b-5c7f-4185-9119-5b1faf2a7cde"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 864.0,
-        "y" : -544.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "9c003958-c544-4cb2-96e6-891b7df21953"
-  } ], [ "ludum.dare.levelobject.LanternLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 960.0,
-        "y" : -672.0
-      },
-      "width" : 33.0,
-      "height" : 75.0
-    },
-    "uuid" : "99f40d24-4793-4b88-8567-1bf09e82bc4c",
-    "attenuationModifier" : 0.76,
-    "zModifier" : 0.07
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {
@@ -10155,17 +10145,6 @@
       "height" : 7.0
     },
     "uuid" : "e0085348-14c9-4c7b-9e11-8e47431d0c71"
-  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : -768.0,
-        "y" : -256.0
-      },
-      "width" : 20.0,
-      "height" : 20.0
-    },
-    "uuid" : "17b5b2c1-74fc-4ec9-a661-d5f689e2c6a0",
-    "nodeIndex" : 0
   } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
     "rect" : {
       "xy" : {
