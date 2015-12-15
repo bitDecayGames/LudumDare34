@@ -3,7 +3,6 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -78,7 +77,7 @@ public class UpgradeScreen implements Screen {
         ui = new SpriteBatch();
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
-        splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
+        splitScreenSeparator = atlas.findRegion("ssBackground");
 
     }
 
@@ -131,6 +130,11 @@ outer:  while (tries > 0) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.begin();
+        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.end();
+
         int screenWidth = Gdx.graphics.getWidth() / 2;
         int screenHeight = Gdx.graphics.getHeight() / 2;
         Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
@@ -143,9 +147,6 @@ outer:  while (tries > 0) {
         draw(groups.get(0));
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ui.begin();
-        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ui.end();
     }
 
     private void draw(UpgradeGroup group) {

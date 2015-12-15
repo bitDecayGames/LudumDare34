@@ -75,9 +75,7 @@ public class SetupScreen implements Screen {
 
         this.game = game;
 
-        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
-
-        atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
         splitScreenSeparator = atlas.findRegion("ssBackground");
     }
 

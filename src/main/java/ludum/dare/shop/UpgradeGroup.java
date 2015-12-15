@@ -1,21 +1,16 @@
 package ludum.dare.shop;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
-import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.AIControlComponent;
 import ludum.dare.components.InputComponent;
-import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.control.InputAction;
-import ludum.dare.interfaces.IComponent;
 import ludum.dare.util.SoundLibrary;
 
 import java.util.ArrayList;
@@ -153,6 +148,7 @@ public class UpgradeGroup {
                 batch.draw(selectionTexture, renderX, middle - renderSize / 2, renderSize, renderSize);
             }
             batch.setColor(Color.BLACK);
+            font.setColor(Color.WHITE);
             font.draw(batch, "$" + player.moneyCount(), 150, 800);
             font.draw(batch, "$" + choices.get(i).cost, renderX + 50, 150);
             if (winner) {
