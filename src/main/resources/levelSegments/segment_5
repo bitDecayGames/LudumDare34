@@ -3815,17 +3815,6 @@
   } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
     "rect" : {
       "xy" : {
-        "x" : -672.0,
-        "y" : -128.0
-      },
-      "width" : 20.0,
-      "height" : 20.0
-    },
-    "uuid" : "cd5b7f15-364f-4557-b37b-e5b5c188a817",
-    "nodeIndex" : 0
-  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
-    "rect" : {
-      "xy" : {
         "x" : 128.0,
         "y" : -96.0
       },
