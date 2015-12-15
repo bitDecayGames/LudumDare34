@@ -107,7 +107,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(10);
+        generateNextLevel(2);
     }
 
     public void generateNextLevel(int length) {
@@ -144,6 +144,7 @@ public class RaceScreen implements Screen, EditorHook {
         });
 
         for (Player player : Players.list()) {
+            player.winner = false;
             if (player.getInputComponent() instanceof AIControlComponent) {
                 AIControlComponent input = (AIControlComponent) player.getInputComponent();
                 input.discoverMe();
@@ -198,6 +199,9 @@ public class RaceScreen implements Screen, EditorHook {
                 game.setScreen(new RaceScreen(game));
             }
         } else {
+            if (RacerGame.MUSIC_ON && music.isPlaying()) {
+                music.stop();
+            }
             game.setScreen(new UpgradeScreen(game));
         }
         gameObjects.update(delta);

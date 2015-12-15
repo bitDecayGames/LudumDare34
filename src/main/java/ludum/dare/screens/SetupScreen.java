@@ -138,7 +138,7 @@ public class SetupScreen implements Screen {
 
             SplashScreen.INTRO_MUSIC.stop();
 
-            game.setScreen(new BetterFightScreen(game));
+            game.setScreen(new RaceScreen(game));
         }
 
         camera.update();

@@ -31,6 +31,7 @@ public class UpgradeGroup {
 
     AnimagicTextureRegion selectionTexture;
 
+    boolean winner = false;
     boolean active = true;
     private boolean ready;
 
@@ -45,6 +46,8 @@ public class UpgradeGroup {
     public void initialize(Player player) {
         font.getData().setScale(5);
         font.setColor(Color.BLACK);
+
+        winner = player.winner;
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/upgrades.atlas", AnimagicTextureAtlas.class);
         selectionTexture = atlas.findRegion("selection");
@@ -142,6 +145,9 @@ public class UpgradeGroup {
             batch.setColor(Color.BLACK);
             font.draw(batch, "$" + player.moneyCount(), 30, 800);
             font.draw(batch, "$10", renderX + 50, 150);
+            if (winner) {
+                font.draw(batch, "WINNER!", Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() - 150);
+            }
             renderX += renderSize + buffer;
         }
     }

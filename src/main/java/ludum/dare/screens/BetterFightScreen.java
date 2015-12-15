@@ -70,9 +70,6 @@ public class BetterFightScreen implements Screen, EditorHook {
     TextureRegion splitScreenSeparator;
     AnimagicTextureRegion background;
 
-    float testZ = 0.1f;
-    float testAtten = 0.9f;
-
     public BetterFightScreen(RacerGame game) {
         if (game == null) {
             throw new Error("No game provided");
@@ -102,7 +99,7 @@ public class BetterFightScreen implements Screen, EditorHook {
     }
 
     private void loadLevel() {
-        Level loadedLevel = LevelUtilities.loadLevel("levelSegments/" + "fight_" + MathUtils.random(1, 2));
+        Level loadedLevel = LevelUtilities.loadLevel("fightLevels/" + "fight_" + 1);
         levelChanged(loadedLevel);
     }
 
@@ -113,6 +110,7 @@ public class BetterFightScreen implements Screen, EditorHook {
         builderMap.put(PowerupLevelObject.class, PowerupGameObject.class);
         builderMap.put(LightLevelObject.class, LightGameObject.class);
         builderMap.put(LanternLevelObject.class, LanternGameObject.class);
+        builderMap.put(AINodeLevelObject.class, AINodeGameObject.class);
     }
 
     @Override
@@ -182,6 +180,7 @@ public class BetterFightScreen implements Screen, EditorHook {
         exampleItems.add(new PowerupLevelObject());
         exampleItems.add(new LightLevelObject());
         exampleItems.add(new LanternLevelObject());
+
         return exampleItems;
     }
 
