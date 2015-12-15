@@ -54,7 +54,7 @@ public class CreditsScreen implements Screen {
         TextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", TextureAtlas.class);
         Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas);
 
-        background = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/credits.png"))));
+        background = new Image(new TextureRegion(new Texture(Gdx.files.internal("assets/ui/creditsBG.png"))));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         lblTitle = new Label("Credits", skin);
@@ -108,7 +108,7 @@ public class CreditsScreen implements Screen {
 //         animate the main menu when entering
         lblCredits.addAction(Actions.sequence(
                 Actions.moveBy(0, -(Gdx.graphics.getHeight()*1.5f)),
-                Actions.moveBy(0, Gdx.graphics.getHeight()*3, 30)
+                Actions.moveBy(0, Gdx.graphics.getHeight()*4, 30)
 
         ));
     }
