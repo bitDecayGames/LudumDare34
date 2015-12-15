@@ -2223,6 +2223,17 @@
       "height" : 7.0
     },
     "uuid" : "cf39ae4a-5f93-4fa1-b021-cffafabd7429"
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 704.0,
+        "y" : -320.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "24ab5308-3f06-415a-8206-5a30e9bbab3c",
+    "nodeIndex" : 0
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {

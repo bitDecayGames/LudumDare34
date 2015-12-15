@@ -1,63 +1,103 @@
 package ludum.dare.components;
 
 import com.bitdecay.jump.control.PlayerAction;
+import ludum.dare.actors.ai.AIMoveState;
+import ludum.dare.actors.player.Player;
 import ludum.dare.control.InputAction;
+import ludum.dare.gameobject.AINodeGameObject;
+import ludum.dare.gameobject.FinishLineGameObject;
+import ludum.dare.interfaces.IState;
+import ludum.dare.util.Players;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 // TODO Mike implement for AI
 public class AIControlComponent extends InputComponent {
+    Player me;
+    List<AINodeGameObject> nodes = null;
 
-    private final static float JUMP_CYCLE_TIME = 1;
-    Boolean jump = false;
+    IState activeState;
 
-    TimedComponent jumpCycleTimer;
+    Set<InputAction> currentActions = new HashSet<>();
+    Set<InputAction> previousActions = new HashSet<>();
+
+    public FinishLineGameObject finishLine;
 
     public AIControlComponent() {
         super();
+    }
 
-        jumpCycleTimer = new TimedComponent(JUMP_CYCLE_TIME);
+    public void discoverMe() {
+        for (int i = 0; i < Players.list().size(); i++) {
+            if (Players.list().get(i).getInputComponent() == this) {
+                me = Players.list().get(i);
+            }
+        }
     }
 
     @Override
     public boolean isPressed(PlayerAction action) {
-        if (action == null) {
-            return false;
-        }
+        InputAction act = InputAction.forPlayerAction(action);
+        return action != null && inControl && currentActions.contains(act);
+    }
 
-        if (action.equals(PlayerAction.RIGHT)) {
-//            return true;
-            return false;
-        }
-
-        if (action.equals(PlayerAction.JUMP)) {
-//            return jump;
-            return false;
-        }
-
-        return false;
+    public void pressed(PlayerAction action) {
+        currentActions.add(InputAction.forPlayerAction(action));
+        previousActions.add(InputAction.forPlayerAction(action));
     }
 
     @Override
     public boolean isJustPressed(PlayerAction action) {
-        return isPressed(action);
+        InputAction act = InputAction.forPlayerAction(action);
+        return action != null && inControl && currentActions.contains(act) && !previousActions.contains(act);
+    }
+
+    public void justPressed(PlayerAction action) {
+        currentActions.add(InputAction.forPlayerAction(action));
+        previousActions.remove(InputAction.forPlayerAction(action));
     }
 
     @Override
     public boolean isPressed(InputAction action) {
-        return isPressed(action.playerAction);
+        return action != null && inControl && currentActions.contains(action);
+    }
+
+    public void pressed(InputAction action) {
+        currentActions.add(action);
+        previousActions.add(action);
     }
 
     @Override
     public boolean isJustPressed(InputAction action) {
-        return isJustPressed(action.playerAction);
+        return action != null && inControl && currentActions.contains(action) && !previousActions.contains(action);
+    }
+
+    public void justPressed(InputAction action) {
+        currentActions.add(action);
+        previousActions.remove(action);
     }
 
     @Override
     public void update(float delta) {
-        jumpCycleTimer.update(delta);
-
-        if (jumpCycleTimer.shouldRemove()) {
-            jumpCycleTimer.reset();
-            jump = !jump;
+        previousActions.addAll(currentActions);
+        currentActions.clear();
+        if (me == null && Players.isInitialized() && nodes != null) discoverMe();
+        else if (me != null && activeState != null) {
+            IState newState = activeState.update(delta);
+            if (newState != null) {
+                activeState.exit();
+                newState.enter();
+                activeState = newState;
+            }
         }
+    }
+
+    public void setAINodes(List<AINodeGameObject> nodes) {
+        this.nodes = nodes;
+
+        activeState = new AIMoveState(me, this, this.nodes);
+        activeState.enter();
     }
 }

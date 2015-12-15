@@ -1,7 +1,7 @@
 package ludum.dare.actors.player;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.control.ControlMap;
@@ -22,8 +22,12 @@ import ludum.dare.actors.state.ProjectileState;
 import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
-import ludum.dare.components.PowerDownComponents.*;
-import ludum.dare.components.PowerUpComponents.*;
+import ludum.dare.components.PowerDownComponents.ForceHighJumpComponent;
+import ludum.dare.components.PowerDownComponents.SlowComponent;
+import ludum.dare.components.PowerDownComponents.StunComponent;
+import ludum.dare.components.PowerUpComponents.DoubleCoinsComponent;
+import ludum.dare.components.PowerUpComponents.TempFlyComponent;
+import ludum.dare.components.PowerUpComponents.TempSpeedComponent;
 import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
@@ -38,6 +42,9 @@ public class Player extends StateMachine {
     private final AnimationComponent anim;
     private final PlayerCurrencyComponent wallet;
     private final AttackComponent attack;
+
+    private final LightComponent light;
+
     private LevelInteractionComponent levelComponent;
     private final int playerNum;
 
@@ -48,12 +55,13 @@ public class Player extends StateMachine {
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
+        light = new LightComponent(pos, new Vector2(8, 16));
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
 
         phys = createBody();
-        append(size).append(pos).append(phys).append(health).append(anim);
+        append(size).append(pos).append(phys).append(health).append(anim).append(light);
     }
 
     private PhysicsComponent createBody() {
@@ -139,8 +147,8 @@ public class Player extends StateMachine {
         }
     }
 
-    public Vector3 getPosition() {
-        return new Vector3(pos.x, pos.y, 0);
+    public Vector2 getPosition() {
+        return new Vector2(pos.x, pos.y);
     }
 
     public void addToScreen(LevelInteractionComponent levelComp) {
@@ -254,5 +262,11 @@ public class Player extends StateMachine {
 
     public int moneyCount() {
         return this.wallet.currency;
+    }
+
+    public void draw(ShapeRenderer shapeRenderer) {
+//        super.draw(shapeRenderer);
+//        shapeRenderer.setColor(Color.GOLD);
+//        shapeRenderer.rect(pos.x, pos.y, size.w, size.h);
     }
 }
