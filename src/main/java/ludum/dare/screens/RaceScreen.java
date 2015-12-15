@@ -328,13 +328,14 @@ public class RaceScreen implements Screen, EditorHook {
         gameObjects.draw(batch);
         batch.end();
 
-        debug.setProjectionMatrix(cam.combined);
-        debug.setAutoShapeType(true);
-        debug.begin();
-        debug.set(ShapeRenderer.ShapeType.Line);
-        debug.setColor(Color.WHITE);
-        gameObjects.draw(debug);
-        debug.end();
+        // TODO: only for debugging
+//        debug.setProjectionMatrix(cam.combined);
+//        debug.setAutoShapeType(true);
+//        debug.begin();
+//        debug.set(ShapeRenderer.ShapeType.Line);
+//        debug.setColor(Color.WHITE);
+//        gameObjects.draw(debug);
+//        debug.end();
     }
 
     private void drawLevelEdit() {
