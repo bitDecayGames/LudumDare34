@@ -1939,18 +1939,6 @@
       "height" : 7.0
     },
     "uuid" : "d4c2cc78-2abc-4ba8-b6e5-ff82caac96ce"
-  } ], [ "ludum.dare.levelobject.LanternLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 128.0,
-        "y" : -160.0
-      },
-      "width" : 33.0,
-      "height" : 75.0
-    },
-    "uuid" : "2128fdb1-8fee-4357-893e-21c4de8dfa61",
-    "attenuationModifier" : 0.0,
-    "zModifier" : 0.0
   } ], [ "ludum.dare.levelobject.CoinLevelObject", {
     "rect" : {
       "xy" : {

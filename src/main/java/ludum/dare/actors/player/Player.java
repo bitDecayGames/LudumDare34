@@ -56,7 +56,8 @@ public class Player extends StateMachine {
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
         light = new LightComponent(pos, new Vector2(8, 16));
-        light.setAttenuation(7);
+        light.setzAxis(0.1f);
+        light.setAttenuation(1);
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
