@@ -153,10 +153,10 @@ public class UpgradeGroup {
                 batch.draw(selectionTexture, renderX, middle - renderSize / 2, renderSize, renderSize);
             }
             batch.setColor(Color.BLACK);
-            font.draw(batch, "$" + player.moneyCount(), 30, 800);
+            font.draw(batch, "$" + player.moneyCount(), 150, 800);
             font.draw(batch, "$" + choices.get(i).cost, renderX + 50, 150);
             if (winner) {
-                font.draw(batch, "WINNER!", Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() - 150);
+                font.draw(batch, "WINNER!", Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() - 150);
             }
             renderX += renderSize + buffer;
         }

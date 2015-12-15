@@ -14,6 +14,7 @@ public class Launcher {
             AnimagicTexturePacker.pack(new File("assets"), new File("packed"));
         }
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.resizable = false;
         config.width = 1600;
         config.height = 900;
         new LwjglApplication(new RacerGame(), config);
