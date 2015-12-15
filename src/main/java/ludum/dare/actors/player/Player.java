@@ -45,6 +45,8 @@ public class Player extends StateMachine {
 
     private final LightComponent light;
 
+    public Boolean onFightScreen = false;
+
     private LevelInteractionComponent levelComponent;
     private final int playerNum;
 
@@ -52,7 +54,7 @@ public class Player extends StateMachine {
         this.playerNum = playerNum;
         size = new SizeComponent(100, 100);
         pos = new PositionComponent(0, 0);
-        health = new HealthComponent(10, 10);
+        health = new HealthComponent(100, 100);
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
         light = new LightComponent(pos, new Vector2(8, 16));
@@ -110,12 +112,18 @@ public class Player extends StateMachine {
 //        }
 
         checkForStateSwitch();
+        if(health.health <= 0){
+            phys.getBody().props.maxVoluntarySpeed = 0;
+        }
 
         super.update(delta);
     }
 
     public void hit(AttackComponent attackComponent) {
         setActiveState(new HurtState(components, attackComponent));
+        if (onFightScreen) {
+            health.health -= attackComponent.attack;
+        }
     }
 
     private void checkForStateSwitch() {

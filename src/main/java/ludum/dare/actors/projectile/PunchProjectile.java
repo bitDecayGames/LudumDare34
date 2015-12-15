@@ -44,7 +44,7 @@ public class PunchProjectile extends GameObject implements ContactListener, IRem
         this.sourcePhysicsComponent = sourcePhysicsComponent;
         setupAnimation(anim.animator, facePunch);
 
-        attackComponent = new AttackComponent(10);
+        attackComponent = new AttackComponent(20);
 
         phys = createBody(direction);
         levelComponent = levelComp;
