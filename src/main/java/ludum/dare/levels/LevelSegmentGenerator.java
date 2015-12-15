@@ -29,7 +29,7 @@ public class LevelSegmentGenerator {
         FileHandle f = Gdx.files.internal(SEGMENT_DIR);
         if (!f.exists()) System.out.println("FILE DOES NOT EXIST OH SNAP: " + f);
         FileHandle[] list = f.list();
-        segmentsAvailable = list.length - 2;
+        segmentsAvailable = 12; // TODO: THIS IS TOTALLY HARD CODED, BAD!
         System.out.println("Segments available: " + segmentsAvailable);
 
         List<Level> generatedListOfSegments = new ArrayList<>();

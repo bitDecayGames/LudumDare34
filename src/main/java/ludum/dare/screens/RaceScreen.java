@@ -315,7 +315,7 @@ public class RaceScreen implements Screen, EditorHook {
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
         batch.setAmbientIntensity(1f);
-        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
+//        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
         gameObjects.preDraw(batch);
 
         Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));
