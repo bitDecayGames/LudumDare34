@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,7 +40,6 @@ public class MainMenuScreen implements Screen {
     private boolean upIsPressed;
     private boolean enterWasPressed;
 
-
     boolean active = true;
 
     public MainMenuScreen(final RacerGame game) {
@@ -53,7 +53,7 @@ public class MainMenuScreen implements Screen {
         TextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", TextureAtlas.class);
         Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas);
 
-        background = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/splash.png"))));
+        background = new Image(new TextureRegion(new Texture(Gdx.files.internal("assets/ui/title.png"))));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         title = new Label("Crystal", skin);
@@ -81,8 +81,7 @@ public class MainMenuScreen implements Screen {
         menu.add(quitLbl).height(60).padBottom(20).row();
         menu.align(Align.center);
 
-//        stage.addActor(background);
-        stage.addActor(title);
+        stage.addActor(background);
         stage.addActor(menu);
 
         Gdx.input.setInputProcessor(stage);
@@ -92,7 +91,6 @@ public class MainMenuScreen implements Screen {
     public void show() {
 //         animate the main menu when entering
         menu.addAction(Actions.alpha(0));
-        title.addAction(Actions.alpha(0));
         background.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.delay(0.25f),
@@ -100,9 +98,6 @@ public class MainMenuScreen implements Screen {
 
         ));
         menu.addAction(Actions.sequence(
-                Actions.fadeIn(3.5f)
-        ));
-        title.addAction(Actions.sequence(
                 Actions.fadeIn(3.5f)
         ));
     }
