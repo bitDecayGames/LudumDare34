@@ -15,11 +15,13 @@ public class UpgradeOption {
     public Class<? extends IComponent> clazz;
     public Animation animation;
     public String description; // Not sure if we need this, butt fucket.
+    public int cost;
 
-    public UpgradeOption(Class<? extends IComponent> clazz, String textureName) {
+    public UpgradeOption(Class<? extends IComponent> clazz, String textureName, int i) {
         this.clazz = clazz;
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/upgrades.atlas", AnimagicTextureAtlas.class);
         this.animation = new Animation("item", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(.25f), new AnimagicTextureRegion[] {atlas.findRegion(textureName)});
+        cost = i;
     }
 
     public void update(float delta) {

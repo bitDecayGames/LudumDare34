@@ -3,6 +3,7 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -40,17 +41,17 @@ public class UpgradeScreen implements Screen {
     public UpgradeScreen(RacerGame game) {
         this.game = game;
         if (MASTER_LIST.size() == 0) {
-            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
-            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float"));
-            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal"));
-            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
-            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
-            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
-            MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire"));
-            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison"));
-            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice"));
-            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web"));
-            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop"));
+            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump", 20));
+            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float", 15));
+            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal", 10));
+//            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery", 10));
+            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed", 20));
+            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump", 15));
+            MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire", 20));
+            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison", 25));
+            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice", 27));
+            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web", 30));
+            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop", 5));
         }
     }
 
@@ -60,6 +61,7 @@ public class UpgradeScreen implements Screen {
         music = SoundLibrary.GetMusic("a_journey_awaits");
 
         if(RacerGame.MUSIC_ON) {
+            music.setLooping(true);
             music.play();
         }
 
@@ -121,7 +123,9 @@ outer:  while (tries > 0) {
             }
         }
         if (allReady) {
-            music.stop();
+            if (music.isPlaying()) {
+                music.stop();
+            }
             game.setScreen(new LoadingScreen(game));
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
