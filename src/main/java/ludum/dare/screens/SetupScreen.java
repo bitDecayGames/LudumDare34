@@ -6,7 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
+import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
@@ -32,6 +34,8 @@ public class SetupScreen implements Screen {
     List<GameObject> otherObjects;
     List<ControllerScreenObject> inputObjects;
     List<Player> players;
+
+    TextureRegion splitScreenSeparator;
 
     final static int NUM_PLAYERS = 4;
 
@@ -70,6 +74,11 @@ public class SetupScreen implements Screen {
         }
 
         this.game = game;
+
+        AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
+
+        atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
+        splitScreenSeparator = atlas.findRegion("ssBackground");
     }
 
     public List<GameObject> getGameObjects() {
@@ -106,7 +115,7 @@ public class SetupScreen implements Screen {
     private void setupText() {
         otherObjects = new ArrayList<>();
 
-        otherObjects.add(new TextScreenObject(new PositionComponent(-100, 0), "Enter or Start or continue", Color.BLACK));
+        otherObjects.add(new TextScreenObject(new PositionComponent(-380, 45), "Enter or Start or continue", Color.BLACK));
     }
 
     @Override
@@ -147,6 +156,7 @@ public class SetupScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        batch.draw(splitScreenSeparator, -Gdx.graphics.getWidth()/2, -Gdx.graphics.getHeight()/2, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         LightUtil.addBasicLight(batch);
         getGameObjects().forEach(obj -> obj.draw(batch));
         batch.end();

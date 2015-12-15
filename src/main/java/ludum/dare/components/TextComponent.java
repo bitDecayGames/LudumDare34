@@ -17,6 +17,8 @@ public class TextComponent implements IComponent, IDraw {
         this.position = position;
 
         font = new BitmapFont();
+        font.getData().setScale(5);
+        font.setColor(Color.BLUE);
     }
 
     public TextComponent setText(String text) {
