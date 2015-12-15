@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class LevelSegmentGenerator {
     public static final boolean DEBUG = false;
-    public static final String SEGMENT_DIR = "levelSegments/";
+    public static final String SEGMENT_DIR = "./levelSegments/";
 
     int numSegmentToUse;
 
@@ -24,7 +24,9 @@ public class LevelSegmentGenerator {
         int segmentsAvailable;
 
         // Minus 1 is to account for the starting segment that we don't want chosen
-        segmentsAvailable = new File(SEGMENT_DIR).list().length - 2;
+        File f = new File(SEGMENT_DIR);
+        String[] list = f.list();
+        segmentsAvailable = list.length - 2;
         System.out.println("Segments available: " + segmentsAvailable);
 
         List<Level> generatedListOfSegments = new ArrayList<>();
