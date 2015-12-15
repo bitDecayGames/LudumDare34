@@ -10,8 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.bitdecay.jump.BitBody;
@@ -24,9 +23,7 @@ import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bitdecay.jump.gdx.level.EditorIdentifierObject;
 import com.bitdecay.jump.gdx.level.RenderableLevelObject;
 import com.bitdecay.jump.geom.BitRectangle;
-import com.bitdecay.jump.level.Level;
-import com.bitdecay.jump.level.LevelObject;
-import com.bitdecay.jump.level.TileObject;
+import com.bitdecay.jump.level.*;
 import com.bitdecay.jump.leveleditor.EditorHook;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
 import com.bitdecay.jump.leveleditor.render.LibGDXWorldRenderer;
@@ -38,7 +35,6 @@ import ludum.dare.RacerGame;
 import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.collection.GameObjects;
-import ludum.dare.components.AIControlComponent;
 import ludum.dare.components.LevelInteractionComponent;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
@@ -51,7 +47,7 @@ import ludum.dare.util.SoundLibrary;
 
 import java.util.*;
 
-public class RaceScreen implements Screen, EditorHook {
+public class BetterFightScreen implements Screen, EditorHook {
     RacerGame game;
 
     private Music music;
@@ -59,11 +55,9 @@ public class RaceScreen implements Screen, EditorHook {
     public static final int CRYSTAL_MATERIAL = 0;
     public static final int WOOD_MATERIAL = 1;
 
-    OrthographicCamera[] cameras;
+    OrthographicCamera camera;
     AnimagicSpriteBatch batch;
     SpriteBatch ui;
-    ShapeRenderer debug;
-    LibGDXWorldRenderer worldRenderer = new LibGDXWorldRenderer();
 
     Map<Class, Class> builderMap = new HashMap<>();
 
@@ -73,16 +67,10 @@ public class RaceScreen implements Screen, EditorHook {
     Level currentLevel = new Level();
     GameObjects gameObjects = new GameObjects();
 
-    FinishLineGameObject finishLine;
-    public FinishLineGameObject finishOverride;
-
     TextureRegion splitScreenSeparator;
     AnimagicTextureRegion background;
 
-    float testZ = 0.1f;
-    float testAtten = 0.9f;
-
-    public RaceScreen(RacerGame game) {
+    public BetterFightScreen(RacerGame game) {
         if (game == null) {
             throw new Error("No game provided");
         }
@@ -105,52 +93,14 @@ public class RaceScreen implements Screen, EditorHook {
 
 
         this.game = game;
-        cameras = new OrthographicCamera[Players.list().size()];
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        generateNextLevel(2);
+        loadLevel();
     }
 
-    public void generateNextLevel(int length) {
-        LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
-        List<Level> levels = generator.generateLevelSegments();
-
-        List<AINodeLevelObject> aiLevelNodes = new ArrayList<>();
-        for (Level level : levels) {
-            List<AINodeLevelObject> lvlNodes = new ArrayList<>();
-            for (LevelObject otherObject : level.otherObjects) {
-                if (otherObject instanceof AINodeLevelObject) {
-                    lvlNodes.add((AINodeLevelObject) otherObject);
-                }
-            }
-            lvlNodes.sort((a, b) -> a.nodeIndex - b.nodeIndex);
-            aiLevelNodes.addAll(lvlNodes);
-        }
-
-
-        Level raceLevel = LevelSegmentAggregator.assembleSegments(levels);
-
-        levelChanged(raceLevel);
-
-        List<AINodeGameObject> nodes = gameObjects.getAINodes();
-
-        List<AINodeGameObject> sortedNodes = new ArrayList<>();
-        aiLevelNodes.forEach(aiLevelNode -> {
-            for (AINodeGameObject node : nodes) {
-                if (node.levelObject == aiLevelNode) {
-                    sortedNodes.add(node);
-                    break;
-                }
-            }
-        });
-
-        for (Player player : Players.list()) {
-            player.winner = false;
-            if (player.getInputComponent() instanceof AIControlComponent) {
-                AIControlComponent input = (AIControlComponent) player.getInputComponent();
-                input.discoverMe();
-                input.setAINodes(sortedNodes);
-            }
-        }
+    private void loadLevel() {
+        Level loadedLevel = LevelUtilities.loadLevel("fightLevels/" + "fight_" + 1);
+        levelChanged(loadedLevel);
     }
 
     private void constructBuilderMap() {
@@ -173,15 +123,10 @@ public class RaceScreen implements Screen, EditorHook {
             music.setLooping(true);
         }
 
-        for (int i = 0; i < cameras.length; i++) {
-            cameras[i] = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        }
         batch = new AnimagicSpriteBatch();
         batch.isShaderOn(true);
 
         ui = new SpriteBatch();
-
-        debug = new ShapeRenderer();
     }
 
     @Override
@@ -192,44 +137,21 @@ public class RaceScreen implements Screen, EditorHook {
     }
 
     public void update(float delta){
-        if (!finishLine.raceOver) {
-            world.step(delta);
-            // Reset level
-            if (InputUtil.checkInputs(Input.Keys.R, Xbox360Pad.BACK)) {
-                game.setScreen(new RaceScreen(game));
-            }
-        } else {
-            if (RacerGame.MUSIC_ON && music.isPlaying()) {
-                music.stop();
-            }
-            game.setScreen(new WaitingScreen(game));
-        }
+//        if (!finishLine.raceOver) {
+//            world.step(delta);
+//            // Reset level
+//            if (InputUtil.checkInputs(Input.Keys.R, Xbox360Pad.BACK)) {
+//                game.setScreen(new RaceScreen(game));
+//            }
+//        } else {
+//            game.setScreen(new UpgradeScreen(game));
+//        }
         gameObjects.update(delta);
 
-        updateCameras(delta);
-    }
-
-    private void updateCameras(float delta) {
-        for (int i = 0; i < cameras.length; i++) {
-            Camera cam = cameras[i];
-            // Follow player
-            Vector2 playerPos = Players.list().get(i).getPosition();
-            cam.position.set(new Vector3(playerPos.x, playerPos.y, 0));
-            cam.update();
-        }
     }
 
     @Override
     public void render(OrthographicCamera cam) {
-        for(OrthographicCamera playerCam : cameras) {
-            playerCam.position.set(cam.position);
-            playerCam.zoom = cam.zoom;
-            playerCam.viewportWidth = cam.viewportWidth;
-            playerCam.viewportHeight = cam.viewportHeight;
-            playerCam.projection.set(cam.projection);
-
-            playerCam.update();
-        }
         draw();
     }
 
@@ -258,7 +180,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new PowerupLevelObject());
         exampleItems.add(new LightLevelObject());
         exampleItems.add(new LanternLevelObject());
-        exampleItems.add(new AINodeLevelObject());
+
         return exampleItems;
     }
 
@@ -266,42 +188,8 @@ public class RaceScreen implements Screen, EditorHook {
         Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        int screenWidth = Gdx.graphics.getWidth() / 2;
-        int screenHeight = Gdx.graphics.getHeight() / 2;
-
-        if (cameras.length > 1) {
-            if (cameras.length > 3) {
-                Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
-                draw(cameras[3]);
-            }
-            if (cameras.length > 2) {
-                Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
-                draw(cameras[2]);
-            }
-            if (cameras.length > 1) {
-                Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
-                draw(cameras[1]);
-            }
-            Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
-            draw(cameras[0]);
-        } else {
-            Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            draw(cameras[0]);
-        }
-
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ui.begin();
-        if (cameras.length > 1) {
-            ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
-        ui.end();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) testZ *= 1.05f;
-        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) testZ *= 0.95f;
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) testAtten *= 1.1f;
-        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) testAtten *= 0.95f;
-
-//        worldRenderer.render(world, cameras[0]);
+        draw(camera);
     }
 
     private void draw(Camera cam) {
@@ -311,7 +199,7 @@ public class RaceScreen implements Screen, EditorHook {
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         batch.setAmbientColor(new Color(0.1f, 0.1f, 0.1f, 1));
         batch.setAmbientIntensity(1f);
-        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
+//        batch.setLight(0, mousePos.x, mousePos.y, testZ, testAtten, Color.WHITE);
         gameObjects.preDraw(batch);
 
         Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));
@@ -331,15 +219,6 @@ public class RaceScreen implements Screen, EditorHook {
         drawLevelEdit();
         gameObjects.draw(batch);
         batch.end();
-
-        // TODO: only for debugging
-//        debug.setProjectionMatrix(cam.combined);
-//        debug.setAutoShapeType(true);
-//        debug.begin();
-//        debug.set(ShapeRenderer.ShapeType.Line);
-//        debug.setColor(Color.WHITE);
-//        gameObjects.draw(debug);
-//        debug.end();
     }
 
     private void drawLevelEdit() {
@@ -362,10 +241,6 @@ public class RaceScreen implements Screen, EditorHook {
         LevelSegmentAggregator.updateAllNeighborRenderValues(level);
         gameObjects.clear();
         world.removeAllBodies();
-        finishLine = null;
-        if (finishOverride != null) {
-            finishLine = finishOverride;
-        }
 
         currentLevel = level;
         world.setTileSize(16);
@@ -390,13 +265,6 @@ public class RaceScreen implements Screen, EditorHook {
                     player.setPosition(spawn.pos.x, spawn.pos.y);
                 }
             }
-            if (object instanceof FinishLineGameObject) {
-                finishLine = (FinishLineGameObject) object;
-            }
-        }
-
-        if (finishLine == null) {
-            throw new RuntimeException("No finish line found in level");
         }
 
         if (!spawnFound) {
