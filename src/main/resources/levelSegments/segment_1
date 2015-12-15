@@ -5940,17 +5940,6 @@
   "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.AINodeLevelObject", {
     "rect" : {
       "xy" : {
-        "x" : -576.0,
-        "y" : 64.0
-      },
-      "width" : 20.0,
-      "height" : 20.0
-    },
-    "uuid" : "47a64054-fcec-484d-8de7-f79bd990fcd5",
-    "nodeIndex" : 0
-  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
-    "rect" : {
-      "xy" : {
         "x" : -320.0,
         "y" : 96.0
       },
