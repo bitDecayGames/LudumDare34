@@ -31,6 +31,7 @@ import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 import ludum.dare.util.Players;
+import ludum.dare.util.SoundLibrary;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -60,6 +61,7 @@ public class Player extends StateMachine {
 
     private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
+        body.props.deceleration = 10000;
         body.jumperProps = new JumperProperties();
         body.jumperProps.jumpCount = 1;
         body.renderStateWatcher = new JumperRenderStateWatcher();
@@ -203,36 +205,31 @@ public class Player extends StateMachine {
 
     public void getPowerBlock(){
         String myPower = PowerUpUtil.randomPowerGenerator(getRank());
-        if(myPower == "TEMP_SPEED"){
-            append(new TempSpeedComponent(phys));
-        }else if(myPower == "SLOW"){
+        if(myPower == PowerUpUtil.SPEED){
+            SoundLibrary.playSound("speed");
+            queueAdd(new TempSpeedComponent(phys, pos));
+        }else if(myPower == PowerUpUtil.SLOW){
+            SoundLibrary.playSound("slowdown");
             for(Player p: Players.list()){
                 if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("SLOW");
+                    p.takeAPowerDown(PowerUpUtil.SLOW);
                 }
             }
-        }else if(myPower == "DOUBLE COINS"){
-            append(new DoubleCoinsComponent());
-        }else if(myPower == "LIGHTS_OFF"){
-//        TODO: add some shit here that lets this happen
-        }else if(myPower == "FORCE_HIGH_JUMP"){
+        }else if(myPower == PowerUpUtil.FORCE_JUMP){
+            SoundLibrary.playSound("highJump");
             for(Player p: Players.list()){
                 if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("FORCE_HIGH_JUMP");
+                    p.takeAPowerDown(PowerUpUtil.FORCE_JUMP);
                 }
             }
-        }else if(myPower == "STEAL_COINS"){
-            for(Player p: Players.list()){
-                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("STEAL_COINS");
-                }
-            }
-        }else if(myPower == "TEMP_FLY"){
-            append(new TempFlyComponent(phys));
-        }else if(myPower == "STUN"){
-            for(Player p: Players.list()){
-                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("STUN");
+        }else if(myPower == PowerUpUtil.FLIGHT){
+            SoundLibrary.playSound("flight");
+            queueAdd(new TempFlyComponent(phys, pos));
+        }else if(myPower == PowerUpUtil.STUN) {
+            SoundLibrary.playSound("stun");
+            for (Player p : Players.list()) {
+                if (Players.list().indexOf(p) != Players.list().indexOf(this)) {
+                    p.takeAPowerDown(PowerUpUtil.STUN);
                 }
             }
         }
@@ -240,11 +237,13 @@ public class Player extends StateMachine {
 
     public void takeAPowerDown(String powerDown){
         if(powerDown == "SLOW"){
-            append(new SlowComponent(phys));
-        }else if(powerDown == "FORCE_HIGH_JUMP"){
-            append(new ForceHighJumpComponent(phys));
+            queueAdd(new SlowComponent(phys, pos));
+        }else if(powerDown == "FORCE_HIGH_JUMP") {
+            if (phys.getBody().grounded) {
+                phys.getBody().velocity.y = 500;
+            }
         }else if(powerDown == "STUN"){
-            append(new StunComponent(phys));
+            queueAdd(new StunComponent(phys, pos));
         }
     }
 

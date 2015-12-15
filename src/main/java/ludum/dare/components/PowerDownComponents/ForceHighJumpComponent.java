@@ -1,6 +1,7 @@
 package ludum.dare.components.PowerDownComponents;
 
 import ludum.dare.components.PhysicsComponent;
+import ludum.dare.components.PositionComponent;
 import ludum.dare.components.TimedComponent;
 import ludum.dare.interfaces.IComponent;
 
@@ -9,7 +10,7 @@ import ludum.dare.interfaces.IComponent;
  */
 public class ForceHighJumpComponent extends TimedComponent{
 
-    public ForceHighJumpComponent(PhysicsComponent phys){
+    public ForceHighJumpComponent(PhysicsComponent phys, PositionComponent pos){
         super(1);
 
     }
