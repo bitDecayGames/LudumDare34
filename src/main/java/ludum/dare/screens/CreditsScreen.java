@@ -108,7 +108,13 @@ public class CreditsScreen implements Screen {
 //         animate the main menu when entering
         lblCredits.addAction(Actions.sequence(
                 Actions.moveBy(0, -(Gdx.graphics.getHeight()*1.5f)),
-                Actions.moveBy(0, Gdx.graphics.getHeight()*4, 30)
+                Actions.moveBy(0, Gdx.graphics.getHeight() * 4, 30),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new MainMenuScreen(game));
+                    }
+                })
 
         ));
     }
