@@ -37,6 +37,9 @@ public class Player extends StateMachine {
     private final AnimationComponent anim;
     private final PlayerCurrencyComponent wallet;
     private final AttackComponent attack;
+
+    private final LightComponent light;
+
     private LevelInteractionComponent levelComponent;
     private final int playerNum;
 
@@ -47,12 +50,13 @@ public class Player extends StateMachine {
         health = new HealthComponent(10, 10);
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
+        light = new LightComponent(pos, new Vector2(8, 16));
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
 
         phys = createBody();
-        append(size).append(pos).append(phys).append(health).append(anim);
+        append(size).append(pos).append(phys).append(health).append(anim).append(light);
     }
 
     private PhysicsComponent createBody() {
