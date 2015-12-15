@@ -15,24 +15,19 @@ public class WaitingScreen implements Screen {
     RacerGame game;
 
     private Image ldWallpaper;
-    private Image bdWallpaper;
     private Stage stage;
 
     public WaitingScreen(RacerGame game) {
         this.game = game;
 
         stage = new Stage();
-        ldWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/splash.png"))));
+        ldWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/loading.png"))));
         ldWallpaper.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        bdWallpaper = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/bitDecay.png"))));
-        bdWallpaper.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(ldWallpaper);
-        stage.addActor(bdWallpaper);
     }
 
     @Override
     public void show() {
-        bdWallpaper.addAction(Actions.alpha(0));
         ldWallpaper.addAction(
                 Actions.sequence(
                         Actions.alpha(0),
