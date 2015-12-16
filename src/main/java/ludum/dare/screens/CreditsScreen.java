@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
+import ludum.dare.Launcher;
 import ludum.dare.RacerGame;
 import ludum.dare.control.InputUtil;
 import ludum.dare.control.Xbox360Pad;
@@ -89,7 +90,13 @@ public class CreditsScreen implements Screen {
                 "Chriddof - Speed up sound" + SPACE_AFTER_NAME +
                 "tyops - Space ship sound",
                 skin);
-        lblCredits.setFontScale(6);
+        if (Launcher.RENDER_BIG.equals(RacerGame.RENDER_CHOICE)) {
+            lblCredits.setFontScale(6);
+        } else if (Launcher.RENDER_MED.equals(RacerGame.RENDER_CHOICE)) {
+            lblCredits.setFontScale(4);
+        } else {
+            lblCredits.setFontScale(2);
+        }
         lblCredits.setFillParent(true);
         lblCredits.setAlignment(Align.center);
         lblCredits.setColor(Color.DARK_GRAY);

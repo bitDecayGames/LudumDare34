@@ -26,7 +26,10 @@ public class UpgradeScreen implements Screen {
 
     private static ArrayList<UpgradeOption> MASTER_LIST = new ArrayList<>();
 
-    OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    int screenWidth = 1600;
+    int screenHeight = 900;
+
+    OrthographicCamera camera = new OrthographicCamera(screenWidth, screenHeight);
     SpriteBatch batch;
 
     List<UpgradeGroup> groups = new ArrayList<>();
@@ -68,7 +71,7 @@ public class UpgradeScreen implements Screen {
         camera.update();
         batch = new SpriteBatch();
 
-        spacePerGroup = Gdx.graphics.getHeight() / Players.list().size();
+        spacePerGroup = screenHeight / Players.list().size();
         for (Player player : Players.list()) {
             UpgradeGroup upgradeGroup = buildPlayerOptions(player);
             groups.add(upgradeGroup);
@@ -135,15 +138,15 @@ outer:  while (tries > 0) {
         ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         ui.end();
 
-        int screenWidth = Gdx.graphics.getWidth() / 2;
-        int screenHeight = Gdx.graphics.getHeight() / 2;
-        Gdx.gl.glViewport(screenWidth, 0, screenWidth, screenHeight);
+        int splitWidth = Gdx.graphics.getWidth() / 2;
+        int splitHeight = Gdx.graphics.getHeight() / 2;
+        Gdx.gl.glViewport(splitWidth, 0, splitWidth, splitHeight);
         draw(groups.get(3));
-        Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
+        Gdx.gl.glViewport(0, 0, splitWidth, splitHeight);
         draw(groups.get(2));
-        Gdx.gl.glViewport(screenWidth, screenHeight, screenWidth, screenHeight);
+        Gdx.gl.glViewport(splitWidth, splitHeight, splitWidth, splitHeight);
         draw(groups.get(1));
-        Gdx.gl.glViewport(0, screenHeight, screenWidth, screenHeight);
+        Gdx.gl.glViewport(0, splitHeight, splitWidth, splitHeight);
         draw(groups.get(0));
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

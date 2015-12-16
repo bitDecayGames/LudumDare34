@@ -52,6 +52,9 @@ import ludum.dare.util.SoundLibrary;
 import java.util.*;
 
 public class RaceScreen implements Screen, EditorHook {
+
+    public final int screenWidth = 1600;
+    public final int screenHeight = 900;
     RacerGame game;
 
     private Music music;

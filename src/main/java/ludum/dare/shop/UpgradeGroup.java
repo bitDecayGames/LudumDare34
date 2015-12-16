@@ -127,7 +127,7 @@ public class UpgradeGroup {
         int buffer = 20;
 
         int neededTotalWidth = choices.size() * (renderSize + buffer);
-        int edgeSpace = (Gdx.graphics.getWidth() - neededTotalWidth) / 2;
+        int edgeSpace = (1600 - neededTotalWidth) / 2;
 
         int renderX = edgeSpace;
         if (active) {
@@ -152,7 +152,7 @@ public class UpgradeGroup {
             font.draw(batch, "$" + player.moneyCount(), 150, 800);
             font.draw(batch, "$" + choices.get(i).cost, renderX + 50, 150);
             if (winner) {
-                font.draw(batch, "WINNER!", Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() - 150);
+                font.draw(batch, "WINNER!", 1600 / 2 - 150, 900 - 150);
             }
             renderX += renderSize + buffer;
         }

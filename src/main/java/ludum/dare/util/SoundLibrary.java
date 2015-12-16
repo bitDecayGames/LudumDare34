@@ -39,4 +39,7 @@ public class SoundLibrary {
         return music;
     }
 
+    public synchronized static void playSoundWithVolume(String name, float volume) {
+        GetSound(name).play(volume);
+    }
 }

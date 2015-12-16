@@ -30,7 +30,7 @@ public class EditorLauncher {
             public void create() {
                 LevelEditor.TILE_SIZE = 32;
                 LevelEditor.setAssetsFolder("../../../../Jump/jump-leveleditor/assets");
-                RacerGame game = new RacerGame();
+                RacerGame game = new RacerGame(Launcher.RENDER_BIG);
                 RacerGame.queueAssetsForLoad();
                 RacerGame.assetManager.finishLoading();
 
