@@ -16,6 +16,8 @@ public class Launcher {
         }
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.resizable = false;
+        config.width = 1600;
+        config.height = 900;
 
         if (arg != null && arg.length > 0) {
             if (arg[0].equalsIgnoreCase("medium")) {
@@ -24,9 +26,6 @@ public class Launcher {
             } else if (arg[0].equalsIgnoreCase("small")) {
                 config.width = 800;
                 config.height = 450;
-            } else {
-                config.width = 1600;
-                config.height = 900;
             }
         }
 
