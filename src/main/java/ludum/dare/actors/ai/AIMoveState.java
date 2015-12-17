@@ -19,6 +19,8 @@ public class AIMoveState implements IState {
     private List<AINodeGameObject> visited = new ArrayList<>();
     private AINodeGameObject target = null;
 
+    private List<Float> previousXs = new ArrayList<>();
+
     float waitToGo = 0;
 
     public AIMoveState(Player me, AIControlComponent input, List<AINodeGameObject> nodes) {
@@ -54,7 +56,10 @@ public class AIMoveState implements IState {
                 if (myPos.x > targetPos.x) input.pressed(InputAction.LEFT);
             }
 
-            if (myPos.y < targetPos.y) input.justPressed(InputAction.JUMP);
+            if (myPos.y < targetPos.y || isStuck()) input.justPressed(InputAction.JUMP);
+
+            previousXs.add(myPos.x);
+            if (previousXs.size() > 120) previousXs.remove(0);
         }
         return null;
     }
@@ -64,7 +69,18 @@ public class AIMoveState implements IState {
     }
 
     private boolean isCenteredOnNode(AINodeGameObject node) {
-        return node != null && me.getPosition().x < node.getPosition().x + 5 && me.getPosition().x > node.getPosition().x - 5;
+        return node != null && me.getPosition().x < node.getPosition().x + 10 && me.getPosition().x > node.getPosition().x - 10;
+    }
+
+    private boolean isStuck() {
+        if (previousXs.size() > 0) {
+            float startX = previousXs.get(0);
+            for (Float previousX : previousXs) {
+                if (previousX > startX + 2 || previousX < startX - 2) return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     private AINodeGameObject nextNode() {

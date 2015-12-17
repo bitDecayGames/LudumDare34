@@ -188,10 +188,25 @@ public class RaceScreen implements Screen, EditorHook {
     public void render(float delta) {
         try {
             update(delta);
+            debug();
 
             draw();
         } catch (Exception e) {
             game.setScreen(new ErrorScreen(game, e));
+        }
+    }
+
+    public void debug() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) batch.isShaderOn(!batch.isShaderOn());
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) batch.useShadow(!batch.useShadow());
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) batch.debugNormals(!batch.debugNormals());
+        if (Gdx.input.isKeyPressed(Input.Keys.EQUALS)) zoomCameras(-0.01f);
+        if (Gdx.input.isKeyPressed(Input.Keys.MINUS)) zoomCameras(0.01f);
+    }
+
+    public void zoomCameras(float amount) {
+        for (OrthographicCamera camera : cameras) {
+            camera.zoom += amount;
         }
     }
 
