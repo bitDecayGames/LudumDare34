@@ -123,7 +123,7 @@ public class LevelSegmentAggregator {
             for (TileObject[] toa : level.level.gridObjects) {
                 for (TileObject to : toa) {
                     if (to != null) {
-                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) (to.rect.xy.x + to.rect.width), (int) (to.rect.xy.y + to.rect.height)), to.oneway, to.material);
+                        levelBuilder.createLevelObject(new BitPointInt((int) to.rect.xy.x, (int) to.rect.xy.y), new BitPointInt((int) (to.rect.xy.x + to.rect.width), (int) (to.rect.xy.y + to.rect.height)), to.oneway, to.foreground, to.material);
                     }
                 }
             }
@@ -160,9 +160,9 @@ public class LevelSegmentAggregator {
             return;
         }
 
-        if (grid[x][y].material == RaceScreen.WOOD_MATERIAL) {
-            return;
-        }
+        //if (grid[x][y].material == RaceScreen.WOOD_MATERIAL) {
+        //    return;
+        //}
 
         // check right
         if (ArrayUtilities.onGrid(grid, x + 1, y) && grid[x + 1][y] != null) {
@@ -189,10 +189,28 @@ public class LevelSegmentAggregator {
             if (grid[x][y].material == grid[x][y+1].material) {
                 grid[x][y].renderNValue |= Direction.UP;
             } else {
-                grid[x][y].renderNValue &= Direction.NOT_UP;
+                if (grid[x][y].oneway || grid[x][y].foreground) {
+                    grid[x][y].renderNValue |= Direction.UP;
+                } else {
+                    grid[x][y].renderNValue &= Direction.NOT_UP;
+                }
             }
+            //erik top tile collision stuff
+            if (grid[x][y].oneway && grid[x][y+1].foreground) {
+                //grid[x][y].renderNValue |= Direction.NOT_UP;
+            } else if ((grid[x][y].oneway && grid[x][y+1].oneway)||(grid[x][y].foreground && grid[x][y+1].foreground)) {
+                grid[x][y].collideNValue |= Direction.UP;
+            } else if (grid[x][y+1].oneway || grid[x][y+1].foreground ) {
+                grid[x][y].collideNValue &= Direction.NOT_UP;
+            } else {
+                grid[x][y].collideNValue |= Direction.UP;
+            }
+            //end.erik
         } else {
-            grid[x][y].renderNValue &= Direction.NOT_UP;
+            //erik
+            grid[x][y].collideNValue &= Direction.NOT_UP;
+            //end.erik
+            //grid[x][y].renderNValue &= Direction.NOT_UP;
         }
         // check down
         if (ArrayUtilities.onGrid(grid, x, y - 1) && grid[x][y - 1] != null) {
@@ -201,6 +219,18 @@ public class LevelSegmentAggregator {
             } else {
                 grid[x][y].renderNValue &= Direction.NOT_DOWN;
             }
+            //erik
+            if ((grid[x][y].oneway && grid[x][y-1].oneway)||(grid[x][y].foreground && grid[x][y-1].foreground)) {
+                grid[x][y].collideNValue |= Direction.DOWN;
+            } else if (grid[x][y-1].oneway || grid[x][y-1].foreground ) {
+                grid[x][y].collideNValue &= Direction.NOT_DOWN;
+            } else {
+                //erik
+                grid[x][y].collideNValue &= Direction.NOT_DOWN;
+                //end.erik
+                grid[x][y].collideNValue |= Direction.DOWN;
+            }
+            //end.erik
         } else {
             grid[x][y].renderNValue &= Direction.NOT_DOWN;
         }
@@ -208,7 +238,7 @@ public class LevelSegmentAggregator {
 
     public static void main(String args[]){
 
-        LevelSegmentGenerator levelSegmentGenerator = new LevelSegmentGenerator(15);
+        LevelSegmentGenerator levelSegmentGenerator = new LevelSegmentGenerator(2);
 
         LevelSegmentAggregator.assembleSegments(levelSegmentGenerator.generateLevelSegments());
     }

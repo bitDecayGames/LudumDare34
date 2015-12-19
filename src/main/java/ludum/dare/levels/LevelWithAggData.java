@@ -13,9 +13,9 @@ public class LevelWithAggData {
     public LevelWithAggData(Level level){
         this.level = level;
 
-        leftMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, 0);
+        leftMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, false, 0);
         leftMostTile.rect.xy.x = 999999;
-        rightMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, 0);
+        rightMostTile = new TileObject(new BitRectangle(0, 0, 0, 0), false, false, 0);
         rightMostTile.rect.xy.x = -999999;
 
         calculateLeftAndRightTilesPerSegment();

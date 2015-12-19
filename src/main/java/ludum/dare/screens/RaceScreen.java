@@ -56,6 +56,9 @@ public class RaceScreen implements Screen, EditorHook {
 
     public static final int CRYSTAL_MATERIAL = 0;
     public static final int WOOD_MATERIAL = 1;
+    //erik
+    public static final int WATER_MATERIAL = 2;
+    //end.erik
 
     OrthographicCamera[] cameras;
     AnimagicSpriteBatch batch;
@@ -91,8 +94,14 @@ public class RaceScreen implements Screen, EditorHook {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/tiles.atlas", AnimagicTextureAtlas.class);
         Array<AnimagicTextureRegion> crystalTileTextures = atlas.findRegions("crystal");
         Array<AnimagicTextureRegion> bridgesTileTextures = atlas.findRegions("bridges");
+        //erik
+        Array<AnimagicTextureRegion> waterTileTextures = atlas.findRegions("water");
+        //end.erik
         tilesetMap.put(0, crystalTileTextures.toArray(TextureRegion.class));
         tilesetMap.put(1, bridgesTileTextures.toArray(TextureRegion.class));
+        //erik
+        tilesetMap.put(2, waterTileTextures.toArray(TextureRegion.class));
+        //end.erik
 
         atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
         splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
@@ -104,7 +113,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(2);
+        generateNextLevel(6);
     }
 
     public void generateNextLevel(int length) {
@@ -193,8 +202,11 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public List<EditorIdentifierObject> getTilesets() {
-        return Arrays.asList(new EditorIdentifierObject(0, "Fallback", tilesetMap.get(0)[0]),
-                new EditorIdentifierObject(1, "Bridges", tilesetMap.get(1)[0]));
+        return Arrays.asList(new EditorIdentifierObject(0, "Crystal", tilesetMap.get(0)[0]),
+                new EditorIdentifierObject(1, "Bridges", tilesetMap.get(1)[0]),
+                //erik
+                new EditorIdentifierObject(2, "Water", tilesetMap.get(2)[0]));
+                //end.erik
     }
 
     @Override
