@@ -5937,96 +5937,73 @@
     "collideNValue" : 8,
     "oneway" : false
   }, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ] ],
-  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.CoinLevelObject", {
+  "otherObjects" : [ "java.util.ArrayList", [ [ "ludum.dare.levelobject.LanternLevelObject", {
     "rect" : {
       "xy" : {
-        "x" : 224.0,
-        "y" : -192.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "da00f479-6fd8-419c-a858-5002c740888c"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 288.0,
-        "y" : -192.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "707281da-7cad-47c8-ab33-189bc04c7853"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 192.0,
-        "y" : 96.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "db7fcc2f-a106-4e94-9a4d-31861f0be7ab"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 128.0,
-        "y" : 32.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "9b9556ce-8058-4611-aecc-b5ed323aa451"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : -480.0,
-        "y" : 128.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "973bcc39-1a1c-4ec9-b1d5-d0e3c4719428"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 320.0,
-        "y" : 128.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "6bd18202-626f-4563-a4ae-aebe0b1388b0"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 352.0,
-        "y" : -192.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "8cac4b47-1054-409e-a518-c65fdeef3753"
-  } ], [ "ludum.dare.levelobject.CoinLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 256.0,
-        "y" : 128.0
-      },
-      "width" : 7.0,
-      "height" : 7.0
-    },
-    "uuid" : "dd794d64-253d-4e47-90e2-d0c556c8e4d1"
-  } ], [ "ludum.dare.levelobject.LanternLevelObject", {
-    "rect" : {
-      "xy" : {
-        "x" : 32.0,
-        "y" : -128.0
+        "x" : 64.0,
+        "y" : 0.0
       },
       "width" : 33.0,
       "height" : 75.0
     },
-    "uuid" : "e9963b81-689f-4670-9f4e-e96ae9b77b11"
+    "uuid" : "a7faf142-8455-4488-bd43-f1c6018fb0cf",
+    "attenuationModifier" : 0.0,
+    "zModifier" : 0.0
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -320.0,
+        "y" : 96.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "6e76aa46-f866-433f-854c-08c67f33615c",
+    "nodeIndex" : 1
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 544.0,
+        "y" : 64.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "4c18a3fd-2d30-4340-a9b3-bf2b2a04d5a9",
+    "nodeIndex" : 5
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : 160.0,
+        "y" : 0.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "366112fa-2b23-42c2-9197-732a28df6c5b",
+    "nodeIndex" : 4
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -288.0,
+        "y" : 224.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "f904e6cf-8606-42e0-a48a-55c056fc5477",
+    "nodeIndex" : 2
+  } ], [ "ludum.dare.levelobject.AINodeLevelObject", {
+    "rect" : {
+      "xy" : {
+        "x" : -224.0,
+        "y" : 288.0
+      },
+      "width" : 20.0,
+      "height" : 20.0
+    },
+    "uuid" : "46685ed8-9ecd-472f-8c22-a44f909b7422",
+    "nodeIndex" : 3
   } ] ] ],
   "triggers" : [ "java.util.ArrayList", [ ] ],
   "gridOffset" : {

@@ -1,7 +1,7 @@
 package ludum.dare.actors.player;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.bitdecay.jump.BodyType;
 import com.bitdecay.jump.JumperBody;
 import com.bitdecay.jump.control.ControlMap;
@@ -22,12 +22,15 @@ import ludum.dare.actors.state.ProjectileState;
 import ludum.dare.actors.state.PunchState;
 import ludum.dare.actors.state.StandState;
 import ludum.dare.components.*;
-import ludum.dare.components.PowerDownComponents.*;
-import ludum.dare.components.PowerUpComponents.*;
+import ludum.dare.components.PowerDownComponents.SlowComponent;
+import ludum.dare.components.PowerDownComponents.StunComponent;
+import ludum.dare.components.PowerUpComponents.TempFlyComponent;
+import ludum.dare.components.PowerUpComponents.TempSpeedComponent;
 import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 import ludum.dare.util.Players;
+import ludum.dare.util.SoundLibrary;
 
 public class Player extends StateMachine {
     private final SizeComponent size;
@@ -43,6 +46,8 @@ public class Player extends StateMachine {
     private LevelInteractionComponent levelComponent;
     private final int playerNum;
 
+    public boolean winner;
+
     public Player(int playerNum) {
         this.playerNum = playerNum;
         size = new SizeComponent(100, 100);
@@ -51,16 +56,19 @@ public class Player extends StateMachine {
         anim = new AnimationComponent("player", pos, 1f, new Vector2(8, -5));
         wallet = new PlayerCurrencyComponent();
         light = new LightComponent(pos, new Vector2(8, 16));
+        light.setzAxis(0.1f);
+        light.setAttenuation(1);
         setupAnimation(anim.animator);
 
         attack = new AttackComponent(10);
 
         phys = createBody();
-        append(size).append(pos).append(phys).append(health).append(anim).append(light);
+        append(size).append(pos).append(phys).append(health).append(anim).append(light); // TODO: trying without the light on the players
     }
 
     private PhysicsComponent createBody() {
         JumperBody body = new JumperBody();
+        body.props.deceleration = 10000;
         body.jumperProps = new JumperProperties();
         body.jumperProps.jumpCount = 1;
         body.renderStateWatcher = new JumperRenderStateWatcher();
@@ -141,8 +149,8 @@ public class Player extends StateMachine {
         }
     }
 
-    public Vector3 getPosition() {
-        return new Vector3(pos.x, pos.y, 0);
+    public Vector2 getPosition() {
+        return new Vector2(pos.x, pos.y);
     }
 
     public void addToScreen(LevelInteractionComponent levelComp) {
@@ -204,36 +212,31 @@ public class Player extends StateMachine {
 
     public void getPowerBlock(){
         String myPower = PowerUpUtil.randomPowerGenerator(getRank());
-        if(myPower == "TEMP_SPEED"){
-            append(new TempSpeedComponent(phys));
-        }else if(myPower == "SLOW"){
+        if(myPower == PowerUpUtil.SPEED){
+            SoundLibrary.playSound("speed");
+            queueAdd(new TempSpeedComponent(phys, pos));
+        }else if(myPower == PowerUpUtil.SLOW){
+            SoundLibrary.playSound("slowdown");
             for(Player p: Players.list()){
                 if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("SLOW");
+                    p.takeAPowerDown(PowerUpUtil.SLOW);
                 }
             }
-        }else if(myPower == "DOUBLE COINS"){
-            append(new DoubleCoinsComponent());
-        }else if(myPower == "LIGHTS_OFF"){
-//        TODO: add some shit here that lets this happen
-        }else if(myPower == "FORCE_HIGH_JUMP"){
+        }else if(myPower == PowerUpUtil.FORCE_JUMP){
+            SoundLibrary.playSound("highJump");
             for(Player p: Players.list()){
                 if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("FORCE_HIGH_JUMP");
+                    p.takeAPowerDown(PowerUpUtil.FORCE_JUMP);
                 }
             }
-        }else if(myPower == "STEAL_COINS"){
-            for(Player p: Players.list()){
-                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("STEAL_COINS");
-                }
-            }
-        }else if(myPower == "TEMP_FLY"){
-            append(new TempFlyComponent(phys));
-        }else if(myPower == "STUN"){
-            for(Player p: Players.list()){
-                if(Players.list().indexOf(p) != Players.list().indexOf(this)){
-                    p.takeAPowerDown("STUN");
+        }else if(myPower == PowerUpUtil.FLIGHT){
+            SoundLibrary.playSound("flight");
+            queueAdd(new TempFlyComponent(phys, pos));
+        }else if(myPower == PowerUpUtil.STUN) {
+            SoundLibrary.playSound("stun");
+            for (Player p : Players.list()) {
+                if (Players.list().indexOf(p) != Players.list().indexOf(this)) {
+                    p.takeAPowerDown(PowerUpUtil.STUN);
                 }
             }
         }
@@ -241,11 +244,13 @@ public class Player extends StateMachine {
 
     public void takeAPowerDown(String powerDown){
         if(powerDown == "SLOW"){
-            append(new SlowComponent(phys));
-        }else if(powerDown == "FORCE_HIGH_JUMP"){
-            append(new ForceHighJumpComponent(phys));
+            queueAdd(new SlowComponent(phys, pos));
+        }else if(powerDown == "FORCE_HIGH_JUMP") {
+            if (phys.getBody().grounded) {
+                phys.getBody().velocity.y = 500;
+            }
         }else if(powerDown == "STUN"){
-            append(new StunComponent(phys));
+            queueAdd(new StunComponent(phys, pos));
         }
     }
 
@@ -253,11 +258,13 @@ public class Player extends StateMachine {
         return 0;
     }
 
-    public void showWinner() {
-        append(new LightComponent(pos, new Vector2()));
-    }
-
     public int moneyCount() {
         return this.wallet.currency;
+    }
+
+    public void draw(ShapeRenderer shapeRenderer) {
+//        super.draw(shapeRenderer);
+//        shapeRenderer.setColor(Color.GOLD);
+//        shapeRenderer.rect(pos.x, pos.y, size.w, size.h);
     }
 }

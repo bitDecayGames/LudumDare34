@@ -3,6 +3,7 @@ package ludum.dare.actors.state;
 import com.badlogic.gdx.math.Vector2;
 import com.bytebreakstudios.animagic.animation.Animation;
 import com.bytebreakstudios.animagic.animation.AnimationListener;
+import com.bytebreakstudios.animagic.animation.IFrameByFrameAnimation;
 import ludum.dare.components.AttackComponent;
 import ludum.dare.components.HurtComponent;
 import ludum.dare.interfaces.IComponent;
@@ -45,7 +46,7 @@ public class HurtState extends AbstractState implements AnimationListener {
     }
 
     @Override
-    public void animationNotification(Animation animation, Animation.AnimationListenerState animationListenerState) {
-        if (animationListenerState == Animation.AnimationListenerState.FINISHED) done = true;
+    public void animationNotification(IFrameByFrameAnimation self, Animation.AnimationListenerState listenerState) {
+        if (listenerState == Animation.AnimationListenerState.FINISHED) done = true;
     }
 }

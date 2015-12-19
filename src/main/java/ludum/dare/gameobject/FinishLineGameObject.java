@@ -53,7 +53,7 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
                 remove(LightComponent.class);
                 anim.animator.switchToAnimation("finished");
                 ((Player) bitBody.userObject).achieveMoney(10);
-                ((Player) bitBody.userObject).showWinner();
+                ((Player) bitBody.userObject).winner = true;
             }
         }
     }
@@ -71,5 +71,9 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
     @Override
     public void crushed() {
 
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(pos.x, pos.y);
     }
 }

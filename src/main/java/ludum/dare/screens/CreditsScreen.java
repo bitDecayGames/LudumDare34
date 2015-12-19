@@ -54,7 +54,7 @@ public class CreditsScreen implements Screen {
         TextureAtlas atlas = RacerGame.assetManager.get("skins/ui.atlas", TextureAtlas.class);
         Skin skin = new Skin(Gdx.files.internal("skins/menu-skin.json"), atlas);
 
-        background = new Image(new TextureRegion(new Texture(Gdx.files.internal("menu/credits.png"))));
+        background = new Image(new TextureRegion(new Texture(Gdx.files.internal("assets/ui/creditsBG.png"))));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         lblTitle = new Label("Credits", skin);
@@ -81,7 +81,13 @@ public class CreditsScreen implements Screen {
                 "Ville Nousiainen Xythe mutkanto - Fight" + SPACE_AFTER_NAME +
                 "Matthew Pablo - Riverside Ride" + SPACE_AFTER_NAME +
                 "Trevor Lentz - Hero Immortal" + SPACE_AFTER_NAME +
-                "lemon42 - A Journey Awaits",
+                "lemon42 - A Journey Awaits" + SPACE_AFTER_NAME +
+                "pierrecartoons1979 - Slot Machine Sounds" + SPACE_AFTER_NAME +
+                "Setuniman - High Jump Sound" + SPACE_AFTER_NAME +
+                "dobroide - Slow down sound" + SPACE_AFTER_NAME +
+                "VyckRo - Stun gun sound" + SPACE_AFTER_NAME +
+                "Chriddof - Speed up sound" + SPACE_AFTER_NAME +
+                "tyops - Space ship sound",
                 skin);
         lblCredits.setFontScale(6);
         lblCredits.setFillParent(true);
@@ -102,7 +108,13 @@ public class CreditsScreen implements Screen {
 //         animate the main menu when entering
         lblCredits.addAction(Actions.sequence(
                 Actions.moveBy(0, -(Gdx.graphics.getHeight()*1.5f)),
-                Actions.moveBy(0, Gdx.graphics.getHeight()*3, 30)
+                Actions.moveBy(0, Gdx.graphics.getHeight() * 4, 30),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(new MainMenuScreen(game));
+                    }
+                })
 
         ));
     }

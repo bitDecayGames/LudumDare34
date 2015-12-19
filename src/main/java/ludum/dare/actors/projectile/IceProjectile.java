@@ -18,7 +18,7 @@ import ludum.dare.actors.player.Player;
 import ludum.dare.components.*;
 import ludum.dare.interfaces.IRemoveable;
 
-public class Projectile extends GameObject implements ContactListener, IRemoveable {
+public class IceProjectile extends GameObject implements ContactListener, IRemoveable {
     protected float PROJECTILE_SPEED = 500;
     protected float PROJECTILE_TIME_TO_LIVE = 10;
 
@@ -33,7 +33,7 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
 
     private Boolean shouldRemove = false;
 
-    public Projectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent) {
+    public IceProjectile(PositionComponent source, Vector2 direction, LevelInteractionComponent levelComp, PhysicsComponent sourcePhysicsComponent) {
         super();
 
         size = new SizeComponent(100, 100);
@@ -68,9 +68,9 @@ public class Projectile extends GameObject implements ContactListener, IRemoveab
     protected void setupAnimation(Animator a) {
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/player0.atlas", AnimagicTextureAtlas.class);
 
-        a.addAnimation(new Animation("fire", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/fire").toArray(AnimagicTextureRegion.class)));
+        a.addAnimation(new Animation("ice", Animation.AnimationPlayState.REPEAT, FrameRate.perFrame(0.1f), atlas.findRegions("projectiles/ice").toArray(AnimagicTextureRegion.class)));
 
-        a.switchToAnimation("fire");
+        a.switchToAnimation("ice");
     }
 
     @Override

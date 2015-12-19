@@ -3,14 +3,10 @@ package ludum.dare.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
-import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import ludum.dare.RacerGame;
 import ludum.dare.actors.player.Player;
@@ -44,27 +40,24 @@ public class UpgradeScreen implements Screen {
     public UpgradeScreen(RacerGame game) {
         this.game = game;
         if (MASTER_LIST.size() == 0) {
-            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump"));
-            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float"));
-            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal"));
-            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery"));
-            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed"));
-            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump"));
-            MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire"));
-            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison"));
-            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice"));
-            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web"));
-            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop"));
+            MASTER_LIST.add(new UpgradeOption(DoubleJumpComponent.class, "doubleJump", 20));
+            MASTER_LIST.add(new UpgradeOption(FloatUpgradeComponent.class, "float", 15));
+            MASTER_LIST.add(new UpgradeOption(MetalComponent.class, "metal", 10));
+//            MASTER_LIST.add(new UpgradeOption(MysteryBagComponent.class, "mystery", 10));
+            MASTER_LIST.add(new UpgradeOption(SpeedComponent.class, "speed", 20));
+            MASTER_LIST.add(new UpgradeOption(WallJumpComponent.class, "wallJump", 15));
+            MASTER_LIST.add(new UpgradeOption(FireProjectileComponent.class, "fire", 20));
+            MASTER_LIST.add(new UpgradeOption(PoisonProjectileComponent.class, "poison", 25));
+            MASTER_LIST.add(new UpgradeOption(IceProjectileComponent.class, "ice", 27));
+            MASTER_LIST.add(new UpgradeOption(WebProjectileComponent.class, "web", 30));
+            MASTER_LIST.add(new UpgradeOption(EmptyUpgradeComponent.class, "poop", 5));
         }
     }
 
     @Override
     public void show() {
-
-        music = SoundLibrary.GetMusic("a_journey_awaits");
-
         if(RacerGame.MUSIC_ON) {
-            music.play();
+            music = SoundLibrary.loopMusic("a_journey_awaits");
         }
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -80,7 +73,7 @@ public class UpgradeScreen implements Screen {
         ui = new SpriteBatch();
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/ui.atlas", AnimagicTextureAtlas.class);
-        splitScreenSeparator = atlas.findRegion("splitscreenSeparator");
+        splitScreenSeparator = atlas.findRegion("ssBackground");
 
     }
 
@@ -125,11 +118,18 @@ outer:  while (tries > 0) {
             }
         }
         if (allReady) {
-            music.stop();
-            game.setScreen(new RaceScreen(game));
+            if (music.isPlaying()) {
+                music.stop();
+            }
+            game.setScreen(new LoadingScreen(game));
         }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.begin();
+        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        ui.end();
 
         int screenWidth = Gdx.graphics.getWidth() / 2;
         int screenHeight = Gdx.graphics.getHeight() / 2;
@@ -143,9 +143,6 @@ outer:  while (tries > 0) {
         draw(groups.get(0));
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ui.begin();
-        ui.draw(splitScreenSeparator, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ui.end();
     }
 
     private void draw(UpgradeGroup group) {

@@ -1,21 +1,17 @@
 package ludum.dare.shop;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureRegion;
 import ludum.dare.RacerGame;
-import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.AIControlComponent;
 import ludum.dare.components.InputComponent;
-import ludum.dare.components.upgradeComponents.*;
 import ludum.dare.control.InputAction;
-import ludum.dare.interfaces.IComponent;
+import ludum.dare.util.SoundLibrary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +27,7 @@ public class UpgradeGroup {
 
     AnimagicTextureRegion selectionTexture;
 
+    boolean winner = false;
     boolean active = true;
     private boolean ready;
 
@@ -45,6 +42,8 @@ public class UpgradeGroup {
     public void initialize(Player player) {
         font.getData().setScale(5);
         font.setColor(Color.BLACK);
+
+        winner = player.winner;
 
         AnimagicTextureAtlas atlas = RacerGame.assetManager.get("packed/upgrades.atlas", AnimagicTextureAtlas.class);
         selectionTexture = atlas.findRegion("selection");
@@ -110,9 +109,12 @@ public class UpgradeGroup {
         active = false;
         if (choices.size() > 0) {
             Class clazz = choices.get(selectedIndex).clazz;
-            if (player.moneyCount() >= 10) {
+            if (player.moneyCount() >= choices.get(selectedIndex).cost) {
+                SoundLibrary.playSound("cashRegister");
                 player.addUpgrade(clazz);
-                player.achieveMoney(-10);
+                player.achieveMoney(-choices.get(selectedIndex).cost);
+            } else {
+                SoundLibrary.playSound("stun");
             }
         }
     }
@@ -135,13 +137,23 @@ public class UpgradeGroup {
         }
         for (int i = 0; i < choices.size(); i ++) {
             batch.setColor(Color.WHITE);
+            if (active && choices.get(i).cost > player.moneyCount()) {
+                batch.setColor(Color.RED);
+            } else if (!active) {
+                batch.setColor(Color.GRAY);
+            }
             batch.draw(choices.get(i).animation.getFrame(), renderX, middle - renderSize / 2, renderSize, renderSize);
             if (selectedIndex == i) {
+                batch.setColor(Color.WHITE);
                 batch.draw(selectionTexture, renderX, middle - renderSize / 2, renderSize, renderSize);
             }
             batch.setColor(Color.BLACK);
-            font.draw(batch, "$" + player.moneyCount(), 30, 800);
-            font.draw(batch, "$10", renderX + 50, 150);
+            font.setColor(Color.WHITE);
+            font.draw(batch, "$" + player.moneyCount(), 150, 800);
+            font.draw(batch, "$" + choices.get(i).cost, renderX + 50, 150);
+            if (winner) {
+                font.draw(batch, "WINNER!", Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() - 150);
+            }
             renderX += renderSize + buffer;
         }
     }
