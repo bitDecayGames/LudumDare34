@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -81,6 +78,8 @@ public class RaceScreen implements Screen, EditorHook {
 
     float testZ = 0.1f;
     float testAtten = 0.9f;
+
+    FPSLogger fps = new FPSLogger();
 
     public RaceScreen(RacerGame game) {
         if (game == null) {
@@ -183,6 +182,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void render(float delta) {
+        fps.log();
         try {
             update(delta);
             debug();
@@ -320,7 +320,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        worldRenderer.render(world, cameras[0]);
     }
 
-    private void draw(Camera cam) {
+    private void draw(OrthographicCamera cam) {
         batch.setCamera(cam);
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
@@ -344,7 +344,7 @@ public class RaceScreen implements Screen, EditorHook {
         }
 //        batch.draw(background,bottomLeft.x, bottomLeft.y, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 //        batch.draw(background,0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        drawLevelEdit();
+        drawLevelEdit(cam);
         gameObjects.draw(batch);
         batch.end();
 
@@ -358,7 +358,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        debug.end();
     }
 
-    private void drawLevelEdit() {
+    private void drawLevelEdit(OrthographicCamera cam) {
         /**
          * TODO: we still need to find a better way to load a grid into the world but with custom tile objects.
          * It shouldn't be hard, but it does need to be done.
@@ -367,7 +367,10 @@ public class RaceScreen implements Screen, EditorHook {
             for (int y = 0; y < currentLevel.gridObjects[0].length; y++) {
                 TileObject obj = currentLevel.gridObjects[x][y];
                 if (obj != null) {
-                    batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                    if (Math.abs(obj.rect.xy.x - cam.position.x) < cam.viewportWidth &&
+                            Math.abs(obj.rect.xy.y - cam.position.y) < cam.viewportHeight) {
+                        batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                    }
                 }
             }
         }
