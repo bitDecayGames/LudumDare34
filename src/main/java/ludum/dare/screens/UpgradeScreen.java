@@ -56,12 +56,8 @@ public class UpgradeScreen implements Screen {
 
     @Override
     public void show() {
-
-        music = SoundLibrary.GetMusic("a_journey_awaits");
-
         if(RacerGame.MUSIC_ON) {
-            music.setLooping(true);
-            music.play();
+            music = SoundLibrary.loopMusic("a_journey_awaits");
         }
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);

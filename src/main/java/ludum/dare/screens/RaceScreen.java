@@ -164,12 +164,9 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void show() {
-
-        music = SoundLibrary.GetMusic("fight");
-
         if(RacerGame.MUSIC_ON) {
-            music.play();
-            music.setLooping(true);
+            music = SoundLibrary.loopMusic("fight");
+
         }
 
         for (int i = 0; i < cameras.length; i++) {
@@ -323,7 +320,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        worldRenderer.render(world, cameras[0]);
     }
 
-    private void draw(Camera cam) {
+    private void draw(OrthographicCamera cam) {
         batch.setCamera(cam);
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
@@ -347,7 +344,7 @@ public class RaceScreen implements Screen, EditorHook {
         }
 //        batch.draw(background,bottomLeft.x, bottomLeft.y, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 //        batch.draw(background,0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        drawLevelEdit();
+        drawLevelEdit(cam);
         gameObjects.draw(batch);
         batch.end();
 
@@ -361,7 +358,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        debug.end();
     }
 
-    private void drawLevelEdit() {
+    private void drawLevelEdit(OrthographicCamera cam) {
         /**
          * TODO: we still need to find a better way to load a grid into the world but with custom tile objects.
          * It shouldn't be hard, but it does need to be done.
@@ -370,7 +367,10 @@ public class RaceScreen implements Screen, EditorHook {
             for (int y = 0; y < currentLevel.gridObjects[0].length; y++) {
                 TileObject obj = currentLevel.gridObjects[x][y];
                 if (obj != null) {
-                    batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                    if (Math.abs(obj.rect.xy.x - cam.position.x) < cam.viewportWidth &&
+                            Math.abs(obj.rect.xy.y - cam.position.y) < cam.viewportHeight) {
+                        batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                    }
                 }
             }
         }
