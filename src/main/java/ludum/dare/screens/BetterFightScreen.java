@@ -1,7 +1,6 @@
 package ludum.dare.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.bitdecay.jump.BitBody;
@@ -23,10 +21,12 @@ import com.bitdecay.jump.gdx.input.GDXControls;
 import com.bitdecay.jump.gdx.level.EditorIdentifierObject;
 import com.bitdecay.jump.gdx.level.RenderableLevelObject;
 import com.bitdecay.jump.geom.BitRectangle;
-import com.bitdecay.jump.level.*;
+import com.bitdecay.jump.level.Level;
+import com.bitdecay.jump.level.LevelObject;
+import com.bitdecay.jump.level.LevelUtilities;
+import com.bitdecay.jump.level.TileObject;
 import com.bitdecay.jump.leveleditor.EditorHook;
 import com.bitdecay.jump.leveleditor.example.game.SecretObject;
-import com.bitdecay.jump.leveleditor.render.LibGDXWorldRenderer;
 import com.bitdecay.jump.render.JumperRenderStateWatcher;
 import com.bytebreakstudios.animagic.texture.AnimagicSpriteBatch;
 import com.bytebreakstudios.animagic.texture.AnimagicTextureAtlas;
@@ -36,12 +36,9 @@ import ludum.dare.actors.GameObject;
 import ludum.dare.actors.player.Player;
 import ludum.dare.collection.GameObjects;
 import ludum.dare.components.LevelInteractionComponent;
-import ludum.dare.control.InputUtil;
-import ludum.dare.control.Xbox360Pad;
 import ludum.dare.gameobject.*;
 import ludum.dare.levelobject.*;
 import ludum.dare.levels.LevelSegmentAggregator;
-import ludum.dare.levels.LevelSegmentGenerator;
 import ludum.dare.util.Players;
 import ludum.dare.util.SoundLibrary;
 
@@ -115,12 +112,8 @@ public class BetterFightScreen implements Screen, EditorHook {
 
     @Override
     public void show() {
-
-        music = SoundLibrary.GetMusic("fight");
-
         if(RacerGame.MUSIC_ON) {
-            music.play();
-            music.setLooping(true);
+            music = SoundLibrary.loopMusic("fight");
         }
 
         batch = new AnimagicSpriteBatch();

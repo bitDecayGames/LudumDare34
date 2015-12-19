@@ -165,12 +165,9 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void show() {
-
-        music = SoundLibrary.GetMusic("fight");
-
         if(RacerGame.MUSIC_ON) {
-            music.play();
-            music.setLooping(true);
+            music = SoundLibrary.loopMusic("fight");
+
         }
 
         for (int i = 0; i < cameras.length; i++) {

@@ -121,7 +121,7 @@ public class PunchState extends AbstractState implements AnimationListener {
     }
 
     @Override
-    public void animationNotification(Animation animation, Animation.AnimationListenerState animationListenerState) {
+    public void animationNotification(IFrameByFrameAnimation animation, Animation.AnimationListenerState animationListenerState) {
         if (animationListenerState == Animation.AnimationListenerState.FINISHED) done = true;
     }
 }
