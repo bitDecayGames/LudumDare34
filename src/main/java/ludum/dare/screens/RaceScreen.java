@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -81,6 +78,8 @@ public class RaceScreen implements Screen, EditorHook {
 
     float testZ = 0.1f;
     float testAtten = 0.9f;
+
+    FPSLogger fps = new FPSLogger();
 
     public RaceScreen(RacerGame game) {
         if (game == null) {
@@ -186,6 +185,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void render(float delta) {
+        fps.log();
         try {
             update(delta);
             debug();
