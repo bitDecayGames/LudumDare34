@@ -81,7 +81,7 @@ public class RaceScreen implements Screen, EditorHook {
 
     FPSLogger fps = new FPSLogger();
 
-    public RaceScreen(RacerGame game) {
+    public RaceScreen(RacerGame game, LoadingScreen.LevelLoader loader) {
         if (game == null) {
             throw new Error("No game provided");
         }
@@ -106,50 +106,7 @@ public class RaceScreen implements Screen, EditorHook {
         this.game = game;
         cameras = new OrthographicCamera[Players.list().size()];
 
-        generateNextLevel(10);
-    }
-
-    public void generateNextLevel(int length) {
-        LevelSegmentGenerator generator = new LevelSegmentGenerator(length);
-        List<Level> levels = generator.generateLevelSegments();
-
-        List<AINodeLevelObject> aiLevelNodes = new ArrayList<>();
-        for (Level level : levels) {
-            List<AINodeLevelObject> lvlNodes = new ArrayList<>();
-            for (LevelObject otherObject : level.otherObjects) {
-                if (otherObject instanceof AINodeLevelObject) {
-                    lvlNodes.add((AINodeLevelObject) otherObject);
-                }
-            }
-            lvlNodes.sort((a, b) -> a.nodeIndex - b.nodeIndex);
-            aiLevelNodes.addAll(lvlNodes);
-        }
-
-
-        Level raceLevel = LevelSegmentAggregator.assembleSegments(levels);
-
-        levelChanged(raceLevel);
-
-        List<AINodeGameObject> nodes = gameObjects.getAINodes();
-
-        List<AINodeGameObject> sortedNodes = new ArrayList<>();
-        aiLevelNodes.forEach(aiLevelNode -> {
-            for (AINodeGameObject node : nodes) {
-                if (node.levelObject == aiLevelNode) {
-                    sortedNodes.add(node);
-                    break;
-                }
-            }
-        });
-
-        for (Player player : Players.list()) {
-            player.winner = false;
-            if (player.getInputComponent() instanceof AIControlComponent) {
-                AIControlComponent input = (AIControlComponent) player.getInputComponent();
-                input.discoverMe();
-                input.setAINodes(sortedNodes);
-            }
-        }
+        levelChanged(loader.level, loader.aiNodes);
     }
 
     private void constructBuilderMap() {
@@ -212,7 +169,7 @@ public class RaceScreen implements Screen, EditorHook {
             world.step(delta);
             // Reset level
             if (InputUtil.checkInputs(Input.Keys.R, Xbox360Pad.BACK)) {
-                game.setScreen(new RaceScreen(game));
+                game.setScreen(new LoadingScreen(game));
             }
         } else {
             if (RacerGame.MUSIC_ON && music.isPlaying()) {
@@ -274,7 +231,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new PowerupLevelObject());
         exampleItems.add(new LightLevelObject());
         exampleItems.add(new LanternLevelObject());
-        exampleItems.add(new AINodeLevelObject());
+//        exampleItems.add(new AINodeLevelObject());
         return exampleItems;
     }
 
@@ -378,6 +335,10 @@ public class RaceScreen implements Screen, EditorHook {
 
     @Override
     public void levelChanged(Level level) {
+        levelChanged(level, Collections.emptyList());
+    }
+
+    public void levelChanged(Level level, List<AINodeLevelObject> aiNodes) {
         LevelSegmentAggregator.updateAllNeighborRenderValues(level);
         gameObjects.clear();
         world.removeAllBodies();
@@ -456,6 +417,27 @@ public class RaceScreen implements Screen, EditorHook {
             });
 
             world.addBody(playerBody);
+        }
+
+        List<AINodeGameObject> nodes = gameObjects.getAINodes();
+
+        List<AINodeGameObject> sortedNodes = new ArrayList<>();
+        aiNodes.forEach(aiLevelNode -> {
+            for (AINodeGameObject node : nodes) {
+                if (node.levelObject == aiLevelNode) {
+                    sortedNodes.add(node);
+                    break;
+                }
+            }
+        });
+
+        for (Player player : Players.list()) {
+            player.winner = false;
+            if (player.getInputComponent() instanceof AIControlComponent) {
+                AIControlComponent input = (AIControlComponent) player.getInputComponent();
+                input.discoverMe();
+                input.setAINodes(sortedNodes);
+            }
         }
     }
 

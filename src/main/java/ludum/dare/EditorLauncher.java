@@ -8,6 +8,7 @@ import com.bytebreakstudios.animagic.texture.AnimagicTexturePacker;
 import ludum.dare.actors.player.Player;
 import ludum.dare.components.KeyboardControlComponent;
 import ludum.dare.gameobject.FinishLineGameObject;
+import ludum.dare.screens.LoadingScreen;
 import ludum.dare.screens.RaceScreen;
 import ludum.dare.util.Players;
 
@@ -43,7 +44,7 @@ public class EditorLauncher {
 //                players.add(playerInstance);
                 Players.initialize(players);
 
-                RaceScreen raceScreen = new RaceScreen(game);
+                RaceScreen raceScreen = new RaceScreen(game, new LoadingScreen.LevelLoader());
                 raceScreen.finishOverride = new FinishLineGameObject();
                 raceScreen.show();
                 setScreen(new LevelEditor(raceScreen));

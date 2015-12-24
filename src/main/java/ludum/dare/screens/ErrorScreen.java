@@ -43,7 +43,7 @@ public class ErrorScreen implements Screen {
     }
 
     private void nextScreen() {
-        game.setScreen(new RaceScreen(game));
+        game.setScreen(new LoadingScreen(game));
     }
 
     @Override

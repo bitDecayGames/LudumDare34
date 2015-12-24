@@ -3,6 +3,7 @@ package ludum.dare.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import ludum.dare.RacerGame;
 
 import java.util.HashMap;
 
@@ -43,12 +44,12 @@ public class SoundLibrary {
         return getSound(name).play();
     }
 
-    private static SoundEffect getSound(String name) {
+    public static SoundEffect getSound(String name) {
         SoundEffect sound;
 
         sound = sounds.get(name);
         if (sound.sound == null) {
-            sound.sound = Gdx.audio.newSound(Gdx.files.internal("sfx/" + name + ".ogg"));
+            sound.sound = RacerGame.assetManager.get("sfx/" + name + ".ogg");
         }
 
         return sound;
