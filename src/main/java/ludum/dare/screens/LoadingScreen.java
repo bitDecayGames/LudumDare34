@@ -107,7 +107,7 @@ public class LoadingScreen implements Screen {
 
     public static class LevelLoader implements Runnable {
         AtomicBoolean done = new AtomicBoolean(false);
-        Level level = new Level();
+        Level level = new Level(32);
         List<AINodeLevelObject> aiNodes = new ArrayList<>();
 
         @Override

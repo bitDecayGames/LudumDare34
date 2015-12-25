@@ -67,7 +67,7 @@ public class RaceScreen implements Screen, EditorHook {
     Map<Integer, TextureRegion[]> tilesetMap = new HashMap<>();
 
     BitWorld world = new BitWorld();
-    Level currentLevel = new Level();
+    Level currentLevel = new Level(32);
     GameObjects gameObjects = new GameObjects();
 
     FinishLineGameObject finishLine;
@@ -231,7 +231,7 @@ public class RaceScreen implements Screen, EditorHook {
         exampleItems.add(new PowerupLevelObject());
         exampleItems.add(new LightLevelObject());
         exampleItems.add(new LanternLevelObject());
-//        exampleItems.add(new AINodeLevelObject());
+        exampleItems.add(new AINodeLevelObject());
         return exampleItems;
     }
 
@@ -288,8 +288,8 @@ public class RaceScreen implements Screen, EditorHook {
         gameObjects.preDraw(batch);
 
         Vector3 bottomLeft = cam.unproject(new Vector3(0,Gdx.graphics.getHeight(),0));
-        int yLimit = (int) (bottomLeft.y + Gdx.graphics.getHeight());
-        int xLimit = (int) (bottomLeft.x + Gdx.graphics.getWidth());
+        int yLimit = (int) (bottomLeft.y + cam.viewportHeight * cam.zoom);
+        int xLimit = (int) (bottomLeft.x + cam.viewportWidth * cam.zoom);
         int renderY = (int) bottomLeft.y;
         while (renderY < yLimit) {
             int renderX = (int) bottomLeft.x;
@@ -376,7 +376,7 @@ public class RaceScreen implements Screen, EditorHook {
         }
 
         if (finishLine == null) {
-            throw new RuntimeException("No finish line found in level");
+//            throw new RuntimeException("No finish line found in level");
         }
 
         if (!spawnFound) {
