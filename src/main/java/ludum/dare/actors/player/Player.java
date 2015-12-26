@@ -27,6 +27,7 @@ import ludum.dare.components.PowerDownComponents.StunComponent;
 import ludum.dare.components.PowerUpComponents.TempFlyComponent;
 import ludum.dare.components.PowerUpComponents.TempSpeedComponent;
 import ludum.dare.components.upgradeComponents.*;
+import ludum.dare.gameobject.FinishLineGameObject;
 import ludum.dare.interfaces.IComponent;
 import ludum.dare.interfaces.IState;
 import ludum.dare.util.Players;
@@ -47,6 +48,25 @@ public class Player extends StateMachine {
     private final int playerNum;
 
     public boolean winner;
+    //erik
+    public int finishingPlace;
+    public float distance;
+    //end.erik
+
+    private PhysicsComponent createBody() {
+        JumperBody body = new JumperBody();
+        body.props.deceleration = 10000;
+        body.jumperProps = new JumperProperties();
+        body.jumperProps.jumpCount = 1;
+        body.renderStateWatcher = new JumperRenderStateWatcher();
+        body.bodyType = BodyType.DYNAMIC;
+        body.aabb.set(new BitRectangle(0, 0, 16, 32));
+        body.userObject = this;
+
+        setupAnimation(anim.animator);
+        return new PhysicsComponent(body, pos, size);
+    }
+
 
     public Player(int playerNum) {
         this.playerNum = playerNum;
@@ -64,20 +84,6 @@ public class Player extends StateMachine {
 
         phys = createBody();
         append(size).append(pos).append(phys).append(health).append(anim).append(light); // TODO: trying without the light on the players
-    }
-
-    private PhysicsComponent createBody() {
-        JumperBody body = new JumperBody();
-        body.props.deceleration = 10000;
-        body.jumperProps = new JumperProperties();
-        body.jumperProps.jumpCount = 1;
-        body.renderStateWatcher = new JumperRenderStateWatcher();
-        body.bodyType = BodyType.DYNAMIC;
-        body.aabb.set(new BitRectangle(0, 0, 16, 32));
-        body.userObject = this;
-
-        setupAnimation(anim.animator);
-        return new PhysicsComponent(body, pos, size);
     }
 
     private void setupAnimation(Animator a) {
@@ -206,6 +212,13 @@ public class Player extends StateMachine {
         this.wallet.getACoin(amount);
     }
 
+    //erik
+    public float distanceCalculator(float x, float y) {
+        distance = (float)(Math.sqrt(((this.pos.x - x)*(this.pos.x - x))+((this.pos.y - y)*(this.pos.y - y))));
+        return distance;
+    }
+    //end.erik
+
     public void spinPowerBlock() {
         append(new PowerupRollerComponent(this, pos));
     }
@@ -222,7 +235,7 @@ public class Player extends StateMachine {
                     p.takeAPowerDown(PowerUpUtil.SLOW);
                 }
             }
-        }else if(myPower == PowerUpUtil.FORCE_JUMP){
+        }else if(myPower == PowerUpUtil.FORCE_JUMP) {
             SoundLibrary.playSound("highJump");
             for(Player p: Players.list()){
                 if(Players.list().indexOf(p) != Players.list().indexOf(this)){
@@ -243,13 +256,13 @@ public class Player extends StateMachine {
     }
 
     public void takeAPowerDown(String powerDown){
-        if(powerDown == "SLOW"){
+        if (powerDown == "SLOW") {
             queueAdd(new SlowComponent(phys, pos));
         }else if(powerDown == "FORCE_HIGH_JUMP") {
             if (phys.getBody().grounded) {
                 phys.getBody().velocity.y = 500;
             }
-        }else if(powerDown == "STUN"){
+        }else if (powerDown == "STUN") {
             queueAdd(new StunComponent(phys, pos));
         }
     }

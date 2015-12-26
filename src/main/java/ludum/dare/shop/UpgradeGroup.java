@@ -11,6 +11,8 @@ import ludum.dare.actors.player.Player;
 import ludum.dare.components.AIControlComponent;
 import ludum.dare.components.InputComponent;
 import ludum.dare.control.InputAction;
+import ludum.dare.gameobject.BasePlacedObject;
+import ludum.dare.gameobject.FinishLineGameObject;
 import ludum.dare.util.SoundLibrary;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 public class UpgradeGroup {
     Player player;
+    FinishLineGameObject finishLineGameObject;
     List<UpgradeOption> choices = new ArrayList<>();
     int selectedIndex = 0;
 
@@ -30,6 +33,7 @@ public class UpgradeGroup {
     boolean winner = false;
     boolean active = true;
     private boolean ready;
+
 
     private BitmapFont font = new BitmapFont();
 
@@ -152,11 +156,17 @@ public class UpgradeGroup {
             font.draw(batch, "$" + player.moneyCount(), 150, 800);
             font.draw(batch, "$" + choices.get(i).cost, renderX + 50, 150);
             if (winner) {
-                font.draw(batch, "WINNER!", Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() - 150);
+                // erik add "place"
+                font.draw(batch, "WINNER! " + player.finishingPlace, Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() - 150);
+            } else {
+                font.draw(batch, "Place  = " + player.finishingPlace, Gdx.graphics.getWidth() / 2 - 150, Gdx.graphics.getHeight() - 150);
+                //end.erik
             }
             renderX += renderSize + buffer;
         }
     }
+
+
 
     public List<UpgradeOption> getChoices() {
         return choices;

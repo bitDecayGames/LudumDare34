@@ -74,7 +74,7 @@ public class RaceScreen implements Screen, EditorHook {
     GameObjects gameObjects = new GameObjects();
 
     FinishLineGameObject finishLine;
-    public FinishLineGameObject finishOverride;
+       public FinishLineGameObject finishOverride;
 
     TextureRegion splitScreenSeparator;
     AnimagicTextureRegion background;
@@ -225,6 +225,14 @@ public class RaceScreen implements Screen, EditorHook {
                 game.setScreen(new RaceScreen(game));
             }
         } else {
+            for (Player player : Players.list()) {
+                player.distanceCalculator(finishLine.getX(), finishLine.getY());
+            }
+            ArrayList<Player> players = new ArrayList<Player>(Players.list());
+            players.sort((p1, p2) -> Float.compare(p1.distance, p2.distance));
+            for (int i = 0; i < players.size(); i++) {
+                players.get(i).finishingPlace = i+1;
+            }
             if (RacerGame.MUSIC_ON && music.isPlaying()) {
                 music.stop();
             }
@@ -357,8 +365,9 @@ public class RaceScreen implements Screen, EditorHook {
         }
 //        batch.draw(background,bottomLeft.x, bottomLeft.y, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 //        batch.draw(background,0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        drawLevelEdit(cam);
+        drawLevelEdit(cam, false);
         gameObjects.draw(batch);
+        drawLevelEdit(cam, true);
         batch.end();
 
         // TODO: only for debugging
@@ -371,7 +380,7 @@ public class RaceScreen implements Screen, EditorHook {
 //        debug.end();
     }
 
-    private void drawLevelEdit(OrthographicCamera cam) {
+    private void drawLevelEdit(OrthographicCamera cam, boolean renderForeground) {
         /**
          * TODO: we still need to find a better way to load a grid into the world but with custom tile objects.
          * It shouldn't be hard, but it does need to be done.
@@ -382,7 +391,11 @@ public class RaceScreen implements Screen, EditorHook {
                 if (obj != null) {
                     if (Math.abs(obj.rect.xy.x - cam.position.x) < cam.viewportWidth &&
                             Math.abs(obj.rect.xy.y - cam.position.y) < cam.viewportHeight) {
-                        batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                        if (obj.foreground && renderForeground) {
+                            batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                        } else if (!obj.foreground && !renderForeground) {
+                            batch.draw(tilesetMap.get(obj.material)[obj.renderNValue], obj.rect.xy.x, obj.rect.xy.y, obj.rect.width, obj.rect.height);
+                        }
                     }
                 }
             }
