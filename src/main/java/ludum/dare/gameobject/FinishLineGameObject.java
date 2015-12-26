@@ -19,7 +19,7 @@ import java.util.List;
 public class FinishLineGameObject extends BasePlacedObject implements ContactListener {
 
     public boolean raceOver = false;
-
+    public
     LightComponent light;
 
     @Override
@@ -45,6 +45,8 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
         anim.animator.switchToAnimation("ongoing");
     }
 
+
+
     @Override
     public void contactStarted(BitBody bitBody) {
         if (!raceOver) {
@@ -54,9 +56,15 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
                 anim.animator.switchToAnimation("finished");
                 ((Player) bitBody.userObject).achieveMoney(10);
                 ((Player) bitBody.userObject).winner = true;
+                //erik
+
+
+                ((Player) bitBody.userObject).distanceCalculator(this.pos.x, this.pos.y);
+                //end.erik
             }
         }
     }
+
 
     @Override
     public void contact(BitBody bitBody) {
@@ -75,5 +83,13 @@ public class FinishLineGameObject extends BasePlacedObject implements ContactLis
 
     public Vector2 getPosition() {
         return new Vector2(pos.x, pos.y);
+    }
+
+    public float getX() {
+        return pos.x;
+    }
+
+    public float getY() {
+        return pos.y;
     }
 }

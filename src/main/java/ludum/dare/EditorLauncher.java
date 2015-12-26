@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Admin on 12/13/2015.
+ * Created by Admin o          n 12/13/2015.
  */
 public class EditorLauncher {
     public static void main(String[] arg) {
@@ -29,7 +29,7 @@ public class EditorLauncher {
             @Override
             public void create() {
                 LevelEditor.TILE_SIZE = 32;
-                LevelEditor.setAssetsFolder("../../../../Jump/jump-leveleditor/assets");
+                LevelEditor.setAssetsFolder("C:\\Users\\nandemoguy\\Desktop\\LD34\\Jump\\jump-leveleditor\\assets");
                 RacerGame game = new RacerGame();
                 RacerGame.queueAssetsForLoad();
                 RacerGame.assetManager.finishLoading();
